@@ -64,11 +64,12 @@ class SeatController extends Controller
 
     public function show($id)
     {
-        $ghengoi = Seat::where('maGhe', $id)->first();
+        // $ghengoi = Seat::where('maGhe', $id)->first();
+        $ghengoi = Seat::where('maLichChieu',$id)->get();
         if ($ghengoi) {
             return response()->json([
                 'status' => 200,
-                'data' => $ghengoi
+                'content' => $ghengoi
             ], 200);
         } else {
             return response()->json([

@@ -36,8 +36,8 @@ export class QuanLyDatVeService extends baseService {
     }
 
 
-    layDanhSachGhe = () => {
-        return this.get(`/api/laydanhsachghe`);
+    layDanhSachGhe = (id) => {
+        return this.get(`/api/laydanhsachghe/${id}`);
     }
 
 }

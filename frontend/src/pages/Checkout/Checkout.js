@@ -13,9 +13,6 @@ import moment from 'moment';
 import { TOKEN, USER_LOGIN } from '../../util/settings/config';
 
 
-
-
-
 function Checkout(props) {
 
     const { userLogin } = useSelector(state => state.UserReducer)
@@ -23,18 +20,18 @@ function Checkout(props) {
     const { danhSachGhe } = useSelector(state => state.QuanLyDatVeReducer)
     const { danhSachGheDangChon } = useSelector(state => state.QuanLyDatVeReducer)
     const dispatch = useDispatch();
-
+    let { id } = props.match.params;
     useEffect(() => {
-        dispatch(layDanhSachLichChieuAction(props.match.params.id))
-        dispatch(layDanhSachGheAction())
-    }, [])
+        dispatch(layDanhSachGheAction(id))
+        dispatch(layDanhSachLichChieuAction(id))
+    }, [dispatch])
 
     console.log('danhSachGhe',danhSachGhe)
 
     const renderGhe = () => {
         return danhSachGhe?.map((ghe, index) => {
-            let classGheVip = ghe.loaiGhe === 'VIP' ? 'seatVip' : '';
-            let classGheDaDat = ghe.daDat === true ? 'seatOccupied' : '';
+            let classGheVip = ghe.loaiGhe === 'vip' ? 'seatVip' : '';
+            let classGheDaDat = ghe.nguoiDat !== null ? 'seatOccupied' : '';
 
             let classGheDangDat = '';
             let indexGheDD = danhSachGheDangChon?.findIndex(gheDD => gheDD.maGhe === ghe.maGhe);
@@ -48,7 +45,7 @@ function Checkout(props) {
             }
 
             return <Fragment key={index}>
-                <Button disabled={ghe.daDat} type='link' className={`seat p-0 ${classGheVip}`}
+                <Button disabled={ghe.daDat} type='link' className={`seat p-0 ${classGheVip} ${classGheDaDat} ${classGheDangDat}`}
                     onClick={() => {
                         dispatch({
                             type: DAT_VE,

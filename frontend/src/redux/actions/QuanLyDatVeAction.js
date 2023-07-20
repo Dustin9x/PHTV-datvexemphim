@@ -73,14 +73,15 @@ export const xoaLichChieuAction = (id) => {
 }
 
 
-export const layDanhSachGheAction = () => {
+export const layDanhSachGheAction = (id) => {
     return async (dispatch) => {
         try {
-            const result = await quanLyDatVeService.layDanhSachGhe();
+            const result = await quanLyDatVeService.layDanhSachGhe(id);
             dispatch({
                 type: LAY_DANH_SACH_GHE,
                 danhSachGhe: result.data.content
             })
+            console.log('resultdanhsachghe',result)
         } catch (error) {
             console.log('error', error);
         }
