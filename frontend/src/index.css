@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.activeClassName {
+    color: lightblue!important;
+    font-weight: 500;
+}
+.ant-card-meta-title{
+    text-wrap: wrap !important;
+}

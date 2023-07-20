@@ -1,0 +1,93 @@
+
+
+.stage {
+  display: inline-block;
+  padding-top: 20px;
+  padding-bottom: 8px;
+  font-size: 14px;
+  color: gray;
+  width: 100%;
+  height: 75px;
+  margin-bottom: 15px;
+  border-radius: 50px;
+  border-bottom: 2px solid gray;
+  border-top: 0px;
+}
+
+.seat {
+  background-color: #fef08a;
+  height: 28px;
+  width: 30px;
+  margin: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border: none;
+  outline:none;
+}
+
+.seat:hover {
+  transform: scale(1.2);
+}
+
+.seatVip {
+  background-color: lightpink;
+}
+
+.seatSelected {
+  background-color: lightskyblue;
+  outline: none;
+}
+
+.seatOccupied {
+  background-color: #f3f3f3;
+  cursor: default;
+}
+
+.seatOtherOccupied {
+  background-color: darkorange;
+  cursor: default;
+}
+
+.seatUserOccupied {
+  background-color: lightseagreen;
+  transform: scale(1.2);
+  box-shadow: -1px 2px 12px -4px #000;
+}
+
+/* .seat:not(.seatOccupied):hover,
+.seat:not(.seatOtherOccupied):hover {
+  cursor: pointer;
+  transform: scale(1.2);
+} */
+
+
+.seat.seatOccupied {
+  cursor: default;
+  transform: scale(1);
+}
+
+.seat.seatOtherOccupied {
+  cursor: default;
+  transform: scale(1);
+}
+
+.showcase {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  background: rgba(0,0,0,0.1);
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #777;
+}
+
+.showcase li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+}
+
+.showcase li small {
+  margin-left: 2px;
+}

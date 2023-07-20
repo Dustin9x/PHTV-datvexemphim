@@ -1,0 +1,31 @@
+.header__with-img{
+    position: relative;
+    padding-bottom: 20%;
+    background-size: cover;
+    background-image: url(/public/img/tix.png);
+    filter: brightness(40%);
+}
+
+.header__img-text{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 150px;
+    color: var(--white-color);
+    z-index: 10;
+    /* bottom: 20%; */
+}
+
+.heading__text{
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.end__text{
+    font-size: 1.5rem;
+    text-shadow: 0 0 2px #000;
+}
+
+.ant-card-cover-customs {
+    border-radius: 8px 0px 0 8px !important;
+}

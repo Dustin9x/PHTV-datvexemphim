@@ -1,0 +1,157 @@
+.header__with-img{
+    position: relative;
+    padding-bottom: 20%;
+    background-size: cover;
+    background-image: url(/public/img/tix.png);
+    filter: brightness(40%);
+}
+
+.header__img-text{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 150px;
+    color: var(--white-color);
+    z-index: 10;
+    /* bottom: 20%; */
+}
+
+.heading__text{
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.end__text{
+    font-size: 1.5rem;
+    text-shadow: 0 0 2px #000;
+}
+
+.body{
+    margin: 20px;
+}
+
+.body_header{
+    font-size: 2rem;
+    font-weight: 500;
+    padding: 1rem;
+}
+
+.body_text{
+    font-size: 1.4rem;
+    padding:  0.2rem 1rem;
+}
+
+.teammember{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-bottom: 24px;
+}
+
+.team-memberimg{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.card__img-Hoang{
+  background-image: url(/public/img/group/g4.jpg);
+}
+.card__img-Toan{
+  background-image: url(/public/img/group/g1.jpg);
+}
+
+.card__img-Viet{
+  background-image: url(/public/img/group/Viet.jpg);
+}
+
+.card__img-Phu{
+  background-image: url(/public/img/group/Phu.jpg);
+}
+
+
+.cardmember{
+    /* background-image: url(/public/img/group/g4.jpg); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 6px !important;
+    border: 0 solid;
+    width: 200px;
+    height: 260px;
+    margin-bottom: 10px;
+    position: relative;
+    display: flex;
+    font-size: 1.5em;
+    color: rgb(88 199 250 / 0%);
+    margin-top: 10px;
+
+}
+
+.cardmember:hover {
+    /* color: rgb(88 199 250 / 100%);
+    transition: color 1s; */
+    animation: zoom 0.2s linear;
+    -webkit-animation-fill-mode: forwards;
+  }
+  .cardmember:hover:before, .cardmember:hover:after {
+    /* animation: none;
+    opacity: 0; */
+  }
+  
+  
+  .cardmember::before {
+    content: "";
+    width: 104%;
+    height: 102%;
+    border-radius: 8px;
+    background-image: linear-gradient(
+      var(--rotate)
+      , #5ddcff, #3c67e3 43%, #4e00c2);
+      position: absolute;
+      z-index: -1;
+      top: -1%;
+      left: -2%;
+      animation: spin 2.5s linear infinite;
+  }
+  
+  .cardmember::after {
+    position: absolute;
+    content: "";
+    top: calc(150px / 6);
+    left: 0;
+    right: 0;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    transform: scale(0.8);
+    filter: blur(calc(150px / 6));
+    background-image: linear-gradient(
+      var(--rotate)
+      , #5ddcff, #3c67e3 43%, #4e00c2);
+      opacity: 1;
+    transition: opacity .5s;
+    animation: spin 2.5s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      --rotate: 0deg;
+    }
+    100% {
+      --rotate: 360deg;
+    }
+  }
+  
+  @keyframes zoom {
+    0% {
+      background-size: 100%;
+    }
+    100% {
+      background-size: 110%;
+    }
+  }
+.cardmember-text{
+    padding:  0.2rem 1rem;
+}
