@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { layChiTietPhimAction, layDanhSachCumRapAction } from '../../redux/actions/QuanLyRapAction';
 import { NavLink } from 'react-router-dom';
 import { layThongTinPhimAction } from '../../redux/actions/QuanLyPhimAction';
-import { layChiTietLichChieuAction } from '../../redux/actions/QuanLyDatVeAction';
+import { layChiTietLichChieuAction, layLichChieuTheoPhimAction } from '../../redux/actions/QuanLyDatVeAction';
 import dayjs from 'dayjs'
 import _ from 'lodash';
 const { TabPane } = Tabs;
@@ -21,7 +21,7 @@ export default function Detail(props) {
     useEffect(() => {
         let { id } = props.match.params;
         dispatch(layThongTinPhimAction(id))
-        dispatch(layChiTietLichChieuAction(id))
+        dispatch(layLichChieuTheoPhimAction(id))
         dispatch(layDanhSachCumRapAction())
     }, [])
 

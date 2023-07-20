@@ -68,6 +68,7 @@ Route::delete('laydanhsachrap/{id}/delete', [RapChieuController::class, 'destroy
 Route::get('laydanhsachlichchieu', [ShowtimeController::class, 'index']);
 Route::post('laydanhsachlichchieu', [ShowtimeController::class, 'store']);
 Route::get('laydanhsachlichchieu/{id}', [ShowtimeController::class, 'show']);
+Route::get('laylichchieutheophim/{id}', [ShowtimeController::class, 'showbyMovie']);
 Route::post('laydanhsachlichchieu/{id}/update', [ShowtimeController::class, 'update']);
 Route::delete('laydanhsachlichchieu/{id}/delete', [ShowtimeController::class, 'destroy']);
 

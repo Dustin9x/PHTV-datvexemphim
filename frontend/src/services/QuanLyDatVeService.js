@@ -19,6 +19,10 @@ export class QuanLyDatVeService extends baseService {
         return this.get(`/api/laydanhsachlichchieu`);
     }
 
+    layLichChieuTheoPhim = (id) => {
+        return this.get(`/api/laylichchieutheophim/${id}`);
+    }
+
     layChiTietLichChieu = (id) => {
         return this.get(`/api/laydanhsachlichchieu/${id}`);
     }

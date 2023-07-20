@@ -1,8 +1,9 @@
-import { CHUYEN_TAB, CHUYEN_TAB_ACTIVE, DAT_VE, DAT_VE_HOAN_TAT, LAY_CHI_TIET_LICH_CHIEU, LAY_DANH_SACH_GHE, LAY_DANH_SACH_LICH_CHIEU, SET_CHI_TIET_PHONG_VE } from "../constants"
+import { CHUYEN_TAB, CHUYEN_TAB_ACTIVE, DAT_VE, DAT_VE_HOAN_TAT, LAY_CHI_TIET_LICH_CHIEU, LAY_DANH_SACH_GHE, LAY_DANH_SACH_LICH_CHIEU, LAY_LICH_CHIEU_THEO_PHIM, SET_CHI_TIET_PHONG_VE } from "../constants"
 
 const initialState = {
     chiTietPhongVe: {},
     lichChieu: [],
+    lichChieuTheoPhim: [],
     lichChieuChiTiet: [],
     lichChieuEdit: [],
     danhSachGhe: [],
@@ -16,6 +17,10 @@ export const QuanLyDatVeReducer = (state = initialState, action) => {
 
         case LAY_DANH_SACH_LICH_CHIEU:
             state.lichChieu = action.lichChieu;
+            return { ...state }
+
+        case LAY_LICH_CHIEU_THEO_PHIM:
+            state.lichChieuTheoPhim = action.lichChieuTheoPhim;
             return { ...state }
 
         case LAY_CHI_TIET_LICH_CHIEU:

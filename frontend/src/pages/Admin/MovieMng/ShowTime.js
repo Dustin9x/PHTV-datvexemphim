@@ -7,7 +7,7 @@ import moment from 'moment';
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { layDanhSachCumRapAction, layDanhSachHeThongRapAction } from '../../../redux/actions/QuanLyRapAction';
-import { capNhatLichChieuAction, layChiTietLichChieuAction, layDanhSachLichChieuAction, taoLichChieuAction, xoaLichChieuAction } from '../../../redux/actions/QuanLyDatVeAction';
+import { capNhatLichChieuAction, layChiTietLichChieuAction, layDanhSachLichChieuAction, layLichChieuTheoPhimAction, taoLichChieuAction, xoaLichChieuAction } from '../../../redux/actions/QuanLyDatVeAction';
 import { QuanLyDatVeReducer } from './../../../redux/reducers/QuanLyDatVeReducer';
 dayjs.extend(customParseFormat);
 
@@ -43,10 +43,10 @@ export default function ShowTime(props) {
             console.table('formData123',[...formData])
             if (!localStorage.getItem('lichChieuEdit')) {
                 dispatch(taoLichChieuAction(formData));
-                dispatch(layChiTietLichChieuAction(id));
+                dispatch(layLichChieuTheoPhimAction(id));
             } else {
                 dispatch(capNhatLichChieuAction(lichEdit.maLichChieu, formData))
-                dispatch(layChiTietLichChieuAction(id));
+                dispatch(layLichChieuTheoPhimAction(id));
             }
             localStorage.removeItem("lichChieuEdit");
 
@@ -63,7 +63,7 @@ export default function ShowTime(props) {
     useEffect(() => {
         dispatch(layDanhSachHeThongRapAction())
         dispatch(layDanhSachCumRapAction())
-        dispatch(layChiTietLichChieuAction(id))
+        dispatch(layLichChieuTheoPhimAction(id))
     }, []);
 
 

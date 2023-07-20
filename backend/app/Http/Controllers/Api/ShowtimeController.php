@@ -26,7 +26,7 @@ class ShowtimeController extends Controller
         }
     }
 
-    public function show($id)
+    public function showbyMovie($id)
     {
         // $showtime = Showtime::with(['rapchieu','phim'])->get();
         // $showtime = Showtime::where('maPhim',$id)with(['rapchieu','phim'])->get();
@@ -36,6 +36,25 @@ class ShowtimeController extends Controller
             return response()->json([
                 'status' => 200,
                 'content' => $showtime
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'no such showtime found'
+            ], 404);
+        }
+    }
+
+    public function show($id)
+    {
+        // $showtime = Showtime::with(['rapchieu','phim'])->get();
+        // $showtime = Showtime::where('maPhim',$id)with(['rapchieu','phim'])->get();
+        // $showtime = Showtime::where('maPhim', $id)->with(['rapchieu','rapchieu.tinhthanh', 'phim'])->get();
+        $showtime = Showtime::where('maLichChieu', $id)->with('phim')->first();
+        if ($showtime) {
+            return response()->json([
+                'status' => 200,
+                'content' => $showtime,
             ], 200);
         } else {
             return response()->json([

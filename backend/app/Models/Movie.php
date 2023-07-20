@@ -24,11 +24,18 @@ class Movie extends Model
         'hot',
         'dangChieu',
         'sapChieu',
+        'lichchieu'
     ];
+    // public function lichchieu()
+    // {
+    //     return $this->belongsTo(Showtime::class, 'maPhim','maPhim');
+    // }
+
     public function lichchieu()
     {
-        return $this->belongsTo(Showtime::class, 'maPhim','maPhim');
+        return $this->hasMany(Showtime::class, 'maPhim','maPhim');
     }
+    
 
     // public function rapchieu()
     // {

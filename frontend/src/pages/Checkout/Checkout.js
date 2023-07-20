@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, Card, Popover } from 'antd';
 import { UserOutlined, HomeOutlined } from '@ant-design/icons';
 import './Checkout.css'
-import { datVeAction, layDanhSachGheAction, layDanhSachLichChieuAction } from '../../redux/actions/QuanLyDatVeAction';
+import { datVeAction, layChiTietLichChieuAction, layDanhSachGheAction, layDanhSachLichChieuAction } from '../../redux/actions/QuanLyDatVeAction';
 import { CHUYEN_TAB_ACTIVE, DAT_VE } from '../../redux/constants';
 import _ from 'lodash';
 import { ThongTinDatVe } from '../../_core/models/ThongTinDatVe';
@@ -11,22 +11,26 @@ import { Tabs } from 'antd';
 import { layThongTinDatVeAction } from '../../redux/actions/QuanLyNguoiDungAction';
 import moment from 'moment';
 import { TOKEN, USER_LOGIN } from '../../util/settings/config';
+import dayjs from 'dayjs';
 
 
 function Checkout(props) {
 
     const { userLogin } = useSelector(state => state.UserReducer)
-    const { thongTinPhim } = useSelector(state => state.QuanLyDatVeReducer.chiTietPhongVe)
+    const {lichChieuChiTiet} = useSelector(state => state.QuanLyDatVeReducer)
     const { danhSachGhe } = useSelector(state => state.QuanLyDatVeReducer)
     const { danhSachGheDangChon } = useSelector(state => state.QuanLyDatVeReducer)
     const dispatch = useDispatch();
     let { id } = props.match.params;
     useEffect(() => {
         dispatch(layDanhSachGheAction(id))
-        dispatch(layDanhSachLichChieuAction(id))
-    }, [dispatch])
+        dispatch(layChiTietLichChieuAction(id))
+        // dispatch(layChiTietLichChieuAction(id))
+    }, [])
 
-    console.log('danhSachGhe',danhSachGhe)
+    const thongTinPhim = lichChieuChiTiet.phim;
+
+    
 
     const renderGhe = () => {
         return danhSachGhe?.map((ghe, index) => {
@@ -40,12 +44,12 @@ function Checkout(props) {
             }
 
             let classGheUserDat = '';
-            if (userLogin.taiKhoan === ghe.taiKhoanNguoiDat) {
+            if (userLogin.id === ghe.taiKhoanNguoiDat) {
                 classGheUserDat = 'seatUserOccupied'
             }
 
             return <Fragment key={index}>
-                <Button disabled={ghe.daDat} type='link' className={`seat p-0 ${classGheVip} ${classGheDaDat} ${classGheDangDat}`}
+                <Button disabled={ghe.nguoiDat} type='link' className={`seat p-0 ${classGheVip} ${classGheDaDat} ${classGheDangDat} ${classGheUserDat}`}
                     onClick={() => {
                         dispatch({
                             type: DAT_VE,
@@ -53,7 +57,7 @@ function Checkout(props) {
                         })
                     }}
                 >
-                    {ghe.daDat ? classGheUserDat != '' ? <UserOutlined /> : 'x' : ghe.stt}
+                    {ghe.nguoiDat ? classGheUserDat != '' ? <UserOutlined /> : 'x' : ghe.tenGhe}
                 </Button>
                 {(index + 1) % 16 === 0 ? <br /> : ''}
             </Fragment>
@@ -61,16 +65,13 @@ function Checkout(props) {
     }
 
     const renderSoGhe = () => {
-        return _.sortBy(danhSachGheDangChon, ['stt']).map((gheDD, index) => {
-            return (<b key={index} className='mr-1'>{gheDD?.stt}</b>).props.children
+        return _.sortBy(danhSachGheDangChon, ['tenGhe']).map((gheDD, index) => {
+            return (<b key={index} className='mr-1'>{gheDD?.tenGhe}</b>).props.children
         }).join(', ')
     }
 
-    const tongTien = () => {
-        return danhSachGheDangChon.reduce((tongTien, ghe, index) => {
-            return tongTien += ghe.giaVe;
-        }, 0).toLocaleString()
-    }
+    const tongTien = (danhSachGheDangChon.filter (({loaiGhe}) => loaiGhe === 'thuong').length)*(lichChieuChiTiet.giaVeThuong) +
+    (danhSachGheDangChon.filter (({loaiGhe}) => loaiGhe === 'vip').length)*(lichChieuChiTiet.giaVeVip)
 
     return (
         <div className='container min-h-screen mt-5'>
@@ -101,15 +102,18 @@ function Checkout(props) {
                     </div>
                 </div>
                 <div className='col-span-4'>
-                    <Card className='m-2'>
-                        <h3 className='text-xl'>{thongTinPhim?.tenPhim}</h3>
-                        <p>{thongTinPhim?.tenCumRap}</p>
-                        <p>Suất <b>{thongTinPhim?.gioChieu}</b> Ngày <b>{thongTinPhim?.ngayChieu}</b></p>
-                        <p><b>{thongTinPhim?.tenRap}</b> Ghế <b>{renderSoGhe()}</b></p>
+                    {thongTinPhim?.map((item,index)=>{
+                        return <Card className='m-2'>
+                        <h3 className='text-xl'>{item.tenPhim}</h3>
+                        <p>{item.tenCumRap}</p>
+                        <p>Suất <b>{lichChieuChiTiet.gioChieu.substr(0, 5)}</b> Ngày <b>{dayjs(lichChieuChiTiet.ngayChieu).format('DD-MM-YYYY')}</b></p>
+                        <p><b>{item.tenRap}</b> Ghế <b>{renderSoGhe()}</b></p>
                     </Card>
+                    })}
+                    
                     <Card className='m-2'>
                         <p>Tổng đơn hàng</p>
-                        <h3 className='text-red-400 text-xl'>{tongTien()} đ</h3>
+                        <h3 className='text-red-400 text-xl'>{tongTien} đ</h3>
                     </Card>
                     <Card className='m-2'>
                         <p>{userLogin.email}</p>

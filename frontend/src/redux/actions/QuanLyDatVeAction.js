@@ -1,6 +1,6 @@
 import { ThongTinDatVe } from "../../_core/models/ThongTinDatVe";
 import { quanLyDatVeService } from "../../services/QuanLyDatVeService";
-import { CHUYEN_TAB, DAT_VE_HOAN_TAT, DISPLAY_LOADING, HIDE_LOADING, LAY_CHI_TIET_LICH_CHIEU, LAY_DANH_SACH_GHE, LAY_DANH_SACH_LICH_CHIEU, SET_CHI_TIET_PHONG_VE } from "../constants";
+import { CHUYEN_TAB, DAT_VE_HOAN_TAT, DISPLAY_LOADING, HIDE_LOADING, LAY_CHI_TIET_LICH_CHIEU, LAY_DANH_SACH_GHE, LAY_DANH_SACH_LICH_CHIEU, LAY_LICH_CHIEU_THEO_PHIM, SET_CHI_TIET_PHONG_VE } from "../constants";
 import { displayLoadingAction, hideLoadingAction } from './LoadingAction';
 import { history } from "../../App";
 
@@ -22,6 +22,20 @@ export const layDanhSachLichChieuAction = () => {
     }
 }
 
+export const layLichChieuTheoPhimAction = (id) => {
+    return async (dispatch) => {
+        try {
+            const result = await quanLyDatVeService.layLichChieuTheoPhim(id);
+            dispatch({
+                type: LAY_LICH_CHIEU_THEO_PHIM,
+                lichChieuTheoPhim: result.data.content
+            })
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
+}
+
 export const layChiTietLichChieuAction = (id) => {
     return async (dispatch) => {
         try {
@@ -30,6 +44,7 @@ export const layChiTietLichChieuAction = (id) => {
                 type: LAY_CHI_TIET_LICH_CHIEU,
                 lichChieuChiTiet: result.data.content
             })
+            console.log('lichChieuChiTiet',result)
         } catch (error) {
             console.log('error', error);
         }
