@@ -14,7 +14,7 @@ dayjs.extend(customParseFormat);
 export default function ShowTime(props) {
     let { heThongRapChieu } = useSelector(state => state.RapReducer);
     let { cumRap } = useSelector(state => state.RapReducer);
-    let { lichChieuChiTiet } = useSelector(state => state.QuanLyDatVeReducer);
+    let { lichChieuTheoPhim } = useSelector(state => state.QuanLyDatVeReducer);
     // let { cumRapChieu } = cumRap.filter(item => item.tenRap == heThongRapChieu.tenHeThongRap)
     let { id } = props.match.params;
     const dateFormat = 'DD-MM-YYYY';
@@ -116,7 +116,7 @@ export default function ShowTime(props) {
 
 
 
-    const data = lichChieuChiTiet;
+    const data = lichChieuTheoPhim;
     console.log('data',data)
 
     const columns = [

@@ -1,10 +1,10 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, Card, Popover } from 'antd';
 import { UserOutlined, HomeOutlined } from '@ant-design/icons';
 import './Checkout.css'
-import { datVeAction, layChiTietLichChieuAction, layDanhSachGheAction, layDanhSachLichChieuAction } from '../../redux/actions/QuanLyDatVeAction';
-import { CHUYEN_TAB_ACTIVE, DAT_VE } from '../../redux/constants';
+import { datVeAction, layChiTietLichChieuAction, layDanhSachGheAction, layDanhSachLichChieuAction, xacNhanDatVeAction } from '../../redux/actions/QuanLyDatVeAction';
+import { CHUYEN_TAB, CHUYEN_TAB_ACTIVE, DAT_VE } from '../../redux/constants';
 import _ from 'lodash';
 import { ThongTinDatVe } from '../../_core/models/ThongTinDatVe';
 import { Tabs } from 'antd';
@@ -12,25 +12,46 @@ import { layThongTinDatVeAction } from '../../redux/actions/QuanLyNguoiDungActio
 import moment from 'moment';
 import { TOKEN, USER_LOGIN } from '../../util/settings/config';
 import dayjs from 'dayjs';
+import { history } from './../../App';
+import { layDanhSachCumRapAction } from '../../redux/actions/QuanLyRapAction';
+
 
 
 function Checkout(props) {
 
+    const [timer, setTimer] = useState(900);
+    const minutes = Math.floor(timer / 60);
+    const seconds = Math.floor(timer % 60);
+
+    const [runTimer, setRunTimer] = useState('true');
+    useEffect(() => {
+        if (timer > 0) {
+            let myTimer = setTimeout(() => setTimer(timer - 1), 1000);
+            if(runTimer === false){
+                clearTimeout(myTimer)
+            }
+        } else {
+            alert('Hết thời gian giữ ghế. Hãy thực hiện lại đơn hàng của bạn nhé.');
+            history.goBack()
+        }
+    })
+    
+
+
     const { userLogin } = useSelector(state => state.UserReducer)
-    const {lichChieuChiTiet} = useSelector(state => state.QuanLyDatVeReducer)
-    const { danhSachGhe } = useSelector(state => state.QuanLyDatVeReducer)
-    const { danhSachGheDangChon } = useSelector(state => state.QuanLyDatVeReducer)
+    const { lichChieuChiTiet, danhSachGhe, danhSachGheDangChon } = useSelector(state => state.QuanLyDatVeReducer)
+    const { cumRap } = useSelector(state => state.RapReducer)
     const dispatch = useDispatch();
     let { id } = props.match.params;
     useEffect(() => {
         dispatch(layDanhSachGheAction(id))
         dispatch(layChiTietLichChieuAction(id))
-        // dispatch(layChiTietLichChieuAction(id))
     }, [])
 
-    const thongTinPhim = lichChieuChiTiet.phim;
+    const thongTinPhim = lichChieuChiTiet?.phim;
+    const rapChieu = lichChieuChiTiet?.rapchieu;
 
-    
+    console.log('rapChieu', rapChieu)
 
     const renderGhe = () => {
         return danhSachGhe?.map((ghe, index) => {
@@ -70,8 +91,8 @@ function Checkout(props) {
         }).join(', ')
     }
 
-    const tongTien = (danhSachGheDangChon.filter (({loaiGhe}) => loaiGhe === 'thuong').length)*(lichChieuChiTiet.giaVeThuong) +
-    (danhSachGheDangChon.filter (({loaiGhe}) => loaiGhe === 'vip').length)*(lichChieuChiTiet.giaVeVip)
+    const tongTien = (danhSachGheDangChon.filter(({ loaiGhe }) => loaiGhe === 'thuong').length) * (lichChieuChiTiet.giaVeThuong) +
+        (danhSachGheDangChon.filter(({ loaiGhe }) => loaiGhe === 'vip').length) * (lichChieuChiTiet.giaVeVip)
 
     return (
         <div className='container min-h-screen mt-5'>
@@ -102,32 +123,53 @@ function Checkout(props) {
                     </div>
                 </div>
                 <div className='col-span-4'>
-                    {thongTinPhim?.map((item,index)=>{
-                        return <Card className='m-2'>
-                        <h3 className='text-xl'>{item.tenPhim}</h3>
-                        <p>{item.tenCumRap}</p>
-                        <p>Suất <b>{lichChieuChiTiet.gioChieu.substr(0, 5)}</b> Ngày <b>{dayjs(lichChieuChiTiet.ngayChieu).format('DD-MM-YYYY')}</b></p>
-                        <p><b>{item.tenRap}</b> Ghế <b>{renderSoGhe()}</b></p>
+                    <Card className='m-2'>
+                        <p>Thời gian giữ ghế:</p>
+                        <div className='text-red-400 text-xl font-bold'>{minutes}:{seconds}</div>
                     </Card>
+                    {thongTinPhim?.map((item, index) => {
+                        return <Card className='m-2'>
+                            <h3 className='text-xl font-bold'>{item.tenPhim}</h3>
+                            {/* <p>{item.rapChieu[0].tenRap}</p> */}
+                            {rapChieu.map((rap, index) => { return <p>{rap.tenRap}</p> })}
+                            <p>Suất <b>{lichChieuChiTiet.gioChieu.substr(0, 5)}</b> Ngày <b>{dayjs(lichChieuChiTiet.ngayChieu).format('DD-MM-YYYY')}</b></p>
+                            <p><b>{item.tenRap}</b> Ghế <b>{renderSoGhe()}</b></p>
+                        </Card>
                     })}
-                    
+
                     <Card className='m-2'>
                         <p>Tổng đơn hàng</p>
-                        <h3 className='text-red-400 text-xl'>{tongTien} đ</h3>
+                        <h3 className='text-red-400 text-xl font-bold'>{tongTien.toLocaleString()} đ</h3>
                     </Card>
                     <Card className='m-2'>
-                        <p>{userLogin.email}</p>
-                        <p>{userLogin.soDT}</p>
+                        <p>Người đặt: {userLogin.name}</p>
+                        <p>Email: {userLogin.email}</p>
                     </Card>
                     <div className='m-2'>
-                        <button type="button" className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full"
+                        {/* <button type="button" className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full"
                             onClick={() => {
                                 const thongTinDatVe = new ThongTinDatVe();
                                 thongTinDatVe.maLichChieu = props.match.params.id;
                                 thongTinDatVe.danhSachVe = danhSachGheDangChon;
                                 // dispatch(datVeAction(thongTinDatVe))
                             }}
-                        >Đặt vé</button>
+                        >Đặt vé</button> */}
+                        <button type="button" className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full"
+                            onClick={() => {
+                                const thongTinDatVe = new ThongTinDatVe();
+                                thongTinDatVe.maLichChieu = props.match.params.id;
+                                thongTinDatVe.rapChieu = rapChieu[0].tenRap;
+                                thongTinDatVe.phim = lichChieuChiTiet.phim[0].tenPhim;
+                                thongTinDatVe.gioChieu = lichChieuChiTiet.gioChieu;
+                                thongTinDatVe.ngayChieu = lichChieuChiTiet.ngayChieu;
+                                thongTinDatVe.danhSachGhe = renderSoGhe();
+                                thongTinDatVe.tongTien = tongTien;
+                                thongTinDatVe.name = userLogin.name;
+                                thongTinDatVe.email = userLogin.email;
+                                dispatch(xacNhanDatVeAction(thongTinDatVe))
+                                setRunTimer(false)
+                            }}
+                        >Xác nhận thông tin</button>
                     </div>
                 </div>
             </div>
@@ -137,13 +179,13 @@ function Checkout(props) {
 
 
 
-
 const { TabPane } = Tabs;
 
 export default function ChonGhe(props) {
 
     const { tabActive } = useSelector(state => state.QuanLyDatVeReducer)
     const { userLogin } = useSelector(state => state.UserReducer)
+    const { donHang } = useSelector(state => state.QuanLyDatVeReducer)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -191,12 +233,65 @@ export default function ChonGhe(props) {
             <TabPane tab='01 CHỌN GHẾ & THANH TOÁN' key='1' >
                 <Checkout {...props} />
             </TabPane>
-            <TabPane tab='02 KẾT QUẢ ĐẶT VÉ' key='2' >
+            <TabPane disabled={!donHang} tab='02 XÁC NHẬN THÔNG TIN ĐẶT VÉ' key='2' >
+                <XacNhanThongTin {...props} />
+            </TabPane>
+            <TabPane disabled={!donHang} tab='03 KẾT QUẢ ĐẶT VÉ' key='3' >
                 <KetQuaDatVe {...props} />
             </TabPane>
         </Tabs>
     </div>
 
+}
+
+
+export function XacNhanThongTin(props) {
+
+    const { donHang } = useSelector(state => state.QuanLyDatVeReducer)
+    console.log('donHang', donHang)
+    const renderSoGhe = () => {
+        return donHang.danhSachVe.map((gheDD, index) => {
+            return (<b key={index} className='mr-1'>{gheDD?.tenGhe}</b>).props.children
+        }).join(', ')
+    }
+
+    return (
+        <div className='container min-h-screen mt-5'>
+
+            <div className='d-flex'>
+                <div className='col-6'>
+                    <Card className='m-2 w-full bg-indigo-400'>
+                        <p>Chi tiết đơn hàng</p>
+                        <h3 className='text-xl font-bold'>{donHang.phim}</h3>
+                        <p className='text-lg'>Rạp chiếu: {donHang.rapChieu}</p>
+                        <p className='text-lg'>Suất <b>{donHang.gioChieu.substr(0, 5)}</b> Ngày <b>{dayjs(donHang.ngayChieu).format('DD-MM-YYYY')}</b></p>
+                        <p className='text-lg'><b>{donHang.tenRap}</b> Ghế <b>{donHang.danhSachVe}</b></p>
+                    </Card>
+                </div>
+
+
+                <Card className='m-2 w-full bg-orange-400'>
+                    <p>Tổng đơn hàng</p>
+                    <h3 className=' text-xl font-bold'>{donHang.tongTien.toLocaleString()} đ</h3>
+                </Card>
+                <Card className='m-2 w-full bg-cyan-400'>
+                <p>Người đặt vé</p>
+                    <p className='text-md'>Tên: {donHang.name}</p>
+                    <p className='text-md'>Email: {donHang.email}</p>
+                </Card>
+            </div>
+                    <div className='mt-5 d-flex justify-center'>
+                        <button type="button" style={{width:350}} className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full"
+                            onClick={() => {
+                                const thongTinDatVe = new ThongTinDatVe();
+                                // thongTinDatVe.maLichChieu = props.match.params.id;
+                                // thongTinDatVe.danhSachVe = danhSachGheDangChon;
+                                // dispatch(datVeAction(thongTinDatVe))
+                            }}
+                        >Thanh Toán</button>
+                    </div>
+        </div>
+    )
 }
 
 

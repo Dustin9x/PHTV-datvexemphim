@@ -11,9 +11,11 @@ export class QuanLyDatVeService extends baseService {
         return this.get(`/api/QuanLyDatVe/LayDanhSachPhongVe?MaLichChieu=${maLichChieu}`);
     }
 
-    datVe = (thongTinDatVe = new ThongTinDatVe()) => {
-        return this.post(`/api/QuanLyDatVe/DatVe`,thongTinDatVe);
-    }
+    // datVe = (thongTinDatVe = new ThongTinDatVe()) => {
+    //     return this.post(`/api/QuanLyDatVe/DatVe`,thongTinDatVe);
+    // }
+
+    
 
     layDanhSachLichChieu = () => {
         return this.get(`/api/laydanhsachlichchieu`);
@@ -42,6 +44,10 @@ export class QuanLyDatVeService extends baseService {
 
     layDanhSachGhe = (id) => {
         return this.get(`/api/laydanhsachghe/${id}`);
+    }
+
+    datVe = (id,thongTinDatVe = new ThongTinDatVe()) => {
+        return this.post(`/api/laydanhsachghe/${id}/update`,thongTinDatVe);
     }
 
 }

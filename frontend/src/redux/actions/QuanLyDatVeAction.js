@@ -1,6 +1,6 @@
 import { ThongTinDatVe } from "../../_core/models/ThongTinDatVe";
 import { quanLyDatVeService } from "../../services/QuanLyDatVeService";
-import { CHUYEN_TAB, DAT_VE_HOAN_TAT, DISPLAY_LOADING, HIDE_LOADING, LAY_CHI_TIET_LICH_CHIEU, LAY_DANH_SACH_GHE, LAY_DANH_SACH_LICH_CHIEU, LAY_LICH_CHIEU_THEO_PHIM, SET_CHI_TIET_PHONG_VE } from "../constants";
+import { CHUYEN_TAB, DAT_VE_HOAN_TAT, DISPLAY_LOADING, HIDE_LOADING, LAY_CHI_TIET_LICH_CHIEU, LAY_DANH_SACH_GHE, LAY_DANH_SACH_LICH_CHIEU, LAY_LICH_CHIEU_THEO_PHIM, SET_CHI_TIET_PHONG_VE, XAC_NHAN_DON_HANG } from "../constants";
 import { displayLoadingAction, hideLoadingAction } from './LoadingAction';
 import { history } from "../../App";
 
@@ -44,7 +44,7 @@ export const layChiTietLichChieuAction = (id) => {
                 type: LAY_CHI_TIET_LICH_CHIEU,
                 lichChieuChiTiet: result.data.content
             })
-            console.log('lichChieuChiTiet',result)
+            console.log('lichChieuChiTietresult',result)
         } catch (error) {
             console.log('error', error);
         }
@@ -99,6 +99,23 @@ export const layDanhSachGheAction = (id) => {
             console.log('resultdanhsachghe',result)
         } catch (error) {
             console.log('error', error);
+        }
+    }
+}
+
+export const xacNhanDatVeAction = (thongTinDatVe = new ThongTinDatVe()) => {
+    return async (dispatch) => {
+        try {
+            dispatch(displayLoadingAction)
+
+            dispatch({
+                type: XAC_NHAN_DON_HANG,
+                donHang: thongTinDatVe
+            })
+            await dispatch(hideLoadingAction)
+            dispatch({type:CHUYEN_TAB})
+        } catch (error) {
+            console.log(error)
         }
     }
 }

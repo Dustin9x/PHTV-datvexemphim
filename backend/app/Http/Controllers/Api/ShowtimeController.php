@@ -50,7 +50,7 @@ class ShowtimeController extends Controller
         // $showtime = Showtime::with(['rapchieu','phim'])->get();
         // $showtime = Showtime::where('maPhim',$id)with(['rapchieu','phim'])->get();
         // $showtime = Showtime::where('maPhim', $id)->with(['rapchieu','rapchieu.tinhthanh', 'phim'])->get();
-        $showtime = Showtime::where('maLichChieu', $id)->with('phim')->first();
+        $showtime = Showtime::where('maLichChieu', $id)->with(['rapchieu','phim'])->first();
         if ($showtime) {
             return response()->json([
                 'status' => 200,

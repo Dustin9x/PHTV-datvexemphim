@@ -66,7 +66,7 @@ class MovieController extends Controller
     public function show($id)
     {
         // $movie = Movie::where('maPhim', $id)->first();
-        $movie = Movie::where('maPhim', $id)->with(['lichchieu'])->get();
+        $movie = Movie::where('maPhim', $id)->with('lichchieu')->first();
         if ($movie) {
             return response()->json([
                 'status' => 200,

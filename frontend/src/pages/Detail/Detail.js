@@ -15,7 +15,7 @@ const { TabPane } = Tabs;
 export default function Detail(props) {
 
     const { movieEditDetail } = useSelector(state => state.MovieReducer);
-    const { lichChieuChiTiet } = useSelector(state => state.QuanLyDatVeReducer);
+    const { lichChieuTheoPhim } = useSelector(state => state.QuanLyDatVeReducer);
     const { cumRap } = useSelector(state => state.RapReducer);
     const dispatch = useDispatch();
     useEffect(() => {
@@ -25,21 +25,21 @@ export default function Detail(props) {
         dispatch(layDanhSachCumRapAction())
     }, [])
 
-    const [lichChieuTheoRap, setLichChieuTheoRap] = useState(lichChieuChiTiet.filter((item) => item.ngayChieu === ""));
+    const [lichChieuTheoRap, setLichChieuTheoRap] = useState(lichChieuTheoPhim.filter((item) => item.ngayChieu === ""));
     // let lichChieuTheoRap = []
     const handleClick = (event) => {
         let clickNgayChieu = event.target.name;
-        let lichChieuTheoRap = lichChieuChiTiet.filter(item => item.ngayChieu === clickNgayChieu)
+        let lichChieuTheoRap = lichChieuTheoPhim.filter(item => item.ngayChieu === clickNgayChieu)
         setLichChieuTheoRap(lichChieuTheoRap);
     };
-    let listNgayChieu = lichChieuChiTiet.map(item => item.ngayChieu).filter((item, index, arr) => arr.indexOf(item) === index)
+    let listNgayChieu = lichChieuTheoPhim.map(item => item.ngayChieu).filter((item, index, arr) => arr.indexOf(item) === index)
     let listTinhThanh = _.uniq(_.flattenDeep(lichChieuTheoRap.map((rapchieu, index) => {
         return rapchieu.rapchieu.map((tinhthanh, index) => {
             return tinhthanh.tinhthanh
         })
     })))
 
-    console.log('listNgayChieu',listNgayChieu)
+    console.log('lichChieuTheoPhim',lichChieuTheoPhim)
 
     let uniqueTinhThanh = [...new Map(listTinhThanh.map((item) => [item["maTinh"], item])).values(),];
     const [cumRaptheotinh, setCumRaptheotinh] = useState(cumRap.filter((item) => item.maTinh_id === ''));
