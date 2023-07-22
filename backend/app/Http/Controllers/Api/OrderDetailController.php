@@ -42,23 +42,12 @@ class OrderDetailController extends Controller
                 'email' => $request->email,
             ]);
             
+            $arrMaGhe = array_map('intval', explode(', ', $request->danhSachMaGhe));
 
-            $ghengoi = Seat::where('maLichChieu', $request->maLichChieu)->get();
-            foreach($ghengoi as $ghe) {
-
-                $ghe->update([
-                    'nguoiDat' => $request->$request->userId,
+            Seat::whereIn("maGhe", $arrMaGhe)
+                ->update([
+                    'nguoiDat' => $request->userId,
                 ]);
-            }
-            
-            // $ghengoi = Seat::where('maLichChieu', $request->maLichChieu)->get();
-            // for ($i = 1; $i <= count($ghengoi); $i++) {
-            // $ghe = Seat::where('maLichChieu', $request->maLichChieu && 'tenGhe', $ghengoi->tenGhe)->first();
-
-            //     $ghe->update([
-            //         'nguoiDat' => $request->$request->userId,
-            //     ]);
-            // }
     
 
             if ($order){

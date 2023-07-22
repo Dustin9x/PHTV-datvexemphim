@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Avatar, Button, Card, Popover } from 'antd';
+import { Avatar, Button, Card, Popover, QRCode } from 'antd';
 import { UserOutlined, HomeOutlined } from '@ant-design/icons';
 import './Checkout.css'
 import { layChiTietLichChieuAction, layDanhSachGheAction, layDanhSachLichChieuAction, xacNhanDatVeAction } from '../../redux/actions/QuanLyDatVeAction';
@@ -14,7 +14,7 @@ import { TOKEN, USER_LOGIN } from '../../util/settings/config';
 import dayjs from 'dayjs';
 import { history } from './../../App';
 import { layDanhSachCumRapAction } from '../../redux/actions/QuanLyRapAction';
-import { datVeAction } from '../../redux/actions/QuanLyDonHangAction';
+import { datVeAction, layDonHangTheoUserAction } from '../../redux/actions/QuanLyDonHangAction';
 
 
 
@@ -28,7 +28,7 @@ function Checkout(props) {
     useEffect(() => {
         if (timer > 0) {
             let myTimer = setTimeout(() => setTimer(timer - 1), 1000);
-            if(runTimer === false){
+            if (runTimer === false) {
                 clearTimeout(myTimer)
             }
         } else {
@@ -36,7 +36,7 @@ function Checkout(props) {
             history.goBack()
         }
     })
-    
+
 
 
     const { userLogin } = useSelector(state => state.UserReducer)
@@ -53,6 +53,7 @@ function Checkout(props) {
     const rapChieu = lichChieuChiTiet?.rapchieu;
 
     console.log('danhSachGhe', danhSachGhe)
+    console.log('danhSachGheDangChon', danhSachGheDangChon)
 
     const renderGhe = () => {
         return danhSachGhe?.map((ghe, index) => {
@@ -66,7 +67,7 @@ function Checkout(props) {
             }
 
             let classGheUserDat = '';
-            if (userLogin.id === ghe.taiKhoanNguoiDat) {
+            if (userLogin.id == ghe.nguoiDat) {
                 classGheUserDat = 'seatUserOccupied'
             }
 
@@ -89,6 +90,12 @@ function Checkout(props) {
     const renderSoGhe = () => {
         return _.sortBy(danhSachGheDangChon, ['tenGhe']).map((gheDD, index) => {
             return (<b key={index} className='mr-1'>{gheDD?.tenGhe}</b>).props.children
+        }).join(', ')
+    }
+
+    const renderMaGhe = () => {
+        return _.sortBy(danhSachGheDangChon, ['tenGhe']).map((gheDD, index) => {
+            return (<b key={index} className='mr-1'>{gheDD?.maGhe}</b>).props.children
         }).join(', ')
     }
 
@@ -155,9 +162,8 @@ function Checkout(props) {
                                 thongTinDatVe.phim = lichChieuChiTiet.phim[0].tenPhim;
                                 thongTinDatVe.gioChieu = lichChieuChiTiet.gioChieu;
                                 thongTinDatVe.ngayChieu = lichChieuChiTiet.ngayChieu;
-                                thongTinDatVe.danhSachGhe = _.sortBy(danhSachGheDangChon, ['tenGhe']).map((gheDD, index) => {
-                                    return (<b key={index} className='mr-1'>{gheDD?.tenGhe}</b>).props.children
-                                });
+                                thongTinDatVe.danhSachGhe = renderSoGhe();
+                                thongTinDatVe.danhSachMaGhe = renderMaGhe();
                                 thongTinDatVe.tongTien = tongTien;
                                 thongTinDatVe.userId = userLogin.id;
                                 thongTinDatVe.name = userLogin.name;
@@ -244,7 +250,7 @@ export default function ChonGhe(props) {
 export function XacNhanThongTin(props) {
 
     const { donHang } = useSelector(state => state.QuanLyDatVeReducer)
-    console.log('donHang',donHang)
+    console.log('donHang', donHang)
     const dispatch = useDispatch();
     return (
         <div className='container min-h-screen mt-5'>
@@ -256,7 +262,7 @@ export function XacNhanThongTin(props) {
                         <h3 className='text-xl font-bold'>{donHang.phim}</h3>
                         <p className='text-lg'>Rạp chiếu: {donHang.rapChieu}</p>
                         <p className='text-lg'>Suất <b>{donHang.gioChieu.substr(0, 5)}</b> Ngày <b>{dayjs(donHang.ngayChieu).format('DD-MM-YYYY')}</b></p>
-                        <p className='text-lg'><b>{donHang.tenRap}</b> Ghế <b>{donHang.danhSachGhe.join(', ')}</b></p>
+                        <p className='text-lg'><b>{donHang.tenRap}</b> Ghế <b>{donHang.danhSachGhe}</b></p>
                     </Card>
                 </div>
 
@@ -266,7 +272,7 @@ export function XacNhanThongTin(props) {
                     <h3 className=' text-xl font-bold'>{donHang.tongTien.toLocaleString()} đ</h3>
                 </Card>
                 <Card className='m-2 w-full bg-cyan-400'>
-                <p>Người đặt vé</p>
+                    <p>Người đặt vé</p>
                     <p className='text-md'>Tên: {donHang.name}</p>
                     <p className='text-md'>Email: {donHang.email}</p>
                 </Card>
@@ -274,13 +280,13 @@ export function XacNhanThongTin(props) {
             </div>
             <p className='text-gray-400 ml-5'>(*) Quý khách vui lòng kiểm tra kỹ thông tin, đơn hàng sau khi đặt sẽ không được hủy hoặc hoàn lại.</p>
 
-                    <div className='mt-5 d-flex justify-center'>
-                        <button type="button" style={{width:350}} className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full"
-                            onClick={() => {
-                                dispatch(datVeAction(donHang))
-                            }}
-                        >Thanh Toán</button>
-                    </div>
+            <div className='mt-5 d-flex justify-center'>
+                <button type="button" style={{ width: 350 }} className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full"
+                    onClick={() => {
+                        dispatch(datVeAction(donHang))
+                    }}
+                >Thanh Toán</button>
+            </div>
         </div>
     )
 }
@@ -288,30 +294,18 @@ export function XacNhanThongTin(props) {
 
 
 export function KetQuaDatVe(props) {
-    const { thongTinNguoiDung } = useSelector(state => state.UserReducer);
+    const { Meta } = Card;
+    const { donHang } = useSelector(state => state.QuanLyDatVeReducer)
+    const { arrDonHang } = useSelector(state => state.QuanLyDatVeReducer)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        const action = layThongTinDatVeAction();
+        const action = layDonHangTheoUserAction(donHang.userId);
         dispatch(action)
     }, [])
 
-    const renderTicketItem = () => {
-        return thongTinNguoiDung.thongTinDatVe?.map((ticket, index) => {
-            const seats = _.first(ticket.danhSachGhe);
-            return <div className="p-2 lg:w-1/3 md:w-1/2 w-full" key={index}>
-                <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
-                    <img alt="team" className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src={ticket.hinhAnh} />
-                    <div className="flex-grow">
-                        <h2 className="text-gray-900 title-font font-medium">{ticket.tenPhim}</h2>
-                        <p className="text-gray-500">Giờ chiếu: {moment(ticket.ngayDat).format('hh:mm A')} - Ngày chiếu: {moment(ticket.ngayDat).format('DD-MM-YYYY')}</p>
-                        <p>Địa điểm: {seats.tenHeThongRap}</p>
-                        <p>{seats.tenCumRap} - Ghế: {ticket.danhSachGhe.map((ghe, index) => { return <span key={index} className='mr-1'>{ghe.tenGhe}</span> })}</p>
-                    </div>
-                </div>
-            </div>
-        })
-    }
+    console.log('arrDonHang', arrDonHang)
+
     return <div className='grid grid-cols-12'>
         <div className='col-span-12 mx-20'>
 
@@ -321,8 +315,44 @@ export function KetQuaDatVe(props) {
                         <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Lịch Sử Đặt Vé</h1>
                         <p className="lg:w-2/3 mx-auto leading-relaxed text-base">Xin cám ơn bạn đã ủng hộ dịch vụ của chúng tôi, chúc bạn có những trải nghiệm tuyệt vời</p>
                     </div>
-                    <div className="flex flex-wrap -m-2">
-                        {renderTicketItem()}
+                    <div className="row">
+                        {arrDonHang.map((item, index) => {
+                            return <div className='col-6 mt-3 '>
+                                <Card
+                                    hoverable
+                                    className='bg-teal-100 p-2 d-flex'
+                                    style={{
+                                        width: '100%',
+                                    }}
+                                    cover={<div>
+                                        <small className='text-right'>Ngày đặt vé: {dayjs(item.create_at).format('DD-MM-YYYY')}</small>
+                                        <QRCode value={
+                                            'Mã đơn: ' + item.maOrder +
+                                            ', Phim: ' + item.phim +
+                                            ', Rạp: ' + item.rapChieu +
+                                            ', Ngày: ' + dayjs(item.ngayChieu).format('DD-MM-YYYY') +
+                                            ', Suất: ' + item.gioChieu.substr(0, 5) +
+                                            ', Ghế: ' + item.danhSachGhe
+                                        }
+                                        />
+                                    </div>
+                                    }
+                                >
+
+                                    <Meta className='font-bold' title={item.phim} />
+                                    <div className='mt-2 text-gray-500'>
+                                        <div>Ngày chiếu: {dayjs(item.ngayChieu).format('DD-MM-YYYY')}</div>
+                                        <div>Giờ chiếu: {item.gioChieu.substr(0, 5)}</div>
+                                        <div>Rạp: {item.rapChieu}</div>
+                                        <div>Ghế: {item.danhSachGhe}</div>
+                                        <div className='font-bold'>Bạn cần xuất trình vé điện tử này để vào phòng chiếu</div>
+                                    </div>
+
+                                </Card>
+                            </div>
+
+                        })}
+
                     </div>
                 </div>
             </section>
