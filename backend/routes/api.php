@@ -8,10 +8,12 @@ use App\Http\Controllers\Api\SeatController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CommentArticleController;
+use App\Http\Controllers\Api\OrderDetailController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProvinceController;
 use App\Http\Controllers\Api\ShowtimeController;
 use App\Models\CommentArticle;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -79,6 +81,12 @@ Route::post('laydanhsachghe', [SeatController::class, 'store']);
 Route::get('laydanhsachghe/{id}', [SeatController::class, 'show']);
 Route::post('laydanhsachghe/{id}/update', [SeatController::class, 'update']);
 Route::delete('laydanhsachghe/{id}/delete', [SeatController::class, 'destroy']);
+
+//don hang
+Route::get('laydanhsachdonhang', [OrderDetailController::class, 'index']);
+Route::post('laydanhsachdonhang', [OrderDetailController::class, 'store']);
+Route::get('laychitietdonhang/{id}', [OrderDetailController::class, 'show']);
+Route::get('laydanhsachdonhang/{id}', [OrderDetailController::class, 'showByUser']);
 
 //tin tuc
 Route::get('laydanhsachtintuc', [PostController::class, 'index']);

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, Card, Popover } from 'antd';
 import { UserOutlined, HomeOutlined } from '@ant-design/icons';
 import './Checkout.css'
-import { datVeAction, layChiTietLichChieuAction, layDanhSachGheAction, layDanhSachLichChieuAction, xacNhanDatVeAction } from '../../redux/actions/QuanLyDatVeAction';
+import { layChiTietLichChieuAction, layDanhSachGheAction, layDanhSachLichChieuAction, xacNhanDatVeAction } from '../../redux/actions/QuanLyDatVeAction';
 import { CHUYEN_TAB, CHUYEN_TAB_ACTIVE, DAT_VE } from '../../redux/constants';
 import _ from 'lodash';
 import { ThongTinDatVe } from '../../_core/models/ThongTinDatVe';
@@ -14,6 +14,7 @@ import { TOKEN, USER_LOGIN } from '../../util/settings/config';
 import dayjs from 'dayjs';
 import { history } from './../../App';
 import { layDanhSachCumRapAction } from '../../redux/actions/QuanLyRapAction';
+import { datVeAction } from '../../redux/actions/QuanLyDonHangAction';
 
 
 
@@ -51,7 +52,7 @@ function Checkout(props) {
     const thongTinPhim = lichChieuChiTiet?.phim;
     const rapChieu = lichChieuChiTiet?.rapchieu;
 
-    console.log('rapChieu', rapChieu)
+    console.log('danhSachGhe', danhSachGhe)
 
     const renderGhe = () => {
         return danhSachGhe?.map((ghe, index) => {
@@ -146,14 +147,6 @@ function Checkout(props) {
                         <p>Email: {userLogin.email}</p>
                     </Card>
                     <div className='m-2'>
-                        {/* <button type="button" className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full"
-                            onClick={() => {
-                                const thongTinDatVe = new ThongTinDatVe();
-                                thongTinDatVe.maLichChieu = props.match.params.id;
-                                thongTinDatVe.danhSachVe = danhSachGheDangChon;
-                                // dispatch(datVeAction(thongTinDatVe))
-                            }}
-                        >Đặt vé</button> */}
                         <button type="button" className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full"
                             onClick={() => {
                                 const thongTinDatVe = new ThongTinDatVe();
@@ -162,8 +155,11 @@ function Checkout(props) {
                                 thongTinDatVe.phim = lichChieuChiTiet.phim[0].tenPhim;
                                 thongTinDatVe.gioChieu = lichChieuChiTiet.gioChieu;
                                 thongTinDatVe.ngayChieu = lichChieuChiTiet.ngayChieu;
-                                thongTinDatVe.danhSachGhe = renderSoGhe();
+                                thongTinDatVe.danhSachGhe = _.sortBy(danhSachGheDangChon, ['tenGhe']).map((gheDD, index) => {
+                                    return (<b key={index} className='mr-1'>{gheDD?.tenGhe}</b>).props.children
+                                });
                                 thongTinDatVe.tongTien = tongTien;
+                                thongTinDatVe.userId = userLogin.id;
                                 thongTinDatVe.name = userLogin.name;
                                 thongTinDatVe.email = userLogin.email;
                                 dispatch(xacNhanDatVeAction(thongTinDatVe))
@@ -248,13 +244,8 @@ export default function ChonGhe(props) {
 export function XacNhanThongTin(props) {
 
     const { donHang } = useSelector(state => state.QuanLyDatVeReducer)
-    console.log('donHang', donHang)
-    const renderSoGhe = () => {
-        return donHang.danhSachVe.map((gheDD, index) => {
-            return (<b key={index} className='mr-1'>{gheDD?.tenGhe}</b>).props.children
-        }).join(', ')
-    }
-
+    console.log('donHang',donHang)
+    const dispatch = useDispatch();
     return (
         <div className='container min-h-screen mt-5'>
 
@@ -265,7 +256,7 @@ export function XacNhanThongTin(props) {
                         <h3 className='text-xl font-bold'>{donHang.phim}</h3>
                         <p className='text-lg'>Rạp chiếu: {donHang.rapChieu}</p>
                         <p className='text-lg'>Suất <b>{donHang.gioChieu.substr(0, 5)}</b> Ngày <b>{dayjs(donHang.ngayChieu).format('DD-MM-YYYY')}</b></p>
-                        <p className='text-lg'><b>{donHang.tenRap}</b> Ghế <b>{donHang.danhSachVe}</b></p>
+                        <p className='text-lg'><b>{donHang.tenRap}</b> Ghế <b>{donHang.danhSachGhe.join(', ')}</b></p>
                     </Card>
                 </div>
 
@@ -279,14 +270,14 @@ export function XacNhanThongTin(props) {
                     <p className='text-md'>Tên: {donHang.name}</p>
                     <p className='text-md'>Email: {donHang.email}</p>
                 </Card>
+
             </div>
+            <p className='text-gray-400 ml-5'>(*) Quý khách vui lòng kiểm tra kỹ thông tin, đơn hàng sau khi đặt sẽ không được hủy hoặc hoàn lại.</p>
+
                     <div className='mt-5 d-flex justify-center'>
                         <button type="button" style={{width:350}} className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full"
                             onClick={() => {
-                                const thongTinDatVe = new ThongTinDatVe();
-                                // thongTinDatVe.maLichChieu = props.match.params.id;
-                                // thongTinDatVe.danhSachVe = danhSachGheDangChon;
-                                // dispatch(datVeAction(thongTinDatVe))
+                                dispatch(datVeAction(donHang))
                             }}
                         >Thanh Toán</button>
                     </div>

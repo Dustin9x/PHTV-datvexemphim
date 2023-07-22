@@ -46,9 +46,7 @@ export class QuanLyDatVeService extends baseService {
         return this.get(`/api/laydanhsachghe/${id}`);
     }
 
-    datVe = (id,thongTinDatVe = new ThongTinDatVe()) => {
-        return this.post(`/api/laydanhsachghe/${id}/update`,thongTinDatVe);
-    }
+    
 
 }
 

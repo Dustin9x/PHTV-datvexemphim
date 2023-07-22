@@ -80,43 +80,7 @@ class SeatController extends Controller
     }
 
 
-    public function update(Request $request, $id)
-    {
-
-        $validator = Validator::make($request->all(), [
-            'stt' => 'required',
-            'loaiGhe' => 'required|max:100',
-            'giaVe' => 'required',
-            'daDat' => 'required',
-            'taiKhoanNguoiDat' => 'nullable',
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 422,
-                'message' => $validator->messages()
-            ], 422);
-        } else {
-            $ghengoi = Seat::where('maGhe', $id)->first();
-            if ($ghengoi) {
-                $ghengoi->update([
-                    'stt' => $request->stt,
-                    'loaiGhe' => $request->loaiGhe,
-                    'giaVe' => $request->giaVe,
-                    'daDat' => $request->daDat,
-                    'taiKhoanNguoiDat' => $request->taiKhoanNguoiDat,
-                ]);
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Seat successfully updated'
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => 404,
-                    'message' => 'No such seat found'
-                ], 404);
-            };
-        }
-    }
+    
 
     public function destroy($id)
     {
