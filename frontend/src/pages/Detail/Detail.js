@@ -39,8 +39,6 @@ export default function Detail(props) {
         })
     })))
 
-    console.log('lichChieuTheoPhim',lichChieuTheoPhim)
-
     let uniqueTinhThanh = [...new Map(listTinhThanh.map((item) => [item["maTinh"], item])).values(),];
     const [cumRaptheotinh, setCumRaptheotinh] = useState(cumRap.filter((item) => item.maTinh_id === ''));
     const handleClickRap = (event) => {
