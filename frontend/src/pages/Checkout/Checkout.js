@@ -15,7 +15,71 @@ import dayjs from 'dayjs';
 import { history } from './../../App';
 import { layDanhSachCumRapAction } from '../../redux/actions/QuanLyRapAction';
 import { datVeAction, layDonHangTheoUserAction } from '../../redux/actions/QuanLyDonHangAction';
+const { TabPane } = Tabs;
 
+
+export default function ChonGhe(props) {
+
+    const { tabActive } = useSelector(state => state.QuanLyDatVeReducer)
+    const { userLogin } = useSelector(state => state.UserReducer)
+    const { donHang } = useSelector(state => state.QuanLyDatVeReducer)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        return () => {
+            dispatch({
+                type: CHUYEN_TAB_ACTIVE,
+                number: '1'
+            })
+        }
+    }, [])
+
+    const content = (
+        <div style={{ width: 200 }}>
+            <Button type="text" href="/users/profile" className='w-full text-left'>Trang Cá Nhân</Button>
+            {(userLogin.maLoaiNguoiDung === 'QuanTri') ? <Button type="text" className='w-full text-left' href="/admin/users">Trang Quản Trị</Button> : ''}
+            <Button type="text" href="/home" className='w-full text-left' onClick={() => {
+                localStorage.removeItem(USER_LOGIN)
+                localStorage.removeItem(TOKEN)
+                window.location.reload()
+            }}>Đăng Xuất</Button>
+        </div>
+    );
+
+    const operations = <Fragment>
+        {_.isEmpty(userLogin) ? <Fragment>
+            <Button type="text" href="/register" className="text-white">Sign Up</Button>
+            <Button type="primary" href="/login" className="font-semibold bg-violet-400">Sign In</Button>
+        </Fragment> : <div className="d-flex">
+            <Button type="link" href="/"><HomeOutlined style={{ fontSize: '24px' }} /></Button>
+            <Popover placement="bottomRight" title={userLogin.taiKhoan} content={content} trigger="click">
+                <Button className='rounded-full bg-slate-300 p-0 d-flex justify-center items-center w-full h-full' style={{ width: 40, height: 40 }}>
+                    <Avatar size={40} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={userLogin.name.substr(0, 1)} />
+                </Button>
+            </Popover>
+        </div>}
+    </Fragment>
+
+    return <div className='container p-4'>
+        <Tabs tabBarExtraContent={operations} defaultActiveKey='1' activeKey={tabActive} onChange={(key) => {
+            dispatch({
+                type: CHUYEN_TAB_ACTIVE,
+                number: key
+            })
+        }}>
+            <TabPane tab='01 CHỌN GHẾ & THANH TOÁN' key='1' >
+                <Checkout {...props} />
+            </TabPane>
+            <TabPane disabled={!donHang} tab='02 XÁC NHẬN THÔNG TIN ĐẶT VÉ' key='2' >
+                <XacNhanThongTin {...props} />
+            </TabPane>
+            <TabPane disabled={!donHang} tab='03 KẾT QUẢ ĐẶT VÉ' key='3' >
+                <KetQuaDatVe {...props} />
+            </TabPane>
+        </Tabs>
+    </div>
+
+}
 
 
 function Checkout(props) {
@@ -52,8 +116,6 @@ function Checkout(props) {
     const thongTinPhim = lichChieuChiTiet?.phim;
     const rapChieu = lichChieuChiTiet?.rapchieu;
 
-    console.log('danhSachGhe', danhSachGhe)
-    console.log('danhSachGheDangChon', danhSachGheDangChon)
 
     const renderGhe = () => {
         return danhSachGhe?.map((ghe, index) => {
@@ -159,6 +221,7 @@ function Checkout(props) {
                                 const thongTinDatVe = new ThongTinDatVe();
                                 thongTinDatVe.maLichChieu = props.match.params.id;
                                 thongTinDatVe.rapChieu = rapChieu[0].tenRap;
+                                thongTinDatVe.maPhim = lichChieuChiTiet.maPhim;
                                 thongTinDatVe.phim = lichChieuChiTiet.phim[0].tenPhim;
                                 thongTinDatVe.gioChieu = lichChieuChiTiet.gioChieu;
                                 thongTinDatVe.ngayChieu = lichChieuChiTiet.ngayChieu;
@@ -177,73 +240,6 @@ function Checkout(props) {
             </div>
         </div>
     )
-}
-
-
-
-const { TabPane } = Tabs;
-
-export default function ChonGhe(props) {
-
-    const { tabActive } = useSelector(state => state.QuanLyDatVeReducer)
-    const { userLogin } = useSelector(state => state.UserReducer)
-    const { donHang } = useSelector(state => state.QuanLyDatVeReducer)
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        return () => {
-            dispatch({
-                type: CHUYEN_TAB_ACTIVE,
-                number: '1'
-            })
-        }
-    }, [])
-
-    const content = (
-        <div style={{ width: 200 }}>
-            <Button type="text" href="/users/profile" className='w-full text-left'>Trang Cá Nhân</Button>
-            {(userLogin.maLoaiNguoiDung === 'QuanTri') ? <Button type="text" className='w-full text-left' href="/admin/users">Trang Quản Trị</Button> : ''}
-            <Button type="text" href="/home" className='w-full text-left' onClick={() => {
-                localStorage.removeItem(USER_LOGIN)
-                localStorage.removeItem(TOKEN)
-                window.location.reload()
-            }}>Đăng Xuất</Button>
-        </div>
-    );
-
-    const operations = <Fragment>
-        {_.isEmpty(userLogin) ? <Fragment>
-            <Button type="text" href="/register" className="text-white">Sign Up</Button>
-            <Button type="primary" href="/login" className="font-semibold bg-violet-400">Sign In</Button>
-        </Fragment> : <div className="d-flex">
-            <Button type="link" href="/"><HomeOutlined style={{ fontSize: '24px' }} /></Button>
-            <Popover placement="bottomRight" title={userLogin.taiKhoan} content={content} trigger="click">
-                <Button className='rounded-full bg-slate-300 p-0 d-flex justify-center items-center w-full h-full' style={{ width: 40, height: 40 }}>
-                    <Avatar size={40} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={userLogin.name.substr(0, 1)} />
-                </Button>
-            </Popover>
-        </div>}
-    </Fragment>
-
-    return <div className='container p-4'>
-        <Tabs tabBarExtraContent={operations} defaultActiveKey='1' activeKey={tabActive} onChange={(key) => {
-            dispatch({
-                type: CHUYEN_TAB_ACTIVE,
-                number: key
-            })
-        }}>
-            <TabPane tab='01 CHỌN GHẾ & THANH TOÁN' key='1' >
-                <Checkout {...props} />
-            </TabPane>
-            <TabPane disabled={!donHang} tab='02 XÁC NHẬN THÔNG TIN ĐẶT VÉ' key='2' >
-                <XacNhanThongTin {...props} />
-            </TabPane>
-            <TabPane disabled={!donHang} tab='03 KẾT QUẢ ĐẶT VÉ' key='3' >
-                <KetQuaDatVe {...props} />
-            </TabPane>
-        </Tabs>
-    </div>
-
 }
 
 
@@ -304,8 +300,8 @@ export function KetQuaDatVe(props) {
         dispatch(action)
     }, [])
 
-    console.log('arrDonHang', arrDonHang)
 
+    console.log('arrDonHang', arrDonHang)
     return <div className='grid grid-cols-12'>
         <div className='col-span-12 mx-20'>
 
@@ -351,7 +347,7 @@ export function KetQuaDatVe(props) {
                                 </Card>
                             </div>
 
-                        })}
+                        }).reverse()}
 
                     </div>
                 </div>

@@ -209,7 +209,10 @@ export default function ShowTime(props) {
                             <Select options={cumRap?.map((cumRap, index) => ({ label: cumRap.tenRap, value: cumRap.maRap }))} value={formik.values.maRap} onChange={handleChangeCumRap} placeholder="Chọn cụm rạp" />
                         </Form.Item>
                         <Form.Item label="Ngày chiếu">
-                            <DatePicker format={dateFormat} value={lichEdit ? (dayjs(defaultDate, dateFormat)) : ''} onChange={onChangeDate} onOk={onOk} />
+                            {localStorage.getItem('lichChieuEdit') 
+                            ? <DatePicker value={dayjs(defaultTime, dateFormat)} format={dateFormat} onChange={onChangeDate} onOk={onOkHour} /> 
+                            : <DatePicker format={dateFormat} onChange={onChangeDate} onOk={onOk} />
+                            }
                         </Form.Item>
 
                         <Form.Item label="Giờ chiếu">

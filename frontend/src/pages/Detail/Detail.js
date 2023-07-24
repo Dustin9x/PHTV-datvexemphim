@@ -38,6 +38,8 @@ export default function Detail(props) {
             return tinhthanh.tinhthanh
         })
     })))
+    let todayDate = new Date().toISOString().slice(0, 10);
+    let listNgayChieuActive = listNgayChieu.filter(e => e > todayDate)
 
     let uniqueTinhThanh = [...new Map(listTinhThanh.map((item) => [item["maTinh"], item])).values(),];
     const [cumRaptheotinh, setCumRaptheotinh] = useState(cumRap.filter((item) => item.maTinh_id === ''));
@@ -46,6 +48,10 @@ export default function Detail(props) {
         let cumRaptheotinh = cumRap.filter(item => item.maTinh_id === clickTinhThanh)
         setCumRaptheotinh(cumRaptheotinh);
     };
+
+    
+
+    console.log('listNgayChieuActive',listNgayChieuActive)
 
     return (
         <div style={{
@@ -111,7 +117,7 @@ export default function Detail(props) {
             <div className='container' style={{ minHeight: '500px' }}>
                 <Tabs defaultActiveKey='1' centered className='text-white mt-20'>
                     <TabPane tab="Lịch chiếu" key="1" >
-                        {listNgayChieu.sort().map((item, index) => {
+                        {listNgayChieuActive.sort().map((item, index) => {
                             return <button type="button" className="text-white mr-3 mt-3 bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2"
                                 onClick={handleClick}
                                 name={item}
@@ -134,7 +140,7 @@ export default function Detail(props) {
 
                         <Tabs defaultActiveKey='1' tabPosition={'left'} className='text-white mt-20'>
                             {cumRaptheotinh.map((rap, index) => {
-                                return <TabPane tab={rap.tenRap}>
+                                return <TabPane tab={rap.tenRap} key={index}>
                                     {lichChieuTheoRap.filter(item => item.maRap === rap.maRap).map((item, index) => {
                                         return <NavLink to={`/checkout/${item.maLichChieu}`}><Tag color='green'>{item.gioChieu}</Tag></NavLink>
                                     })}

@@ -32,6 +32,7 @@ class OrderDetailController extends Controller
             $order = OrderDetail::create([
                 'maLichChieu' => $request->maLichChieu,
                 'rapChieu' => $request->rapChieu,
+                'maPhim' => $request->maPhim,
                 'phim' => $request->phim,
                 'gioChieu' => $request->gioChieu,
                 'ngayChieu' => $request->ngayChieu,

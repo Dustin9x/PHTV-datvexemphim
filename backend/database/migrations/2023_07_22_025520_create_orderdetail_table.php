@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('maOrder');
             $table->unsignedBigInteger('maLichChieu');
             $table->string('rapChieu');
+            $table->integer('maPhim');
             $table->string('phim');
             $table->string('gioChieu');
             $table->string('ngayChieu');

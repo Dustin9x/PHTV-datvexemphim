@@ -92,24 +92,6 @@ export default function MovieMultiRowSlick(props) {
         </TabPane>
       </Tabs>
 
-
-
-
-      {/* <button name="dangChieu" className={`${styleSlick[activeClassDC]} px-8 py-3 font-semibold rounded-full mr-2`} onClick={() => {
-        lstMovieByStatus = arrMovie.filter(item => item.dangChieu === 1)
-        setLstMovieByStatus(lstMovieByStatus);
-        // const action = { type: SET_PHIM_DANG_CHIEU }
-        // dispatch(action)
-      }}>PHIM ĐANG CHIẾU</button>
-      <button name="sapChieu" className={`${styleSlick[activeClassSC]} px-8 py-3 font-semibold  rounded-full`} onClick={() => {
-        lstMovieByStatus = arrMovie.filter(item => item.sapChieu === 1)
-        setLstMovieByStatus(lstMovieByStatus);
-        // const action = { type: SET_PHIM_SAP_CHIEU }
-        // dispatch(action)
-      }}>PHIM SẮP CHIẾU</button>
-      <Slider {...settings} >
-        {renderMovie()}
-      </Slider> */}
     </div>
   );
 

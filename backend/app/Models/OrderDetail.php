@@ -17,6 +17,7 @@ class OrderDetail extends Model
         'maOrder',
         'maLichChieu',
         'rapChieu',
+        'maPhim',
         'phim',
         'gioChieu',
         'ngayChieu',
