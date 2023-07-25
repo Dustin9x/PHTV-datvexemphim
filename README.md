@@ -1,3 +1,5 @@
+![image](https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/4225e5a6-f857-4e71-be60-88e067c85eeb)
+
 # Project PHTV
 
 A movie tickets booking and management application using ReactJS and PHP Laravel.
