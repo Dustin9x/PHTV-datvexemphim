@@ -1,6 +1,7 @@
 # Project PHTV
 
-A movie tickets booking and management application using ReactJS and PHP Laravel 
+A movie tickets booking and management application using ReactJS and PHP Laravel.
+
 PHTV is a website to provide the customers facility to book tickets for a movie online and to gather information about the movies and theaters. Customer needs to register at the site to book tickets to the movie. After selecting the show, the user is presented a seating layout so that he can select seats of his choice.
 
 If you found this project useful, then please consider giving it a ⭐ on Github and follow me on GitHub.
