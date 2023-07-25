@@ -40,6 +40,14 @@ Và nhiều Tính năng nổi bật khác ...
             $ php artisan passport:install
             $ php artisan serve
             ```
+-   Backend ()
+       -   Installation Laragon
+            ```bash
+            Install PHP server Laragon
+            Run it
+            Clone this repo into www folder of Laragon
+            Download cinema_choodu.sql file in this repo and import to phpmyadmin or mysql and simple run it
+            ```
 -   Frontend ()
        -   Installation NodeJS
        -   Installation dependencies
