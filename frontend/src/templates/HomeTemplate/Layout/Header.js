@@ -1,9 +1,8 @@
-import React, { Fragment, Suspense } from 'react';
+import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom'
-import { Button, Select, Space, Avatar, Popover, Input } from 'antd';
+import { Button, Avatar, Popover, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import { TOKEN, USER_LOGIN } from '../../../util/settings/config';
 
@@ -13,9 +12,6 @@ export default function Header(props) {
     };
 
     const { t, i18n } = useTranslation();
-
-    // const { userLogin } = useSelector(state => state.UserReducer)
-    // console.log('userLogin',userLogin)
 
     let userLogin = {}
     if (localStorage.getItem(USER_LOGIN)) {
@@ -61,13 +57,13 @@ export default function Header(props) {
                     </NavLink>
                     <ul className="items-stretch hidden space-x-3 lg:flex ml-5">
                         <li className="flex">
-                            <NavLink to="/home" className="flex items-center -mb-0.5 border-b-2 px-4 border-transparent" activeClassName="border-b-2 text-violet-400 border-violet-600">Home</NavLink>
+                            <NavLink to="/home" className="flex items-center -mb-0.5 border-b-2 px-4 border-transparent" activeClassName="border-b-2 text-violet-400 border-violet-600">Trang Chủ</NavLink>
                         </li>
                         <li className="flex">
-                            <NavLink to="/news" className="flex items-center -mb-0.5 border-b-2 px-4 border-transparent" activeClassName="border-b-2 text-violet-400 border-violet-600">News</NavLink>
+                            <NavLink to="/news" className="flex items-center -mb-0.5 border-b-2 px-4 border-transparent" activeClassName="border-b-2 text-violet-400 border-violet-600">Tin Tức</NavLink>
                         </li>
                         <li className="flex">
-                            <NavLink to="/contact" className="flex items-center -mb-0.5 border-b-2 px-4 border-transparent" activeClassName="border-b-2 text-violet-400 border-violet-600">Contact</NavLink>
+                            <NavLink to="/contact" className="flex items-center -mb-0.5 border-b-2 px-4 border-transparent" activeClassName="border-b-2 text-violet-400 border-violet-600">Liên Hệ</NavLink>
                         </li>
 
                     </ul>

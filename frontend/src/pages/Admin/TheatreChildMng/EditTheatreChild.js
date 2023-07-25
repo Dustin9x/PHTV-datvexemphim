@@ -2,19 +2,25 @@ import React, { useEffect } from 'react'
 import { Form, Button, Select, Input } from 'antd';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { layDanhSachTinhThanhAction, themCumRapAction } from '../../../redux/actions/QuanLyRapAction';
+import { capNhaRapChieuAction, layDanhSachTinhThanhAction, themCumRapAction } from '../../../redux/actions/QuanLyRapAction';
 
-export default function AddTheatreChild(props) {
+export default function EditTheatreChild(props) {
     let { tinhThanh } = useSelector(state => state.RapReducer);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(layDanhSachTinhThanhAction())
     }, [dispatch])
+    let theatre = {};
+  if (localStorage.getItem('filmParams')) {
+    theatre = JSON.parse(localStorage.getItem('theatreParams'));
+  }
+  let { id } = props.match.params;
     const formik = useFormik({
+        enableReinitialize: true,
         initialValues: {
-            tenRap: '',
-            diaChi: '',
-            maTinh_id: '',
+            tenRap: theatre?.tenRap,
+            diaChi: theatre?.diaChi,
+            maTinh_id: theatre?.maTinh_id
         },
         onSubmit: async (values) => {
             let formData = new FormData();
@@ -22,10 +28,11 @@ export default function AddTheatreChild(props) {
                 formData.append(key, values[key]);
             }
             console.table('formData', [...formData])
-            dispatch(themCumRapAction(formData));
+            dispatch(capNhaRapChieuAction(id,formData));
         }
     })
 
+    console.log('theatre',theatre)
 
     const handleChangeTheatre = (value) => {
         formik.setFieldValue('maTinh_id', value)
@@ -40,19 +47,19 @@ export default function AddTheatreChild(props) {
                 wrapperCol={{ span: 16 }}
                 onSubmitCapture={formik.handleSubmit}
             >
-                <h3 className="text-2xl">Thêm Rạp Chiếu</h3>
+                <h3 className="text-2xl">Sửa Rạp Chiếu</h3>
                 <Form.Item label="Chọn tỉnh - thành phố">
-                    <Select name='maTinh_id' options={tinhThanh?.map((item, index) => ({ label: item.tenTinh, value: item.maTinh }))} onChange={handleChangeTheatre}  placeholder="Chọn tỉnh - thành" />
+                    <Select name='maTinh_id' options={tinhThanh?.map((item, index) => ({ label: item.tenTinh, value: item.maTinh }))} value={formik.values.maTinh_id} onChange={handleChangeTheatre}  placeholder="Chọn tỉnh - thành" />
                 </Form.Item>
                 <Form.Item label="Tên rạp">
-                    <Input name="tenRap" onChange={formik.handleChange} />
+                    <Input name="tenRap" onChange={formik.handleChange} value={formik.values.tenRap}/>
                 </Form.Item>
                 
                 <Form.Item label="Địa chỉ">
-                    <Input name="diaChi" onChange={formik.handleChange} />
+                    <Input name="diaChi" onChange={formik.handleChange} value={formik.values.diaChi}/>
                 </Form.Item>
                 <Form.Item label="Chức năng">
-                    <Button htmlType="submit">Tạo Cụm Rạp</Button>
+                    <Button htmlType="submit">Cập Nhật Cụm Rạp</Button>
                 </Form.Item>
             </Form>
         </div>

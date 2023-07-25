@@ -23,7 +23,6 @@ export const themCarouselAction = (formData) => {
             const result = await quanLyCarouselService.themCarousel(formData)
             alert('Thêm carousel thành công');
             history.push('/admin/carouselmng');
-            console.log('carousel',result)
         } catch (error) {
             console.log('error', error);
         }
@@ -35,7 +34,7 @@ export const capNhatCarouselAction = (maBanner,formData) => {
         try {
             const result = await quanLyCarouselService.capNhatCarousel(maBanner,formData)
             alert('Cập nhật carousel thành công');
-            // history.push('/admin/moviemng');
+            history.push('/admin/carouselmng');
         } catch (error) {
             console.log('error', error);
         }

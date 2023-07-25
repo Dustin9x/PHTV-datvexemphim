@@ -42,7 +42,7 @@ class BannerController extends Controller
             $path = 'http://127.0.0.1:8000/'.($imageDirectory . $imageName);
             Banner::create([
                 // 'maBanner' => $request->maBanner,
-                'maPhim' => $request->maPhim,
+                'duongDan' => $request->duongDan,
                 'hinhAnh' => $path
             ]);
             return response()->json([
@@ -93,7 +93,7 @@ class BannerController extends Controller
     public function update(Request $request, $id)
     {
         $banner = Banner::where('maBanner', $id)->first();
-        $banner->maPhim = $request->maPhim;
+        $banner->duongDan = $request->duongDan;
         if ($request->hasFile('hinhAnh')) {
             $file = $request->file('hinhAnh');
             $extension = $file->getClientOriginalExtension();

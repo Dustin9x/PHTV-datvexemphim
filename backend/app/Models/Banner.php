@@ -16,7 +16,7 @@ class Banner extends Model
 
     protected $fillable = [
         'maBanner',
-        'maPhim',
+        'duongDan',
         'hinhAnh',
     ];
 

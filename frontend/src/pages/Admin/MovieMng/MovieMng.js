@@ -1,13 +1,12 @@
 import React, { Fragment, useEffect } from 'react'
-import { SearchOutlined, EditOutlined, DeleteOutlined, CalendarOutlined } from '@ant-design/icons';
+import { SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Button, Input, Space, Table } from 'antd';
 import { useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useDispatch, useSelector } from 'react-redux';
 import { layDanhSachPhimAction, xoaPhimAction } from '../../../redux/actions/QuanLyPhimAction';
 import moment from 'moment';
-import { layChiTietLichChieuAction, layDanhSachLichChieuAction } from '../../../redux/actions/QuanLyDatVeAction';
-import _ from 'lodash';
+import { layDanhSachLichChieuAction } from '../../../redux/actions/QuanLyDatVeAction';
 
 
 export default function MovieMng() {
@@ -27,7 +26,6 @@ export default function MovieMng() {
     setSearchedColumn(dataIndex);
   };
 
-
   const resetSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0] = '');
@@ -38,12 +36,7 @@ export default function MovieMng() {
   
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
-      <div
-        style={{
-          padding: 8,
-        }}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
+      <div style={{ padding: 8, }} onKeyDown={(e) => e.stopPropagation()} >
         <Input
           ref={searchInput}
           placeholder={`Search ${dataIndex}`}
@@ -125,7 +118,7 @@ export default function MovieMng() {
       dataIndex: 'hinhAnh',
       key: 'hinhAnh',
       width: '15%',
-      render: (text, movie, index) => { return <img key={index} width={150} src={movie.hinhAnh} alt={movie.hinhAnh} /> }
+      render: (text, movie, index) => { return <img key={index} width={150} style={{objectFit: 'cover', borderRadius: '6px'}} src={movie.hinhAnh} alt={movie.hinhAnh} /> }
     },
     {
       title: 'Tên Phim',
@@ -166,9 +159,9 @@ export default function MovieMng() {
       title: 'Lịch Chiếu',
       render: (text, movie) => {
         return <Fragment>
-          <Button key={3} href={`/admin/moviemng/showtime/${movie.maPhim}`} icon={<CalendarOutlined />} onClick={() => {
+          <Button key={3} href={`/admin/moviemng/showtime/${movie.maPhim}`} onClick={() => {
             localStorage.setItem('filmParams', JSON.stringify(movie))
-          }}>Xem Lịch Chiếu</Button>
+          }}>Lịch Chiếu</Button>
         </Fragment>
       }
     },
@@ -184,9 +177,6 @@ export default function MovieMng() {
             if (window.confirm('Bạn có chắc chắn muốn xóa phim ' + movie.tenPhim + '?')) {
               dispatch(xoaPhimAction(movie.maPhim))
             }
-          }}></Button>
-          <Button key={3} href={`/admin/moviemng/showtime/${movie.maPhim}`} type="link" icon={<CalendarOutlined />} onClick={() => {
-            localStorage.setItem('filmParams', JSON.stringify(movie))
           }}></Button>
         </Fragment>
       }

@@ -21,26 +21,27 @@ export default function CarouselMng() {
     
   }, [])
 
-  const status = Object.fromEntries(
-    arrMovie.map(({maPhim, tenPhim}) => [maPhim, tenPhim])
-  );
+  // const status = Object.fromEntries(
+  //   arrMovie.map(({maPhim, tenPhim}) => [maPhim, tenPhim])
+  // );
   
-  const updateCarousel = arrCarousel.map(({maBanner, hinhAnh, maPhim}) => ({
+  const updateCarousel = arrCarousel.map(({maBanner, hinhAnh, duongDan}) => ({
     maBanner,
     hinhAnh,
-    maPhim,
-    tenPhim: status[maPhim]
+    duongDan,
   }));
+
+  console.log('arrCarousel',arrCarousel)
 
   const data = updateCarousel;
   
 
   const columns = [
     {
-      title: 'Tên Phim',
-      dataIndex: 'tenPhim',
-      key: 'tenPhim',
-      sorter: (a, b) => a.tenPhim.length - b.tenPhim.length,
+      title: 'Liên Kết',
+      dataIndex: 'duongDan',
+      key: 'duongDan',
+      sorter: (a, b) => a.duongDan.length - b.duongDan.length,
       sortDirections: ['descend', 'ascend']
     },
     {

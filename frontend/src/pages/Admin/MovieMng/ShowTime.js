@@ -1,28 +1,29 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, Select, DatePicker, InputNumber, TimePicker, Table, Tag } from 'antd';
-import { SearchOutlined, EditOutlined, DeleteOutlined, CalendarOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useFormik } from 'formik';
 import moment from 'moment';
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { layDanhSachCumRapAction, layDanhSachHeThongRapAction } from '../../../redux/actions/QuanLyRapAction';
-import { capNhatLichChieuAction, layChiTietLichChieuAction, layDanhSachLichChieuAction, layLichChieuTheoPhimAction, taoLichChieuAction, xoaLichChieuAction } from '../../../redux/actions/QuanLyDatVeAction';
-import { QuanLyDatVeReducer } from './../../../redux/reducers/QuanLyDatVeReducer';
+import { layDanhSachCumRapAction } from '../../../redux/actions/QuanLyRapAction';
+import { capNhatLichChieuAction, layDanhSachLichChieuAction, layLichChieuTheoPhimAction, taoLichChieuAction, xoaLichChieuAction } from '../../../redux/actions/QuanLyDatVeAction';
 dayjs.extend(customParseFormat);
 
 export default function ShowTime(props) {
-    let { heThongRapChieu } = useSelector(state => state.RapReducer);
+    const dispatch = useDispatch();
     let { cumRap } = useSelector(state => state.RapReducer);
     let { lichChieuTheoPhim } = useSelector(state => state.QuanLyDatVeReducer);
-    // let { cumRapChieu } = cumRap.filter(item => item.tenRap == heThongRapChieu.tenHeThongRap)
     let { id } = props.match.params;
     const dateFormat = 'DD-MM-YYYY';
     const timeFormat = 'HH:mm';
-    const dispatch = useDispatch();
     let lichEdit = {};
     if (localStorage.getItem('lichChieuEdit')) {
         lichEdit = JSON.parse(localStorage.getItem('lichChieuEdit'));
+    }
+    let film = {};
+    if (localStorage.getItem('filmParams')) {
+        film = JSON.parse(localStorage.getItem('filmParams'));
     }
 
     const formik = useFormik({
@@ -53,30 +54,16 @@ export default function ShowTime(props) {
         }
     })
 
-
-    const [state, setState] = useState({
-        heThongRapChieu: [],
-        cumRapChieu: [],
-        lichChieuChiTiet: []
-    })
-
     useEffect(() => {
-        dispatch(layDanhSachHeThongRapAction())
         dispatch(layDanhSachCumRapAction())
         dispatch(layLichChieuTheoPhimAction(id))
-    }, []);
+    }, [dispatch,id]);
 
-
-    let film = {};
-    if (localStorage.getItem('filmParams')) {
-        film = JSON.parse(localStorage.getItem('filmParams'));
-    }
-
+    
 
     const handleChangeCumRap = (value) => {
         formik.setFieldValue('maRap', value)
     }
-
 
     const onOk = (values) => {
         let ngayChieu = dayjs(values).format('YYYY-MM-DD');
@@ -98,7 +85,6 @@ export default function ShowTime(props) {
         let gioChieu = dayjs(values).format(timeFormat);
         formik.setFieldValue('gioChieu', gioChieu);
     }
-
     let defaultTime = (localStorage.getItem('lichChieuEdit')) ? formik.values.gioChieu : '00:00'
 
     const handleChangeInputNumber = (name) => {
@@ -107,17 +93,7 @@ export default function ShowTime(props) {
         }
     }
 
-    const convertSelectHTR = () => {
-        // state.heThongRapChieu?.map((htr, index) => ({ label: htr.tenHeThongRap, value: htr.tenHeThongRap }))
-        return heThongRapChieu?.map((htr, index) => {
-            return { label: htr.tenHeThongRap, value: htr.maHeThongRap }
-        })
-    }
-
-
-
     const data = lichChieuTheoPhim;
-    console.log('data',data)
 
     const columns = [
         {
@@ -191,26 +167,24 @@ export default function ShowTime(props) {
     return (
         <div className="container">
             <div className='row'>
-                <div className='col-3'>
-                    <h3 className="text-2xl">Tạo lịch chiếu cho Phim: {film.tenPhim}</h3>
-                    <img src={film.hinhAnh} alt='...' width={200} height={100} />
+                <div className='col-4'>
+                    <h3 className="text-2xl">Tạo lịch chiếu cho Phim:</h3>
+                    <h3 className="text-2xl">{film.tenPhim}</h3>
+                    <img src={film.hinhAnh} alt='...' style={{ width: 350, height: 250, objectFit: 'cover', borderRadius: '6px' }} />
                 </div>
-                <div className='col-9'>
+                <div className='col-8'>
                     <Form
                         name="basic"
-                        labelCol={{ span: 2 }}
+                        labelCol={{ span: 4 }}
                         wrapperCol={{ span: 16 }}
                         onSubmitCapture={formik.handleSubmit}
                     >
-                        <Form.Item label="Hệ thống rạp">
-                            <Select options={convertSelectHTR()} placeholder="Chọn hệ thống rạp" />
-                        </Form.Item>
                         <Form.Item label="Cụm rạp">
                             <Select options={cumRap?.map((cumRap, index) => ({ label: cumRap.tenRap, value: cumRap.maRap }))} value={formik.values.maRap} onChange={handleChangeCumRap} placeholder="Chọn cụm rạp" />
                         </Form.Item>
                         <Form.Item label="Ngày chiếu">
                             {localStorage.getItem('lichChieuEdit') 
-                            ? <DatePicker value={dayjs(defaultTime, dateFormat)} format={dateFormat} onChange={onChangeDate} onOk={onOkHour} /> 
+                            ? <DatePicker value={dayjs(defaultDate, dateFormat)} format={dateFormat} onChange={onChangeDate} onOk={onOkHour} /> 
                             : <DatePicker format={dateFormat} onChange={onChangeDate} onOk={onOk} />
                             }
                         </Form.Item>

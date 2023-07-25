@@ -30,19 +30,16 @@ import AddUser from './pages/Admin/UserMng/AddUser';
 import Profile from './pages/Profile/Profile';
 import {ProfileTemplate} from './templates/ProfileTemplate';
 import OrderHistory from './pages/Admin/UserMng/OrderHistory';
-import BannerMng from './pages/Admin/CarouselMng/AddCarousel';
 import CarouselMng from './pages/Admin/CarouselMng/CarouselMng';
 import AddCarousel from './pages/Admin/CarouselMng/AddCarousel';
 import EditCarousel from './pages/Admin/CarouselMng/EditCarousel';
-import TheatreMng from './pages/Admin/TheatreMng/TheatreMng';
-import AddTheatre from './pages/Admin/TheatreMng/AddTheatre';
-import TheatreEdit from './pages/Admin/TheatreMng/TheatreEdit';
 import ThetreChildMng from './pages/Admin/TheatreChildMng/TheatreChildlMng';
 import AddTheatreChild from './pages/Admin/TheatreChildMng/AddTheatreChild';
 import NewsMng from './pages/Admin/NewsMng/NewsMng';
 import AddNews from './pages/Admin/NewsMng/AddNews';
 import NewsEdit from './pages/Admin/NewsMng/NewsEdit';
 import NewsDetail from './pages/News/NewsDetail';
+import EditTheatreChild from './pages/Admin/TheatreChildMng/EditTheatreChild';
 
 const CheckOutTemplateLazy = lazy(() => import('./templates/CheckOutTemplate'));
 
@@ -84,12 +81,9 @@ function App() {
         <AdminTemplate path='/admin/carouselmng/addnew' exact Component={AddCarousel} />
         <AdminTemplate path='/admin/carouselmng/edit/:id' exact Component={EditCarousel} />
 
-        <AdminTemplate path='/admin/theatremng' exact Component={TheatreMng} />
-        <AdminTemplate path='/admin/theatremng/addtheatre' exact Component={AddTheatre} />
-        <AdminTemplate path='/admin/theatremng/edit/:id' exact Component={TheatreEdit} />
-
         <AdminTemplate path='/admin/theatrechildmng' exact Component={ThetreChildMng} />
         <AdminTemplate path='/admin/theatremng/addtheatrechild' exact Component={AddTheatreChild} />
+        <AdminTemplate path='/admin/theatremng/edit/:id' exact Component={EditTheatreChild} />
 
         {/* tin tuc */}
         <AdminTemplate path='/admin/newsmng' exact Component={NewsMng} />

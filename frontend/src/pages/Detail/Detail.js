@@ -49,9 +49,9 @@ export default function Detail(props) {
         setCumRaptheotinh(cumRaptheotinh);
     };
 
-    
 
-    console.log('listNgayChieuActive',listNgayChieuActive)
+
+    console.log('movieEditDetail', movieEditDetail)
 
     return (
         <div style={{
@@ -93,7 +93,7 @@ export default function Detail(props) {
             ></div>
             <div className='row h-full relative z-10 mt-60'>
                 <div className='col-4 d-flex justify-end items-center h-full' >
-                    <img className='posterphim mr-3' src={movieEditDetail.hinhAnh} alt={movieEditDetail.hinhAnh} />
+                    <img className='posterphim mr-3 object-cover' src={movieEditDetail.hinhAnh} alt={movieEditDetail.hinhAnh} />
 
                 </div>
                 <div className='col-4 d-flex justify-start items-center z-10'>
@@ -116,7 +116,7 @@ export default function Detail(props) {
             </div>
             <div className='container' style={{ minHeight: '500px' }}>
                 <Tabs defaultActiveKey='1' centered className='text-white mt-20'>
-                    <TabPane tab="Lịch chiếu" key="1" >
+                    <TabPane tab={<p className='text-lg bg-slate-800 px-5 py-2 rounded-full'>Lịch Chiếu</p>} key="1" >
                         {listNgayChieuActive.sort().map((item, index) => {
                             return <button type="button" className="text-white mr-3 mt-3 bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2"
                                 onClick={handleClick}
@@ -140,9 +140,15 @@ export default function Detail(props) {
 
                         <Tabs defaultActiveKey='1' tabPosition={'left'} className='text-white mt-20'>
                             {cumRaptheotinh.map((rap, index) => {
-                                return <TabPane tab={rap.tenRap} key={index}>
-                                    {lichChieuTheoRap.filter(item => item.maRap === rap.maRap).map((item, index) => {
-                                        return <NavLink to={`/checkout/${item.maLichChieu}`}><Tag color='green'>{item.gioChieu}</Tag></NavLink>
+                                var now = dayjs(new Date().getTime()).format('HH:mm');
+                                return <TabPane className='p-3' tab={<div className='bg-slate-50 p-4 rounded-xl'><div className='text-lg d-flex justify-center'><img style={{width:40}} src='/img/logo.png' />{rap.tenRap}</div><div>{rap.diaChi}</div></div>} key={index}>
+                                    {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(item => item.maRap === rap.maRap).filter(item => now > item.gioChieu).map((item, index) => {
+                                        return <Tag disabled className='text-lg mr-3 px-3 opacity-50 cursor-default select-none' color='gray'>{item.gioChieu.substr(0,5)}</Tag>
+                                    })}
+                                    {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(item => item.maRap === rap.maRap).filter(item => now <= item.gioChieu).map((item, index) => {
+                                        return <NavLink to={`/checkout/${item.maLichChieu}`}>
+                                            <Tag className='text-lg mr-3 px-3' color='green'>{item.gioChieu.substr(0,5)}</Tag>
+                                        </NavLink>
                                     })}
                                 </TabPane>
                             })}
@@ -153,10 +159,10 @@ export default function Detail(props) {
 
 
                     </TabPane>
-                    <TabPane tab="Thông tin" key="2">
-                        Thông tin
+                    <TabPane tab={<p className='text-lg bg-slate-800 px-5 py-2 rounded-full'>Thông Tin</p>} key="2">
+                        <p className='text-lg'>{movieEditDetail.moTa}</p>
                     </TabPane>
-                    <TabPane tab="Đánh giá" key="3">
+                    <TabPane tab={<p className='text-lg bg-slate-800 px-5 py-2 rounded-full'>Đánh Giá</p>} key="3">
                         Đánh giá
                     </TabPane>
                 </Tabs>

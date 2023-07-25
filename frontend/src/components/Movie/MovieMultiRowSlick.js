@@ -1,12 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Slider from "react-slick";
 import styleSlick from './MovieMultiRowSlick.module.css';
 import MovieHover from "./MovieHover";
-import { SET_PHIM_DANG_CHIEU, SET_PHIM_SAP_CHIEU } from "../../redux/constants";
-import { useDispatch, useSelector } from "react-redux";
-import _ from 'lodash';
-import { Tabs, Rate, Segmented, Tag, Button } from 'antd';
-import { layDanhSachPhimAction } from "../../redux/actions/QuanLyPhimAction";
+import {  useSelector } from "react-redux";
+import { Tabs } from 'antd';
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -60,7 +57,7 @@ export default function MovieMultiRowSlick(props) {
   return (
     <div>
       <Tabs defaultActiveKey='1' left className='mt-5' style={{ border: 0 }} tabBarStyle={{ width: '100%', border: 0 }}>
-        <TabPane tab={<button class="block w-full text-xl text-slate-500 focus:outline-none mr-4 py-2 px-4 rounded-full font-semibold  bg-violet-50 text-violet-700 hover:bg-violet-100 focus:bg-violet-700 active:bg-violet-700 focus:text-white"
+        <TabPane tab={<button class="block w-full text-xl  focus:outline-none mr-4 py-2 px-4 rounded-full font-semibold  bg-violet-50 text-violet-700 hover:bg-violet-100 focus:bg-violet-700 active:bg-violet-700 focus:text-white"
        ref={btnRef}>ĐANG CHIẾU
         </button>} key="1">
 
@@ -78,7 +75,7 @@ export default function MovieMultiRowSlick(props) {
 
 
         </TabPane>
-        <TabPane tab={<button class="block w-full text-xl text-slate-500 focus:outline-none mr-4 py-2 px-4 rounded-full font-semibold  bg-violet-50 text-violet-700 hover:bg-violet-100 focus:bg-violet-700 active:bg-violet-700 focus:text-white"
+        <TabPane tab={<button class="block w-full text-xl  focus:outline-none mr-4 py-2 px-4 rounded-full font-semibold  bg-violet-50 text-violet-700 hover:bg-violet-100 focus:bg-violet-700 active:bg-violet-700 focus:text-white"
         >SẮP CHIẾU
         </button>} key="2">
           {arrMovie.filter(item => item.sapChieu === 1).slice(0, 16).map((item, index) => {

@@ -1,4 +1,21 @@
 .slick-dots-bottom{
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 2px !important;
+    padding: 2px !important;
+    
+}
+
+.slick-dots li.slick-active button:before {
+    display: none;
+}
+
+.slick-dots li.slick-active button:after {
+    display: none;
+}
+
+.slick-dots li button:before {
+    display: none;
+}
+
+.slick-dots li button:after {
+    display: none;
 }

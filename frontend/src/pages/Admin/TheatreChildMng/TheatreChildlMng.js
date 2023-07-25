@@ -1,13 +1,10 @@
 import React, { Fragment, useEffect } from 'react'
-import { SearchOutlined, EditOutlined, DeleteOutlined, CalendarOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table } from 'antd';
-import { useRef, useState } from 'react';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { useDispatch, useSelector } from 'react-redux';
-import { layDanhSachCarouselAction, themCarouselAction, xoaCarouselAction } from '../../../redux/actions/CarouselAction';
-import { layDanhSachPhimAction } from '../../../redux/actions/QuanLyPhimAction';
+import { layDanhSachCarouselAction } from '../../../redux/actions/CarouselAction';
 import _ from 'lodash';
-import { GET_CAROUSEL, UPDATE_CAROUSEL } from '../../../redux/constants';
 import { layDanhSachCumRapAction, layDanhSachTinhThanhAction, xoaRapChieuAction } from '../../../redux/actions/QuanLyRapAction';
 
 
@@ -22,16 +19,6 @@ export default function ThetreChildMng() {
     dispatch(layDanhSachTinhThanhAction())
   }, [])
 
-  // const status = Object.fromEntries(
-  //   heThongRapChieu.map(({maHeThongRap, tenHeThongRap}) => [maHeThongRap, tenHeThongRap])
-  // );
-  
-  // const updateCarousel = arrCarousel.map(({maBanner, hinhAnh, maPhim}) => ({
-  //   maBanner,
-  //   hinhAnh,
-  //   maPhim,
-  //   tenPhim: status[maPhim]
-  // }));
 
   const data = cumRap;
   console.log('data',data)
@@ -56,10 +43,9 @@ export default function ThetreChildMng() {
       title: 'Tỉnh - Thành',
       dataIndex: 'tinh_thanh',
       key: 'tinh_thanh',
-      
       render: (text, movie) => {
           return tinhThanh.filter(item => item.maTinh === movie.maTinh_id).map((item, index) => {
-              return <p>{item.tenTinh}</p>
+              return <div>{item.tenTinh}</div>
           })
       },
   },
@@ -74,8 +60,8 @@ export default function ThetreChildMng() {
       title: 'Quản Lý',
       render: (text, movie) => {
         return <Fragment>
-          <Button key={1} href={`/admin/carouselmng/edit/${movie.maRap}`} type="link" icon={<EditOutlined />} onClick={() => {
-            localStorage.setItem('carouselParams', JSON.stringify(movie));
+          <Button key={1} href={`/admin/theatremng/edit/${movie.maRap}`} type="link" icon={<EditOutlined />} onClick={() => {
+            localStorage.setItem('theatreParams', JSON.stringify(movie));
           }}></Button>
           <Button key={2} type="link" danger icon={<DeleteOutlined />} onClick={() => {
             if (window.confirm('Bạn có chắc chắn muốn xóa rạp ' + movie.tenRap + '?')) {
