@@ -1,5 +1,5 @@
 
-<p align="center"><a href="#" target="_blank"><img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/4225e5a6-f857-4e71-be60-88e067c85eeb" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="#" target="_blank"><img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/4225e5a6-f857-4e71-be60-88e067c85eeb" width="250" alt="Laravel Logo"></a></p>
 
 # Project PHTV
 
