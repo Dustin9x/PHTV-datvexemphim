@@ -36,6 +36,7 @@ If you found this project useful, then please consider giving it a ⭐ on Github
             ```
        -   Installation dependencies
             ```bash
+            $ composer install
             $ php artisan migrate
             $ php artisan passport:install
             $ php artisan serve
