@@ -7,17 +7,17 @@ PHTV is a website to provide the customers facility to book tickets for a movie 
 If you found this project useful, then please consider giving it a ⭐ on Github and follow me on GitHub.
 
 ## Components:
-
-Carousel
-Search Bar
-Slider với các Components
-Tin tức sự kiện
-Trang thông tin chi tiết phim
-Chi tiết đặt vé - thông tin phòng vé
-Trang search result
-User Login Page
-User Profile
-Và nhiều Tính năng nổi bật khác ...
+-   Carousel
+-   Search Bar
+-   Slider movie selection
+-   Movie news
+-   Movie detail pages with showtimes
+-   Seat selection
+-   Payment and get e-ticket
+-   Login and Register
+-   User profile
+-   Admin CRUD
+-   Many other components...
 
 ## How To Run
 -   Backend ()
@@ -47,6 +47,7 @@ Và nhiều Tính năng nổi bật khác ...
             $ npm i
             $ npm start
             ```
+            
 ## Features:
        -   Login to System
        -   Select Movie that is Avaliable
@@ -54,10 +55,12 @@ Và nhiều Tính năng nổi bật khác ...
        -   Summary of Ticket
        -   Cancel a Ticket
        -   Logout
+       
 ## Techs:
        -   phpMyAdmin - A document-oriented, No-SQL database used to store the application data.
        -   Laravel - A web application framework with expressive, elegant syntax.
        -   ReactJS - A JavaScript library for building user interfaces.
        -   Redux - A predictable state container for JavaScript apps.
        -   NodeJS - A JavaScript runtime built on Chrome's V8 JavaScript engine
+       
 ## Screenshots:
