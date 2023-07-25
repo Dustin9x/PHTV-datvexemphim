@@ -21,12 +21,12 @@ Và nhiều Tính năng nổi bật khác ...
 ## How To Run
 
 -   Backend ()
-        -   Install Laragon:
+        -   Installation Laragon
             ```bash
             Install PHP server Laragon
             Run it
             Clone this repo into www folder of Laragon
-            Download cinema_choodu.sql file in this repo and import to phpmyadmin or mysql and simple run it.
+            Download cinema_choodu.sql file in this repo and import to phpmyadmin or mysql and simple run it
             ```
         -   Setup backend database:
             ```bash
@@ -54,7 +54,7 @@ Và nhiều Tính năng nổi bật khác ...
        -   Summary of Ticket
        -   Cancel a Ticket
        -   Logout
-## Tech:
+## Techs:
        -   phpMyAdmin - A document-oriented, No-SQL database used to store the application data.
        -   Laravel - A web application framework with expressive, elegant syntax.
        -   ReactJS - A JavaScript library for building user interfaces.
