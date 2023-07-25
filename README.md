@@ -48,18 +48,18 @@ Và nhiều Tính năng nổi bật khác ...
             Clone this repo into www folder of Laragon
             Download cinema_choodu.sql file in this repo and import to phpmyadmin or mysql and simple run it
             ```
-        -   Setup backend database:
+       -   Setup backend database
             ```bash
             $ Create a .env file in your server and backend folder
             $ See the .env sample
             create a myphpadmin database and add your connection string into .env file
             ```
-        -   Installation dependencies
+       -   Installation dependencies
             ```bash
             $ php artisan migrate
             $ php artisan passport:install
             $ php artisan serve
-            ```
+            ```                       
 -   Frontend ()
        -   Installation NodeJS
        -   Installation dependencies
