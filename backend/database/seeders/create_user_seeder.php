@@ -22,8 +22,8 @@ class create_user_seeder extends Seeder
         // User::insert($user);
         $now = Carbon::now()->toDateTimeString();
         $users = [
-            ['name' => 'admin','email' => 'admin@phtv.com','password' => bcrypt('admin@'),'role' => 'QuanTri', 'created_at'=>$now, 'updated_at'=>$now],
-            ['name' => 'free','email' => 'free@phtv.com','password' => bcrypt('free@'),'role' => 'KhachHang', 'created_at'=>$now, 'updated_at'=>$now],
+            ['name' => 'admin','email' => 'admin@phtv.com','password' => bcrypt('admin@'),'role' => 'QuanTri', 'avatar'=>null, 'created_at'=>$now, 'updated_at'=>$now],
+            ['name' => 'free','email' => 'free@phtv.com','password' => bcrypt('free@'),'role' => 'KhachHang', 'avatar'=>null, 'created_at'=>$now, 'updated_at'=>$now],
         ];
         User::insert($users);
     }

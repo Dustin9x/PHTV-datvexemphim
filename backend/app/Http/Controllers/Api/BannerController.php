@@ -41,8 +41,8 @@ class BannerController extends Controller
             $file->move($imageDirectory, $imageName);
             $path = 'http://127.0.0.1:8000/'.($imageDirectory . $imageName);
             Banner::create([
-                // 'maBanner' => $request->maBanner,
                 'duongDan' => $request->duongDan,
+                'fileName' => $imageName,
                 'hinhAnh' => $path
             ]);
             return response()->json([
@@ -73,22 +73,6 @@ class BannerController extends Controller
         }
     }
 
-    public function edit($id)
-    {
-        $banner = Banner::where('maBanner', $id)->first();
-        if ($banner) {
-            return response()->json([
-                'status' => 200,
-                'content' => $banner
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => 404,
-                'message' => 'no such banner found'
-            ], 404);
-        }
-    }
-
 
     public function update(Request $request, $id)
     {
@@ -100,15 +84,17 @@ class BannerController extends Controller
             if ($extension != 'jpg' && $extension != 'png' && $extension != 'jpeg') {
                 return redirect('laydanhsachbanner')->with('loi', 'Bạn chỉ được chọn file có đuôi jpg,png,jpeg');
             }
-            
-            File::delete($banner->hinhAnh);
             $imageDirectory = 'images/banner/';
+            File::delete($imageDirectory . $banner->fileName);
             $imageName = Str::random(12) . "." . $file->getClientOriginalExtension();
             $file->move($imageDirectory, $imageName);
             $path = 'http://127.0.0.1:8000/'.($imageDirectory . $imageName);
             $banner->hinhAnh = $path;
+            $banner->fileName = $imageName;
         } else {
             $banner->hinhAnh = $request->hinhAnh;
+            $banner->fileName = $request->imageName;
+            $banner->duongDan = $request->duongDan;
         }
         $banner->save();
 
@@ -123,6 +109,8 @@ class BannerController extends Controller
         $banner = Banner::where('maBanner', $id)->first();
         if ($banner) {
             $banner->delete();
+            $imageDirectory = 'images/banner/';
+            File::delete($imageDirectory . $banner->fileName);
             return response()->json([
                 'status' => 200,
                 'message' => 'Banner deleted successfully'

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role')->default('KhachHang');
+            $table->string('avatar')->nullable();
+            $table->string('fileName')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -10,9 +10,7 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
         $news = TinTuc::all();
@@ -29,10 +27,6 @@ class PostController extends Controller
         }
     }
 
-
-    // /**
-    //  * Store a newly created resource in storage.
-    //  */
     public function store(Request $request)
     {
         if ($request->hasFile('hinhAnh')) {
@@ -44,15 +38,14 @@ class PostController extends Controller
             $imageName = Str::random(12) . "." . $file->getClientOriginalExtension();
             $imageDirectory = 'images/tintuc/';
             $file->move($imageDirectory, $imageName);
-            // $path   = public_path($imageDirectory . $imageName);
             $path   = 'http://127.0.0.1:8000/' . ($imageDirectory . $imageName);
             TinTuc::create([
-                // 'id' => $request->id,
                 'tieuDe' => $request->tieuDe,
                 'tacGia' => $request->tacGia,
                 'noiDungPhu' => $request->noiDungPhu,
                 'noiDung' => $request->noiDung,
                 'hinhAnh' => $path,
+                'fileName' => $imageName,
                 'theLoai' => $request->theLoai,
             ]);
             return response()->json([
@@ -104,12 +97,13 @@ class PostController extends Controller
                 return redirect('create')->with('loi', 'Bạn chỉ được chọn file có đuôi jpg,png,jpeg');
             }
 
-            File::delete($news->image);
-            $imageName = Str::random(12) . "." . $file->getClientOriginalExtension();
             $imageDirectory = 'images/tintuc/';
+            File::delete($imageDirectory . $news->fileName);
+            $imageName = Str::random(12) . "." . $file->getClientOriginalExtension();
             $file->move($imageDirectory, $imageName);
             $path   = 'http://127.0.0.1:8000/' . ($imageDirectory . $imageName);
             $news->hinhAnh = $path;
+            $news->fileName = $imageName;
         } else {
             $news->hinhAnh = $request->hinhAnh;
         }
@@ -126,6 +120,8 @@ class PostController extends Controller
         $news = TinTuc::where('maBaiViet', $id)->first();
         if ($news) {
             $news->delete();
+            $imageDirectory = 'images/banner/';
+            File::delete($imageDirectory . $news->fileName);
             return response()->json([
                 'status' => 200,
                 'message' => 'News deleted successfully'

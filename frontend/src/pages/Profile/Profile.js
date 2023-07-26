@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import {
+  Avatar,
   Button,
   Typography,
 } from 'antd';
@@ -18,44 +19,51 @@ const Profile = () => {
     dispatch(layThongTinNguoiDungAction(userLogin.id))
   }, [])
 
-  console.log('profile',profile)
+  console.log('profile', profile)
 
-  
+
 
   return (
     <div >
       <h3 className='mb-5'>Thông tin người dùng: {profile.name}</h3>
       <div className='row mx-10'>
-        <div className='col-6'>
-          <Typography>
-            <pre>Tên Đăng Nhập: {profile.name}</pre>
-          </Typography>
+        <div className='col-4'>
+        {profile.avatar ? <img style={{width:200, height:200, objectFit: 'cover', borderRadius: '50%'}} src={profile.avatar} alt={profile.avatar} /> : <Avatar size={200} style={{ fontSize: '80px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={userLogin.name.substr(0, 1)} />}
         </div>
-        <div className='col-6'>
-          <Typography>
-            <pre>Email: {profile.email}</pre>
-          </Typography>
+        <div className='col-8'>
+          <div className='col-6'>
+            <Typography>
+              <pre>Tên Đăng Nhập: {profile.name}</pre>
+            </Typography>
+          </div>
+          <div className='col-6'>
+            <Typography>
+              <pre>Email: {profile.email}</pre>
+            </Typography>
+          </div>
+          <div className='col-6'>
+            <Typography>
+              {/* <pre>Email: {profile.soDt}</pre> */}
+            </Typography>
+          </div>
+          <div className='col-6'>
+            <Typography>
+              {/* <pre>Họ Tên: {profile.hoTen}</pre> */}
+            </Typography>
+          </div>
+          <div className='col-6'>
+            <Typography>
+              <pre>Loại Tài Khoản: {profile.role}</pre>
+            </Typography>
+          </div>
+          <div className='col-6'>
+            <Button href={`/users/edit/${profile.id}`} className='btn-primary bg-primary mt-3 px-5' type='primary' onClick={() => {
+              localStorage.setItem('userParams', JSON.stringify(profile));
+            }}>Thay đổi thông tin</Button>
+          </div>
         </div>
-        <div className='col-6'>
-          <Typography>
-            {/* <pre>Email: {profile.soDt}</pre> */}
-          </Typography>
-        </div>
-        <div className='col-6'>
-          <Typography>
-            {/* <pre>Họ Tên: {profile.hoTen}</pre> */}
-          </Typography>
-        </div>
-        <div className='col-6'>
-          <Typography>
-            <pre>Loại Tài Khoản: {profile.role}</pre>
-          </Typography>
-        </div>
-        <div className='col-6'>
-          <Button href={`/users/edit/${profile.id}`} className='btn-primary bg-primary mt-3 px-5' type='primary' onClick={() => {
-            localStorage.setItem('userParams', JSON.stringify(profile));
-          }}>Thay đổi thông tin</Button>
-        </div>
+
+
       </div>
     </div>
   );

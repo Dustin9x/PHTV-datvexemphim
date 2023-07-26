@@ -18,6 +18,7 @@ class Movie extends Model
         'tenPhim',
         'trailer',
         'hinhAnh',
+        'fileName',
         'moTa',
         'ngayKhoiChieu',
         'danhGia',

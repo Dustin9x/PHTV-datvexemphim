@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('tacGia');
             $table->text('noiDungPhu');             
             $table->text('noiDung');
-            $table->string('hinhAnh');          
+            $table->string('hinhAnh');  
+            $table->string('fileName')->nullable();        
             $table->string('theLoai');
             $table->unsignedBigInteger('maPhim')->nullable(); 
             $table->timestamps();

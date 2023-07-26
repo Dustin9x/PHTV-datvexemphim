@@ -52,7 +52,7 @@ export const capNhatNguoiDungAction = (id,newUser) => {
             const result = await quanLyNguoiDungService.capNhatNguoiDung(id,newUser);
             dispatch(layDanhSachNguoiDungAction())
             alert('Cập nhật người dùng thành công')
-            history.push('/users/profile');
+            history.goBack();
         } catch (error) {
             console.log(error)
         }

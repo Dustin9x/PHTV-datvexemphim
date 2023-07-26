@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Form,
     Input,
@@ -7,21 +7,55 @@ import {
 } from 'antd';
 import { themNguoiDungAction } from '../../../redux/actions/QuanLyNguoiDungAction';
 import { useDispatch } from 'react-redux';
+import { useFormik } from 'formik';
 const { Option } = Select;
 const AddUser = () => {
     const dispatch = useDispatch();
+    const [imgSrc, setImgSrc] = useState('');
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: '',
+            password: '',
+            role: '',
+            avatar: '',
+            fileName: ''
+        },
+        onSubmit: async (values) => {
+            let formData = new FormData();
+            for (let key in values) {
+                if (key !== 'avatar') {
+                    formData.append(key, values[key]);
+                } else {
+                    formData.append('avatar', values['avatar']);
+                }
+            }
+            console.table('formData', [...formData])
+            dispatch(themNguoiDungAction(formData));
+        }
+    })
 
-    const onSubmit = (values) => {
-        dispatch(themNguoiDungAction(values));
+    const handleChangeFile = (e) => {
+        let file = e.target.files[0];
+
+        if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/gif' || file.type === 'image/png') {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (e) => {
+                setImgSrc(e.target.result);//Hình base 64
+            }
+            formik.setFieldValue('avatar', file);
+        }
     }
 
-
+    const handleChangeRole = (value) => {
+        formik.setFieldValue('role', value)
+    }
 
     return (
         <div >
             <h3>Thêm Người Dùng Mới</h3>
             <Form
-                onFinish={onSubmit}
                 labelCol={{
                     span: 4,
                 }}
@@ -29,7 +63,13 @@ const AddUser = () => {
                     span: 14,
                 }}
                 layout="horizontal"
+                onSubmitCapture={formik.handleSubmit}
             >
+                <Form.Item label="Avatar">
+                    <input type="file" onChange={handleChangeFile} accept="image/png, image/jpeg,image/gif,image/png" />
+                    <br />
+                    {imgSrc ? <img style={{ width: 200, height: 200, objectFit: 'cover', borderRadius: '50%' }} src={imgSrc} alt="..." /> : <img style={{ width: 200, height: 200, border: '0.1px solid #ccc', borderRadius: '50%' }} src='/img/placeholder-image.jpg' alt="..." />}
+                </Form.Item>
                 <Form.Item
                     name="email"
                     label="Email"
@@ -44,7 +84,7 @@ const AddUser = () => {
                         },
                     ]}
                 >
-                    <Input placeholder="Email" />
+                    <Input name='email' onChange={formik.handleChange} placeholder="Email" />
                 </Form.Item>
 
                 <Form.Item
@@ -57,7 +97,7 @@ const AddUser = () => {
                         },
                     ]}
                 >
-                    <Input.Password placeholder="Mật khẩu" />
+                    <Input.Password name='password' onChange={formik.handleChange} placeholder="Mật khẩu" />
                 </Form.Item>
 
                 <Form.Item
@@ -70,7 +110,7 @@ const AddUser = () => {
                         },
                     ]}
                 >
-                    <Input placeholder="Username" />
+                    <Input name='name' onChange={formik.handleChange} placeholder="Username" />
                 </Form.Item>
 
                 <Form.Item
@@ -83,7 +123,7 @@ const AddUser = () => {
                         },
                     ]}
                 >
-                    <Select placeholder="Chọn loại người dùng">
+                    <Select name='role' onChange={handleChangeRole} placeholder="Chọn loại người dùng">
                         <Option value="QuanTri">Quản Trị</Option>
                         <Option value="KhachHang">Khách Hàng</Option>
                     </Select>

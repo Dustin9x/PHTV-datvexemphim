@@ -18,6 +18,7 @@ class Banner extends Model
         'maBanner',
         'duongDan',
         'hinhAnh',
+        'fileName'
     ];
 
 }

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('banner_phim', function (Blueprint $table) {
             $table->id('maBanner');
             $table->string('duongDan');
+            $table->string('fileName')->nullable();
             $table->string('hinhAnh');
             $table->timestamps();
         });

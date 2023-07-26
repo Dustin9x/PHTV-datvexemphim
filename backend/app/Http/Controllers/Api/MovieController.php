@@ -38,12 +38,12 @@ class MovieController extends Controller
             $imageName = Str::random(12) . "." . $file->getClientOriginalExtension();
             $imageDirectory = 'images/movie/';
             $file->move($imageDirectory, $imageName);
-            // $path   = public_path($imageDirectory . $imageName);
             $path   = 'http://127.0.0.1:8000/'.($imageDirectory . $imageName);
             Movie::create([
                 'tenPhim' => $request->tenPhim,
                 'trailer' => $request->trailer,
                 'hinhAnh' => $path,
+                'fileName' => $imageName,
                 'moTa' => $request->moTa,
                 'ngayKhoiChieu' => $request->ngayKhoiChieu,
                 'danhGia' => $request->danhGia,
@@ -119,10 +119,12 @@ class MovieController extends Controller
 
             File::delete($movie->hinhAnh);
             $imageDirectory = 'images/movie/';
+            File::delete($imageDirectory . $movie->fileName);
             $imageName = Str::random(12) . "." . $file->getClientOriginalExtension();
             $file->move($imageDirectory, $imageName);
             $path   = 'http://127.0.0.1:8000/'.($imageDirectory . $imageName);
             $movie->hinhAnh = $path;
+            $movie->fileName = $imageName;
         } else {
             $movie->hinhAnh = $request->hinhAnh;
         }
@@ -138,6 +140,8 @@ class MovieController extends Controller
         $movie = Movie::where('maPhim', $id)->first();
         if ($movie) {
             $movie->delete();
+            $imageDirectory = 'images/movie/';
+            File::delete($imageDirectory . $movie->fileName);
             return response()->json([
                 'status' => 200,
                 'message' => 'Movie deleted successfully'

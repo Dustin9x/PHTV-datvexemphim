@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react'
 import { SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table } from 'antd';
+import { Avatar, Button, Input, Space, Table } from 'antd';
 import { useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useDispatch, useSelector } from 'react-redux';
@@ -116,6 +116,14 @@ export default function UserMng() {
       key: 'id',
       sorter: (a, b) => a.id.length - b.id.length,
       sortDirections: ['descend', 'ascend'],
+    },
+    {
+      title: 'Avatar',
+      dataIndex: 'avatar',
+      key: 'avatar',
+      render: (text, movie, index) => {return movie.avatar 
+        ? <img key={index} style={{width:40, height:40, objectFit: 'cover', borderRadius: '50%'}} src={movie.avatar} alt={movie.avatar} /> 
+      : <Avatar size={40} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={movie.name.substr(0, 1)} />}
     },
     {
       title: 'Họ và Tên',

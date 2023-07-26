@@ -9,7 +9,7 @@ class CommentArticle extends Model
 {
     use HasFactory;
 
-    protected $table = 'commnet_article';
+    protected $table = 'comment_article';
 
     protected $primaryKey = 'maComment';
 

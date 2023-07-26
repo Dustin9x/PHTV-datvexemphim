@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('tenPhim');
             $table->string('trailer');
             $table->string('hinhAnh');
+            $table->string('fileName')->nullable();
             $table->string('moTa');
             $table->date('ngayKhoiChieu');
             $table->integer('danhGia');

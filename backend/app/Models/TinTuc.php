@@ -19,6 +19,7 @@ class TinTuc extends Model
         'noiDungPhu',
         'noiDung',
         'hinhAnh',
+        'fileName',
         'theLoai',
         'maPhim'
     ];
