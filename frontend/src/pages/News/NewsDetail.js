@@ -20,7 +20,7 @@ export default function NewsDetail(props) {
     useEffect(() => {
         dispatch(layDanhSachTinTucAction(id))
         dispatch(layDanhSachBinhLuanAction(id))
-    }, [])
+    }, [dispatch,id])
 
 
     const [form] = Form.useForm();
@@ -49,9 +49,7 @@ export default function NewsDetail(props) {
                     detailBinhLuan: {}
                 })
             }
-            // dispatch(themBinhLuanAction(id, formData))
-            form.resetFields();
-            // localStorage.removeItem("commentEdit");
+            values.comment='';
         }
     })
 

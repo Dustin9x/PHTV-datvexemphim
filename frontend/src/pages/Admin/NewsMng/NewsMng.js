@@ -1,11 +1,10 @@
 import React, { Fragment, useEffect } from 'react'
-import { SearchOutlined, EditOutlined, DeleteOutlined, CalendarOutlined } from '@ant-design/icons';
+import { SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Button, Input, Space, Table } from 'antd';
 import { useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useDispatch, useSelector } from 'react-redux';
 import { layDanhSachPhimAction } from '../../../redux/actions/QuanLyPhimAction';
-import { layDanhSachHeThongRapAction, xoaHeThongRapAction } from '../../../redux/actions/QuanLyRapAction';
 import { layDanhSachTinTucAction, xoaTinTucAction } from '../../../redux/actions/QuanLyTinTucAction';
 
 
@@ -141,7 +140,7 @@ console.log('arrTinTuc',arrTinTuc)
       title: 'Hình Ảnh',
       dataIndex: 'hinhAnh',
       key: 'hinhAnh',
-      render: (text, movie, index) => { return <img key={index} width={150} src={movie.hinhAnh} alt={movie.hinhAnh} /> }
+      render: (text, movie, index) => { return <img key={index} width={150} style={{borderRadius:'6px'}} src={movie.hinhAnh} alt={movie.hinhAnh} /> }
     },
     {
       title: 'Nội Dung Phụ',

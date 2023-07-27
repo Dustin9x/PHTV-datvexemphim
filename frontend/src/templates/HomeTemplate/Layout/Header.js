@@ -39,7 +39,12 @@ export default function Header(props) {
             </Fragment>
         } else {
             return <Popover placement="bottomRight" title={userLogin.name} content={content} trigger="click">
-                <Button className='rounded-full bg-slate-300 p-0 d-flex justify-center items-center w-full h-full' style={{ width: 40, height: 40 }}><Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={userLogin?.name.substr(0, 1)} /></Button>
+                <Button className='rounded-full bg-slate-300 p-0 d-flex justify-center items-center w-full h-full' style={{ width: 40, height: 40 }}>
+                    {userLogin.avatar?
+                    <div style={{minWidth:'40px', minHeight:40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${userLogin.avatar})`}} />
+                    : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={userLogin?.name.substr(0, 1)} />
+                    }
+                    </Button>
             </Popover>
         }
 

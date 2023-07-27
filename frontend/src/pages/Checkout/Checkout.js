@@ -296,7 +296,7 @@ export function KetQuaDatVe(props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        const action = layDonHangTheoUserAction(donHang.userId);
+        const action = layDonHangTheoUserAction(donHang?.userId);
         dispatch(action)
     }, [])
 
@@ -312,7 +312,8 @@ export function KetQuaDatVe(props) {
                         <p className="lg:w-2/3 mx-auto leading-relaxed text-base">Xin cám ơn bạn đã ủng hộ dịch vụ của chúng tôi, chúc bạn có những trải nghiệm tuyệt vời</p>
                     </div>
                     <div className="row">
-                        {arrDonHang.map((item, index) => {
+                        {arrDonHang.length < 1 || arrDonHang == undefined ? <p className='text-xl text-center w-full'>Bạn chưa có đơn hàng nào</p> :
+                        arrDonHang?.map((item, index) => {
                             return <div className='col-6 mt-3 '>
                                 <Card
                                     hoverable

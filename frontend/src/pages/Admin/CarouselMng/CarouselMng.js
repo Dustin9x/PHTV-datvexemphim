@@ -48,7 +48,7 @@ export default function CarouselMng() {
       title: 'Carousel',
       dataIndex: 'hinhAnh',
       key: 'hinhAnh',
-      render: (text, movie, index) => { return <img key={index} width={150} src={movie.hinhAnh} alt={movie.hinhAnh} /> }
+      render: (text, movie, index) => { return <img key={index} width={150} style={{borderRadius:'6px'}} src={movie.hinhAnh} alt={movie.hinhAnh} /> }
     },
     {
       title: 'Quản Lý',

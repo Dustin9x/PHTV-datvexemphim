@@ -13,6 +13,7 @@ export const dangNhapAction = (thongTinDangNhap) => {
                     thongTinDangNhap: result.data.content
                 })
                 history.push('home');
+                console.log('thongtindangnhap',result)
             }
         } catch (error) {
             console.log(error)

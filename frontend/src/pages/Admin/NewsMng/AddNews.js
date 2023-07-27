@@ -1,22 +1,12 @@
 import React, { useState } from 'react';
-import {
-  Form,
-  Input,
-  Radio,
-  DatePicker,
-  InputNumber,
-  Switch,
-} from 'antd';
+import { Form, Input, Button } from 'antd';
 import { useFormik } from 'formik';
-import moment from 'moment';
 import { useDispatch } from 'react-redux';
-import { themHeThongRapAction } from '../../../redux/actions/QuanLyRapAction';
 import { themTinTucAction } from '../../../redux/actions/QuanLyTinTucAction';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const AddNews = () => {
-  const [componentSize, setComponentSize] = useState('default');
   const [imgSrc, setImgSrc] = useState('');
   const { TextArea } = Input;
   const dispatch = useDispatch();
@@ -31,7 +21,6 @@ const AddNews = () => {
       hinhAnh: {},
     },
     onSubmit: (values) => {
-      // Tạo đối tượng formdata => Đưa giá trị values từ formik vào formdata
       let formData = new FormData();
       for (let key in values) {
         if (key !== 'hinhAnh') {
@@ -51,7 +40,6 @@ const AddNews = () => {
     let file = e.target.files[0];
 
     if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/gif' || file.type === 'image/png') {
-      // Tạo đối tượng để đọc file
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (e) => {
@@ -61,10 +49,6 @@ const AddNews = () => {
     }
   }
 
-
-  const onFormLayoutChange = ({ size }) => {
-    setComponentSize(size);
-  };
 
   const handleChangeContent = (e, editor) => {
     const data = editor.getData();
@@ -83,11 +67,6 @@ const AddNews = () => {
         span: 16,
       }}
       layout="horizontal"
-      initialValues={{
-        size: componentSize,
-      }}
-      onValuesChange={onFormLayoutChange}
-      size={componentSize}
     >
       <h3>Thêm bài viết mới </h3>
       <div className='row'>
@@ -118,7 +97,7 @@ const AddNews = () => {
             ></CKEditor>
           </Form.Item>
           <Form.Item label="Tác vụ">
-            <button type="submit" className="bg-blue-700 text-white p-2">Thêm bài viết</button>
+            <Button htmlType="submit" >Thêm bài viết</Button>
           </Form.Item>
         </div>
         <div className='col-4'>
@@ -126,7 +105,8 @@ const AddNews = () => {
           <Form.Item label="">
             <input type="file" onChange={handleChangeFile} accept="image/png, image/jpeg,image/gif,image/png" />
             <br />
-            <img style={{ width: 150, height: 150 }} src={imgSrc} alt="..." />
+            {/* <img style={{ width: 150, height: 150 }} src={imgSrc} alt="..." /> */}
+            {imgSrc ? <img style={{ width: 200, height: 150, objectFit: 'cover', borderRadius: '6px' }} src={imgSrc} alt="..." /> : <img style={{ width: 200, border: '0.1px solid #ccc', borderRadius: '6px' }} src='/img/placeholder-image.jpg' alt="..." />}
           </Form.Item>
         </div>
       </div>
