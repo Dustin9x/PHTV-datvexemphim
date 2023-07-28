@@ -40,6 +40,7 @@ import AddNews from './pages/Admin/NewsMng/AddNews';
 import NewsEdit from './pages/Admin/NewsMng/NewsEdit';
 import NewsDetail from './pages/News/NewsDetail';
 import EditTheatreChild from './pages/Admin/TheatreChildMng/EditTheatreChild';
+import Search from './pages/Search/Search';
 
 const CheckOutTemplateLazy = lazy(() => import('./templates/CheckOutTemplate'));
 
@@ -91,6 +92,7 @@ function App() {
         <AdminTemplate path='/admin/newsmng/edit/:id' exact Component={NewsEdit} />
 
         <HomeTemplate path='/' exact Component={Home} />
+        <HomeTemplate path='/search/*' exact Component={Search} />
         <HomeTemplate Component={Home} />
       </Switch>
     </Router>

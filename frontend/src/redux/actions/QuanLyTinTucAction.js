@@ -2,7 +2,7 @@ import { result } from "lodash";
 import { history } from "../../App";
 import { quanLyPhimService } from "../../services/QuanLyPhimService";
 import { quanLyTinTucService } from "../../services/QuanLyTinTucService";
-import { GET_BINH_LUAN, GET_BINH_LUAN_DETAIL, GET_CHI_TIET_TIN_TUC, GET_TIN_TUC, SET_DANH_SACH_PHIM, SET_THONG_TIN_PHIM } from "../constants";
+import { GET_BINH_LUAN, GET_BINH_LUAN_DETAIL, GET_CHI_TIET_TIN_TUC, GET_TIN_TUC, LAY_KET_QUA_TIM_KIEM, SET_DANH_SACH_PHIM, SET_THONG_TIN_PHIM } from "../constants";
 
 export const layDanhSachTinTucAction = (id = '') => {
     return async (dispatch) => {
@@ -133,4 +133,22 @@ export const layChiTietBinhLuanAction = (id) => {
         }
     }
 
+}
+
+
+
+export const layKetQuaTimKiem = (content) => {
+    
+    return async (dispatch) => {
+        try {
+            const result = await quanLyTinTucService.timkiem(content)
+            dispatch({
+                type: LAY_KET_QUA_TIM_KIEM,
+                arrTimKiem: result.data.content,
+            })
+            console.log('arrTimKiem',result)
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
 }

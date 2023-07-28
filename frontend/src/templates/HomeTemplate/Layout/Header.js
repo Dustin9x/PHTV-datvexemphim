@@ -5,14 +5,17 @@ import { SearchOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import { TOKEN, USER_LOGIN } from '../../../util/settings/config';
+import { history } from '../../../App';
+import { layKetQuaTimKiem } from '../../../redux/actions/QuanLyTinTucAction';
+import { useDispatch } from 'react-redux';
 
 export default function Header(props) {
+    const dispatch = useDispatch()
     const handleChange = (value) => {
         i18n.changeLanguage(value)
     };
 
     const { t, i18n } = useTranslation();
-
     let userLogin = {}
     if (localStorage.getItem(USER_LOGIN)) {
         userLogin = JSON.parse(localStorage.getItem(USER_LOGIN))
@@ -50,6 +53,7 @@ export default function Header(props) {
 
     }
 
+
     return (
         <div>
             <header className="p-4 bg-gray-800 text-gray-100 fixed w-full bg-opacity-60 z-20">
@@ -62,19 +66,24 @@ export default function Header(props) {
                     </NavLink>
                     <ul className="items-stretch hidden space-x-3 lg:flex ml-5">
                         <li className="flex">
-                            <NavLink to="/home" className="flex items-center -mb-0.5 border-b-2 px-4 border-transparent" activeClassName="border-b-2 text-violet-400 border-violet-600">Trang Chủ</NavLink>
+                            <NavLink to="/home" style={{textDecoration:'none'}} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-violet-400" activeClassName="border-b-2 text-violet-400 border-violet-600">Trang Chủ</NavLink>
                         </li>
                         <li className="flex">
-                            <NavLink to="/news" className="flex items-center -mb-0.5 border-b-2 px-4 border-transparent" activeClassName="border-b-2 text-violet-400 border-violet-600">Tin Tức</NavLink>
+                            <NavLink to="/news" style={{textDecoration:'none'}} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-violet-400" activeClassName="border-b-2 text-violet-400 border-violet-600">Tin Tức</NavLink>
                         </li>
                         <li className="flex">
-                            <NavLink to="/contact" className="flex items-center -mb-0.5 border-b-2 px-4 border-transparent" activeClassName="border-b-2 text-violet-400 border-violet-600">Liên Hệ</NavLink>
+                            <NavLink to="/contact" style={{textDecoration:'none'}} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-violet-400" activeClassName="border-b-2 text-violet-400 border-violet-600">Liên Hệ</NavLink>
                         </li>
 
                     </ul>
 
                     <div className="items-center flex-shrink-0 hidden lg:flex">
-                        <Input placeholder="Tìm kiếm" className='rounded-full mr-5' prefix={<SearchOutlined />} />
+                        <Input allowClear placeholder="Tìm kiếm" id='search' className='rounded-full mr-5' prefix={<SearchOutlined />} onPressEnter={(e)=>{
+                            dispatch(layKetQuaTimKiem(e.target.value));
+                            history.push(`/search/?search=${e.target.value}`);
+                            var url = new URL("http://localhost:3000/search/?search=hihi");
+                            url.searchParams.set('search', e.target.value);
+                        }}/>
                         {/* <Select
                             defaultValue="en"
                             style={{

@@ -49,3 +49,10 @@ export const CHUYEN_TAB_ACTIVE = 'CHUYEN_TAB_ACTIVE'
 
 
 
+export const LAY_KET_QUA_TIM_KIEM = 'LAY_KET_QUA_TIM_KIEM'
+
+
+
+
+
+

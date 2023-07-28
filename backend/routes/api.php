@@ -110,6 +110,9 @@ Route::get('laydanhsachuser/{id}', [UsersController::class, 'show']);
 Route::post('laydanhsachuser/{id}/update', [UsersController::class, 'update']);
 Route::delete('laydanhsachuser/{id}/delete', [UsersController::class, 'destroy']);
 
+//tim kiem
+Route::get('timkiem/search/', [PostController::class, 'content']);
+
 //authen
 Route::group([
     'prefix' => 'auth'

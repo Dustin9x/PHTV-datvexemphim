@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Movie;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use App\Models\TinTuc;
@@ -130,6 +131,29 @@ class PostController extends Controller
             return response()->json([
                 'status' => 404,
                 'message' => 'no such news found'
+            ], 404);
+        }
+    }
+
+
+    public function content( Request $request)
+    {
+        $search = $request->input('search');
+        $news = TinTuc::where('noiDung', 'LIKE', "%" . $search . "%")
+        ->orWhere('tieuDe', 'LIKE', "%" . $search . "%")
+        ->get();
+
+        $movie = Movie::where('tenPhim', 'LIKE', "%" . $search . "%")->get();
+
+        if ($news->count() >= 0 || $movie->count()>=0) {
+            return response()->json([
+                'status' => 200,
+                'content' => ['news'=>$news,'movie'=>$movie]
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'ahhh ! no such news and movies found !'
             ], 404);
         }
     }

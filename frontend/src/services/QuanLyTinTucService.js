@@ -49,6 +49,11 @@ export class QuanLyTinTucService extends baseService {
         return this.get(`/api/laydanhsachbinhluan/${id}/edit`);
     }
 
+
+    timkiem = (content) => {
+        return this.get(`/api/timkiem/search/?search=${content}`)
+    }
+
 }
 
 export const quanLyTinTucService = new QuanLyTinTucService();
