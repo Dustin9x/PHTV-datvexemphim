@@ -112,27 +112,6 @@ class UsersController extends Controller
         return response()->json([
             'message' => "User successfully updated."
         ], 200);
-
-
-
-        // if ($user) {
-        //     $user->update([
-        //         'name' => $request->name,
-        //         'email' => $request->email,
-        //         'password' => bcrypt($request->password),
-        //         'role' => $request->role,
-        //         'avatar' => $request->avatar,
-        //     ]);
-        //     return response()->json([
-        //         'status' => 200,
-        //         'message' => 'User successfully updated'
-        //     ], 200);
-        // } else {
-        //     return response()->json([
-        //         'status' => 404,
-        //         'message' => 'No such user found'
-        //     ], 404);
-        // };
     }
 
     public function destroy($id)

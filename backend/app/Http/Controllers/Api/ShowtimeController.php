@@ -11,7 +11,6 @@ class ShowtimeController extends Controller
 {
     public function index()
     {
-        // $showtime = Showtime::all();
         $showtime = Showtime::with(['rapchieu', 'phim'])->get();
         if ($showtime->count() > 0) {
             return response()->json([
@@ -28,10 +27,7 @@ class ShowtimeController extends Controller
 
     public function showbyMovie($id)
     {
-        // $showtime = Showtime::with(['rapchieu','phim'])->get();
-        // $showtime = Showtime::where('maPhim',$id)with(['rapchieu','phim'])->get();
         $showtime = Showtime::where('maPhim', $id)->with(['rapchieu','rapchieu.tinhthanh', 'phim'])->get();
-        // $movie = Movie::where('maPhim', $id)->first();
         if ($showtime) {
             return response()->json([
                 'status' => 200,
@@ -47,9 +43,6 @@ class ShowtimeController extends Controller
 
     public function show($id)
     {
-        // $showtime = Showtime::with(['rapchieu','phim'])->get();
-        // $showtime = Showtime::where('maPhim',$id)with(['rapchieu','phim'])->get();
-        // $showtime = Showtime::where('maPhim', $id)->with(['rapchieu','rapchieu.tinhthanh', 'phim'])->get();
         $showtime = Showtime::where('maLichChieu', $id)->with(['rapchieu','phim'])->first();
         if ($showtime) {
             return response()->json([

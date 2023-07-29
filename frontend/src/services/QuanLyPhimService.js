@@ -32,6 +32,28 @@ export class QuanLyPhimService extends baseService {
         return this.delete(`/api/LayDanhSachPhim/${maPhim}/delete`);
     }
 
+
+    //Review Phim
+    layBinhLuanPhim = (id) => {
+        return this.get(`/api/laydanhsachbinhluanphim/${id}`);
+    }
+
+    themBinhLuanPhim = (binhLuan) => {
+        return this.post(`/api/laydanhsachbinhluanphim`,binhLuan);
+    }
+
+    xoaBinhLuanPhim = (id) => {
+        return this.delete(`/api/laydanhsachbinhluanphim/${id}/delete`);
+    }
+
+
+    capNhatBinhLuanPhim = (id,formData) => {
+        return this.post(`/api/laydanhsachbinhluanphim/${id}/update`,formData);
+    }
+
+    layChiTietBinhLuanPhim = (id) => {
+        return this.get(`/api/laydanhsachbinhluanphim/${id}/edit`);
+    }
     
 }
 

@@ -1,32 +1,39 @@
 import React, { useState } from 'react'
 import './Detail.css'
-import { Tabs, Rate, Segmented, Tag, Button } from 'antd';
+import { Tabs, Rate, Tag, Button, Form, Input, Card, Avatar, Popover } from 'antd';
 import moment from 'moment/moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { layChiTietPhimAction, layDanhSachCumRapAction } from '../../redux/actions/QuanLyRapAction';
+import { layDanhSachCumRapAction } from '../../redux/actions/QuanLyRapAction';
 import { NavLink } from 'react-router-dom';
-import { layThongTinPhimAction } from '../../redux/actions/QuanLyPhimAction';
-import { layChiTietLichChieuAction, layLichChieuTheoPhimAction } from '../../redux/actions/QuanLyDatVeAction';
+import { capNhatBinhLuanPhimAction, layChiTietBinhLuanPhimAction, layDanhSachBinhLuanPhimAction, layThongTinPhimAction, themBinhLuanPhimAction, xoaBinhLuanPhimAction } from '../../redux/actions/QuanLyPhimAction';
+import { layLichChieuTheoPhimAction } from '../../redux/actions/QuanLyDatVeAction';
 import dayjs from 'dayjs'
 import _ from 'lodash';
+import { GET_BINH_LUAN_DETAIL_PHIM } from '../../redux/constants';
+import { useFormik } from 'formik';
+import { TOKEN } from '../../util/settings/config';
 const { TabPane } = Tabs;
 
 export default function Detail(props) {
-
+    const { TextArea } = Input;
     const { movieEditDetail } = useSelector(state => state.MovieReducer);
     const { lichChieuTheoPhim } = useSelector(state => state.QuanLyDatVeReducer);
+    const { userLogin } = useSelector(state => state.UserReducer)
+    const { arrBinhLuanPhim } = useSelector(state => state.MovieReducer);
+    const { detailBinhLuanPhim } = useSelector(state => state.MovieReducer);
     const { cumRap } = useSelector(state => state.RapReducer);
     const dispatch = useDispatch();
+    let { id } = props.match.params;
     useEffect(() => {
-        let { id } = props.match.params;
         dispatch(layThongTinPhimAction(id))
         dispatch(layLichChieuTheoPhimAction(id))
         dispatch(layDanhSachCumRapAction())
-    }, [])
+        dispatch(layDanhSachBinhLuanPhimAction(id))
+        dispatch(layChiTietBinhLuanPhimAction(id))
+    }, [dispatch, id])
 
     const [lichChieuTheoRap, setLichChieuTheoRap] = useState(lichChieuTheoPhim.filter((item) => item.ngayChieu === ""));
-    // let lichChieuTheoRap = []
     const handleClick = (event) => {
         let clickNgayChieu = event.target.name;
         let lichChieuTheoRap = lichChieuTheoPhim.filter(item => item.ngayChieu === clickNgayChieu)
@@ -51,15 +58,81 @@ export default function Detail(props) {
 
 
 
-    console.log('movieEditDetail', movieEditDetail)
+    const [form] = Form.useForm();
+    const formik = useFormik({
+        enableReinitialize: true,
+        initialValues: {
+            maPhim: id,
+            username: userLogin.name,
+            useremail: userLogin.email,
+            comment: detailBinhLuanPhim?.comment,
+        },
+        onSubmit: (values) => {
+            let formData = new FormData();
+            for (let key in values) {
+                formData.append(key, values[key]);
+            }
+            console.table('formData123', [...formData])
+            if (!detailBinhLuanPhim.maComment) {
+                dispatch(themBinhLuanPhimAction(id, formData))
+            } else {
+                dispatch(capNhatBinhLuanPhimAction(detailBinhLuanPhim.maComment, formData))
+                dispatch(layDanhSachBinhLuanPhimAction(id))
+                dispatch({
+                    type: GET_BINH_LUAN_DETAIL_PHIM,
+                    detailBinhLuanPhim: {}
+                })
+            }
+            values.comment = '';
+        }
+    })
+
+    const renderBinhLuanPhim = () => {
+        return arrBinhLuanPhim?.map((item, index) => {
+            const content = (
+                <div className='d-flex flex-col'>
+                    <Button className='btn' type='link' onClick={() => {
+                        dispatch(layChiTietBinhLuanPhimAction(item.maComment))
+                    }}>Sửa</Button>
+                    <Button className='btn' danger type='link' onClick={() => {
+                        if (window.confirm('Bạn có chắc chắn muốn xóa bình luận này?')) {
+                            dispatch(xoaBinhLuanPhimAction(item.maComment))
+                            dispatch(layDanhSachBinhLuanPhimAction(id))
+                        }
+                    }
+                    }>Xóa</Button>
+                </div>
+            );
+            return <Card
+                key={index}
+                className='d-flex my-3 w-full no-underline'
+                style={{ minHeight: 130, overflow: 'hidden' }}
+                bodyStyle={{ width: '100%' }}
+
+            >
+                <div className='d-flex align-center'>
+                    {userLogin.avatar ?
+                        <div style={{ minWidth: '40px', minHeight: '40px', height: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${userLogin.avatar})` }} />
+                        : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={userLogin?.name.substr(0, 1)} />
+                    }
+                    <div className='w-full'>
+                        <p className='my-auto m-3 text-danger'>{item.username}</p>
+                        <p className='my-auto ml-3'>{dayjs(item.created_at).format('DD-MM-YYYY')}</p>
+                    </div>
+                    {item.useremail === userLogin.email ? <Popover placement="bottomRight" content={content} trigger="hover">
+                        <div className='btn cursor-pointer px-3 border-none drop-shadow-none hover:bg-gray-100'>...</div>
+                    </Popover> : ''}
+
+                </div>
+
+                <div className='text-slate-700 mt-3'> {item.comment} </div>
+            </Card>
+        }).reverse()
+
+    };
 
     return (
-        <div style={{
-            position: 'absolute',
-            height: 'auto',
-            width: '100%',
-        }}
-        >
+        <div style={{ position: 'absolute', height: 'auto', width: '100%' }}>
             <div style={{
                 backgroundImage: `url(${movieEditDetail.hinhAnh})`,
                 height: 'auto',
@@ -136,34 +209,39 @@ export default function Detail(props) {
                             })}
                         </div>
 
-
-
                         <Tabs defaultActiveKey='1' tabPosition={'left'} className='text-white mt-20'>
                             {cumRaptheotinh.map((rap, index) => {
                                 var now = dayjs(new Date().getTime()).format('HH:mm');
-                                return <TabPane className='p-3' tab={<div className='bg-slate-50 p-4 rounded-xl'><div className='text-lg d-flex justify-center'><img style={{width:40}} src='/img/logo.png' />{rap.tenRap}</div><div>{rap.diaChi}</div></div>} key={index}>
+                                return <TabPane className='p-3' tab={<div className='bg-slate-50 p-4 rounded-xl'><div className='text-lg d-flex justify-center'><img style={{ width: 40 }} src='/img/logo.png' alt='logo' />{rap.tenRap}</div><div>{rap.diaChi}</div></div>} key={index}>
                                     {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(item => item.maRap === rap.maRap).filter(item => now > item.gioChieu).map((item, index) => {
-                                        return <Tag disabled className='text-lg mr-3 px-3 opacity-50 cursor-default select-none' color='gray'>{item.gioChieu.substr(0,5)}</Tag>
+                                        return <Tag disabled className='text-lg mr-3 px-3 opacity-50 cursor-default select-none' color='gray'>{item.gioChieu.substr(0, 5)}</Tag>
                                     })}
                                     {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(item => item.maRap === rap.maRap).filter(item => now <= item.gioChieu).map((item, index) => {
                                         return <NavLink to={`/checkout/${item.maLichChieu}`}>
-                                            <Tag className='text-lg mr-3 px-3' color='green'>{item.gioChieu.substr(0,5)}</Tag>
+                                            <Tag className='text-lg mr-3 px-3' color='green'>{item.gioChieu.substr(0, 5)}</Tag>
                                         </NavLink>
                                     })}
                                 </TabPane>
                             })}
                         </Tabs>
 
-
-
-
-
                     </TabPane>
                     <TabPane tab={<p className='text-lg bg-slate-800 px-5 py-2 rounded-full'>Thông Tin</p>} key="2">
                         <p className='text-lg'>{movieEditDetail.moTa}</p>
                     </TabPane>
                     <TabPane tab={<p className='text-lg bg-slate-800 px-5 py-2 rounded-full'>Đánh Giá</p>} key="3">
-                        Đánh giá
+                        <h1 className='mt-5 text-xl'>Bình Luận Từ Người Xem</h1>
+                        <div className='bg-light rounded-xl p-2 mb-5 '>
+
+                            {(localStorage.getItem(TOKEN)) ? <Form form={form} onSubmitCapture={formik.handleSubmit} className='w-full d-flex flex-col items-end' >
+                                <Form.Item label="" className='mb-2 w-full' >
+                                    <TextArea name='comment' allowClear rows={4} placeholder='nhập bình luận' onChange={formik.handleChange} value={formik.values.comment} />
+                                </Form.Item>
+                                <button type="submit" className="bg-blue-700 rounded-full text-white p-2 px-5">Gửi</button>
+                            </Form> : <Button href="/login" className='w-full'>Vui lòng đăng nhập để bình luận</Button>}
+
+                        </div>
+                        {renderBinhLuanPhim()}
                     </TabPane>
                 </Tabs>
 

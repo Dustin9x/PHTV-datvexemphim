@@ -47,7 +47,7 @@ export default function Login(props) {
         autoComplete="off"
       >
         <div>
-          <h1 className="text-3xl font-bold text-center mb-4 cursor-pointer">Login</h1>
+          <h1 className="text-3xl font-bold text-center mb-4 cursor-pointer">Đăng Nhập</h1>
           <p className="text-center text-sm mb-8 font-semibold text-gray-700 tracking-wide">Đăng nhập để truy cập vào tài khoản của bạn</p>
         </div>
         <Form.Item

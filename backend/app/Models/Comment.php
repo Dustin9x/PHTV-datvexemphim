@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CommentArticle extends Model
+class Comment extends Model
 {
     use HasFactory;
 
-    protected $table = 'comment_article';
+    protected $table = 'comment';
 
     protected $primaryKey = 'maComment';
 
@@ -19,11 +19,18 @@ class CommentArticle extends Model
         'useremail',
         'comment',
         'maBaiViet',
-        'baiViet'
+        'maPhim',
+        'baiViet',
+        'tinPhim'
     ];
 
     public function baiViet()
     {
         return $this->hasMany(TinTuc::class, 'maBaiViet','maBaiViet');
+    }
+
+    public function tinPhim()
+    {
+        return $this->hasMany(Movie::class, 'maPhim','maPhim');
     }
 }

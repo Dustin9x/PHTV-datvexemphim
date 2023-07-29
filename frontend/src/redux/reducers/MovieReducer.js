@@ -1,4 +1,4 @@
-import { SET_CHI_TIET_PHIM, SET_DANH_SACH_PHIM, SET_PHIM_DANG_CHIEU, SET_PHIM_SAP_CHIEU, SET_THONG_TIN_PHIM } from "../constants";
+import { GET_BINH_LUAN_DETAIL_PHIM, GET_BINH_LUAN_PHIM, SET_CHI_TIET_PHIM, SET_DANH_SACH_PHIM, SET_PHIM_DANG_CHIEU, SET_PHIM_SAP_CHIEU, SET_THONG_TIN_PHIM } from "../constants";
 
 const initialState = {
     arrMovie: [
@@ -21,7 +21,9 @@ const initialState = {
     sapChieu: true,
     arrMovieDefault: [],
     movieDetail:{},
-    movieEditDetail:{}
+    movieEditDetail:{},
+    arrBinhLuanPhim: [],
+    detailBinhLuanPhim: {},
 }
 
 export const MovieReducer = (state = initialState, action) => {
@@ -52,6 +54,16 @@ export const MovieReducer = (state = initialState, action) => {
 
   case SET_THONG_TIN_PHIM: {
     state.movieEditDetail = action.movieEditDetail;
+    return { ...state }
+  }
+
+  case GET_BINH_LUAN_PHIM: {
+    state.arrBinhLuanPhim = action.arrBinhLuanPhim;
+    return { ...state }
+  }
+
+  case GET_BINH_LUAN_DETAIL_PHIM: {
+    state.detailBinhLuanPhim = action.detailBinhLuanPhim;
     return { ...state }
   }
 

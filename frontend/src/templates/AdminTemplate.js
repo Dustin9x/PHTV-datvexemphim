@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { Route } from "react-router-dom";
-import { HomeOutlined, UserOutlined, BankOutlined, VideoCameraOutlined, FormOutlined } from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, BankOutlined, VideoCameraOutlined, FormOutlined, QuestionOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme, Button } from 'antd';
 import { Avatar, Popover } from 'antd';
 import { NavLink } from "react-router-dom";
@@ -28,6 +28,7 @@ const items = [
   getItem('Rạp Chiếu', '3', <NavLink className='text-decoration-none' to="/admin/theatrechildmng"><BankOutlined /></NavLink>),
   getItem('Quản Lý Bài Viết', '4', <NavLink className='text-decoration-none' to="/admin/newsmng"><FormOutlined /></NavLink>),
   getItem('Quản Lý Người Dùng', '5', <NavLink className='text-decoration-none' to="/admin/users"><UserOutlined /></NavLink>),
+  getItem('Quản Lý Feedback', '6', <NavLink className='text-decoration-none' to="/admin/feedbackmng"><QuestionOutlined /></NavLink>),
 ]
 
 

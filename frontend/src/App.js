@@ -41,6 +41,7 @@ import NewsEdit from './pages/Admin/NewsMng/NewsEdit';
 import NewsDetail from './pages/News/NewsDetail';
 import EditTheatreChild from './pages/Admin/TheatreChildMng/EditTheatreChild';
 import Search from './pages/Search/Search';
+import FeedbackMng from './pages/Admin/FeedbackMng/FeedbackMng';
 
 const CheckOutTemplateLazy = lazy(() => import('./templates/CheckOutTemplate'));
 
@@ -90,6 +91,9 @@ function App() {
         <AdminTemplate path='/admin/newsmng' exact Component={NewsMng} />
         <AdminTemplate path='/admin/newsmng/addnews' exact Component={AddNews} />
         <AdminTemplate path='/admin/newsmng/edit/:id' exact Component={NewsEdit} />
+
+        {/* Feedback */}
+        <AdminTemplate path='/admin/feedbackmng' exact Component={FeedbackMng} />
 
         <HomeTemplate path='/' exact Component={Home} />
         <HomeTemplate path='/search/*' exact Component={Search} />

@@ -7,6 +7,7 @@ import { UserReducer } from './reducers/UserReducer';
 import { QuanLyDatVeReducer } from './reducers/QuanLyDatVeReducer';
 import { LoadingReducer } from './reducers/LoadingReducer';
 import { NewsReducer } from './reducers/NewsReducer';
+import { FeedbackReducer } from './reducers/FeedbackReducer';
 
 
 
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     UserReducer,
     QuanLyDatVeReducer,
     LoadingReducer,
-    NewsReducer
+    NewsReducer,
+    FeedbackReducer
 })
 
 export const store = createStore(rootReducer,applyMiddleware(reduxThunk));

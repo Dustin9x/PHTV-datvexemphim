@@ -8,12 +8,12 @@ use App\Http\Controllers\Api\SeatController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CommentArticleController;
+use App\Http\Controllers\Api\CommentMovieController;
+use App\Http\Controllers\Api\FeedBackController;
 use App\Http\Controllers\Api\OrderDetailController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProvinceController;
 use App\Http\Controllers\Api\ShowtimeController;
-use App\Models\CommentArticle;
-use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -103,6 +103,14 @@ Route::get('laydanhsachbinhluan/{id}/edit', [CommentArticleController::class, 'e
 Route::post('laydanhsachbinhluan/{id}/update', [CommentArticleController::class, 'update']);
 Route::delete('laydanhsachbinhluan/{id}/delete', [CommentArticleController::class, 'destroy']);
 
+//Review movie
+Route::get('laydanhsachbinhluanphim', [CommentMovieController::class, 'index']);
+Route::post('laydanhsachbinhluanphim', [CommentMovieController::class, 'store']);
+Route::get('laydanhsachbinhluanphim/{id}', [CommentMovieController::class, 'show']);
+Route::get('laydanhsachbinhluanphim/{id}/edit', [CommentMovieController::class, 'edit']);
+Route::post('laydanhsachbinhluanphim/{id}/update', [CommentMovieController::class, 'update']);
+Route::delete('laydanhsachbinhluanphim/{id}/delete', [CommentMovieController::class, 'destroy']);
+
 //user
 Route::get('laydanhsachuser', [UsersController::class, 'index']);
 Route::post('laydanhsachuser', [UsersController::class, 'store']);
@@ -112,6 +120,13 @@ Route::delete('laydanhsachuser/{id}/delete', [UsersController::class, 'destroy']
 
 //tim kiem
 Route::get('timkiem/search/', [PostController::class, 'content']);
+
+//Feedback
+Route::get('laydanhsachfeedback', [FeedBackController::class, 'index']);
+Route::post('laydanhsachfeedback', [FeedBackController::class, 'store']);
+Route::get('laydanhsachfeedback/{id}', [FeedBackController::class, 'show']);
+Route::post('laydanhsachfeedback/{id}/update', [FeedBackController::class, 'update']);
+Route::delete('laydanhsachfeedback/{id}/delete', [FeedBackController::class, 'destroy']);
 
 //authen
 Route::group([

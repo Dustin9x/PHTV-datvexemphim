@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom'
 import { Button, Avatar, Popover, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 import { TOKEN, USER_LOGIN } from '../../../util/settings/config';
 import { history } from '../../../App';
@@ -11,11 +10,6 @@ import { useDispatch } from 'react-redux';
 
 export default function Header(props) {
     const dispatch = useDispatch()
-    const handleChange = (value) => {
-        i18n.changeLanguage(value)
-    };
-
-    const { t, i18n } = useTranslation();
     let userLogin = {}
     if (localStorage.getItem(USER_LOGIN)) {
         userLogin = JSON.parse(localStorage.getItem(USER_LOGIN))
@@ -37,8 +31,8 @@ export default function Header(props) {
     const renderLogin = () => {
         if (_.isEmpty(userLogin)) {
             return <Fragment>
-                <Button type="text" href="/register" className="text-white">{t('signup')}</Button>
-                <Button type="primary" href="/login" className="font-semibold bg-violet-400">{t('signin')}</Button>
+                <Button type="text" href="/register" className="text-white">Đăng Ký</Button>
+                <Button type="primary" href="/login" className="font-semibold rounded-full bg-violet-500">Đăng Nhập</Button>
             </Fragment>
         } else {
             return <Popover placement="bottomRight" title={userLogin.name} content={content} trigger="click">
@@ -64,7 +58,7 @@ export default function Header(props) {
                             <img src='/img/name.png' alt='logo' style={{ width: '100px', height: '100%' }} />
                         </div>
                     </NavLink>
-                    <ul className="items-stretch hidden space-x-3 lg:flex ml-5">
+                    <ul className="items-stretch hidden space-x-3 lg:flex ml-20">
                         <li className="flex">
                             <NavLink to="/home" style={{textDecoration:'none'}} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-violet-400" activeClassName="border-b-2 text-violet-400 border-violet-600">Trang Chủ</NavLink>
                         </li>
@@ -78,37 +72,13 @@ export default function Header(props) {
                     </ul>
 
                     <div className="items-center flex-shrink-0 hidden lg:flex">
-                        <Input allowClear placeholder="Tìm kiếm" id='search' className='rounded-full mr-5' prefix={<SearchOutlined />} onPressEnter={(e)=>{
+                        <Input allowClear placeholder="Tìm kiếm" id='search' className='rounded-full mr-3' prefix={<SearchOutlined />} onPressEnter={(e)=>{
                             dispatch(layKetQuaTimKiem(e.target.value));
                             history.push(`/search/?search=${e.target.value}`);
                             var url = new URL("http://localhost:3000/search/?search=hihi");
                             url.searchParams.set('search', e.target.value);
                         }}/>
-                        {/* <Select
-                            defaultValue="en"
-                            style={{
-                                width: 60,
-                                marginRight: 12
-                            }}
-                            onChange={handleChange}
-                            options={[
-                                {
-                                    value: 'en',
-                                    label: 'En',
-                                },
-                                {
-                                    value: 'cn',
-                                    label: 'Cn',
-                                },
-                                {
-                                    value: 'vi',
-                                    label: 'Vi',
-                                }
-                            ]}
-                        /> */}
-
                         {renderLogin()}
-
                     </div>
                     <button className="p-4 lg:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 text-gray-100">

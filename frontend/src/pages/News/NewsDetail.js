@@ -20,7 +20,7 @@ export default function NewsDetail(props) {
     useEffect(() => {
         dispatch(layDanhSachTinTucAction(id))
         dispatch(layDanhSachBinhLuanAction(id))
-    }, [dispatch,id])
+    }, [dispatch, id])
 
 
     const [form] = Form.useForm();
@@ -49,7 +49,7 @@ export default function NewsDetail(props) {
                     detailBinhLuan: {}
                 })
             }
-            values.comment='';
+            values.comment = '';
         }
     })
 
@@ -78,7 +78,10 @@ export default function NewsDetail(props) {
 
             >
                 <div className='d-flex align-center'>
-                    <Avatar size={40} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={item?.username.substr(0, 1)} />
+                    {userLogin.avatar ?
+                        <div style={{ minWidth: '40px', minHeight: '40px', height: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${userLogin.avatar})` }} />
+                        : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={userLogin?.name.substr(0, 1)} />
+                    }
                     <div className='w-full'>
                         <p className='my-auto m-3 text-danger'>{item.username}</p>
                         <p className='my-auto ml-3'>{dayjs(item.created_at).format('DD-MM-YYYY')}</p>
@@ -98,7 +101,7 @@ export default function NewsDetail(props) {
     return (
         <div>
             <div className='container' >
-                <div className='d-flex items-center absolute z-10' style={{top:'28%'}}>
+                <div className='d-flex items-center absolute z-10' style={{ top: '28%' }}>
                     <div className='container' >
                         <h2 class=" text-white drop-shadow-md text-5xl">{detailTinTuc.tieuDe}</h2>
                         <div class="text-white end__text drop-shadow-md">{detailTinTuc.noiDungPhu}</div>
@@ -107,7 +110,7 @@ export default function NewsDetail(props) {
                 </div>
             </div>
 
-            <div className='' style={{ backgroundImage: `url(${detailTinTuc.hinhAnh})`, height: 700, backgroundSize: 'cover', filter:'brightness(0.5)' }}>
+            <div className='' style={{ backgroundImage: `url(${detailTinTuc.hinhAnh})`, height: 700, backgroundSize: 'cover', filter: 'brightness(0.5)' }}>
 
 
             </div>
@@ -147,8 +150,8 @@ export default function NewsDetail(props) {
                                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Bài Viết Mới Nhất</h5>
                                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                                     Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
-                                    
-                                    </p>
+
+                                </p>
                             </div>
                         </div>
                     </div>
