@@ -21,6 +21,11 @@ export class QuanLyDonHangService extends baseService {
     }
 
 
+    layDoanhThu = ( year ) => {
+        return this.get(`/api/doanhthu/${year}`);
+    }
+
+
 }
 
 export const quanLyDonHangService = new QuanLyDonHangService();

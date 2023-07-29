@@ -8,6 +8,7 @@ import { QuanLyDatVeReducer } from './reducers/QuanLyDatVeReducer';
 import { LoadingReducer } from './reducers/LoadingReducer';
 import { NewsReducer } from './reducers/NewsReducer';
 import { FeedbackReducer } from './reducers/FeedbackReducer';
+import { OrderDetailReducer } from './reducers/OderDetailReducer';
 
 
 
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     QuanLyDatVeReducer,
     LoadingReducer,
     NewsReducer,
-    FeedbackReducer
+    FeedbackReducer,
+    OrderDetailReducer
 })
 
 export const store = createStore(rootReducer,applyMiddleware(reduxThunk));

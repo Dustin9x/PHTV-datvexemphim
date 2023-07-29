@@ -44,4 +44,57 @@ class FeedBackController extends Controller
             ], 500);
         }
     }
+
+
+    public function show($id)
+    {
+        $feedback = FeedBack::where('maFeedback', $id)->first();
+        if ($feedback) {
+            return response()->json([
+                'status' => 200,
+                'content' => $feedback
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'no such feedback found'
+            ], 404);
+        }
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $feedback = FeedBack::where('maFeedback', $id)->first();
+        if ($request->all()) {
+            $feedback->email = $request->email;
+            $feedback->tieuDe = $request->tieuDe;
+            $feedback->noiDung = $request->noiDung;
+            $feedback->ngayXuLy = $request->ngayXuLy;
+            $feedback->noiDungXuLy = $request->noiDungXuLy;
+        }
+        $feedback->save();
+
+        return response()->json([
+            'message' => "Feedback successfully updated."
+        ], 200);
+    }
+
+
+    public function destroy($id)
+    {
+        $feedback = FeedBack::where('maFeedback', $id)->first();
+        if ($feedback) {
+            $feedback->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Feedback deleted successfully'
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'no such feedback found'
+            ], 404);
+        }
+    }
 }

@@ -19,7 +19,7 @@ export default function Header(props) {
     const content = (
         <div style={{ width: 200 }}>
             <Button type="text" href="/users/profile" className='w-full text-left'>Trang Cá Nhân</Button>
-            {(userLogin.role === 'QuanTri') ? <Button type="text" className='w-full text-left' href="/admin/users">Trang Quản Trị</Button> : ''}
+            {(userLogin.role === 'QuanTri') ? <Button type="text" className='w-full text-left' href="/admin/moviemng">Trang Quản Trị</Button> : ''}
             <Button type="text" href="/home" className='w-full text-left' onClick={() => {
                 localStorage.removeItem(USER_LOGIN)
                 localStorage.removeItem(TOKEN)

@@ -27,8 +27,15 @@ const items = [
   ]),
   getItem('Rạp Chiếu', '3', <NavLink className='text-decoration-none' to="/admin/theatrechildmng"><BankOutlined /></NavLink>),
   getItem('Quản Lý Bài Viết', '4', <NavLink className='text-decoration-none' to="/admin/newsmng"><FormOutlined /></NavLink>),
-  getItem('Quản Lý Người Dùng', '5', <NavLink className='text-decoration-none' to="/admin/users"><UserOutlined /></NavLink>),
-  getItem('Quản Lý Feedback', '6', <NavLink className='text-decoration-none' to="/admin/feedbackmng"><QuestionOutlined /></NavLink>),
+  getItem('Quản Lý Người Dùng', 'sub2', <UserOutlined />, [
+    getItem('Quản Trị Viên', '5', <NavLink className='text-decoration-none' to="/admin/adminusers"><UserOutlined /></NavLink>),
+    getItem('Khách Hàng', '6', <NavLink className='text-decoration-none' to="/admin/freeusers"><UserOutlined /></NavLink>),
+  ]),
+  getItem('Theo Dõi Doanh Thu', 'sub3', <UserOutlined />, [
+    getItem('Doanh Thu Theo Tháng', '7', <NavLink className='text-decoration-none' to="/admin/revenuemonth"><UserOutlined /></NavLink>),
+    getItem('Doanh Thu Theo Phim', '8', <NavLink className='text-decoration-none' to="/admin/revenuemovie"><UserOutlined /></NavLink>),
+  ]),
+  getItem('Quản Lý Feedback', '9', <NavLink className='text-decoration-none' to="/admin/feedbackmng"><QuestionOutlined /></NavLink>),
 ]
 
 

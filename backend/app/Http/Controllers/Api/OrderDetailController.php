@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\OrderDetail;
 use App\Models\Seat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderDetailController extends Controller
 {
@@ -96,6 +97,23 @@ class OrderDetailController extends Controller
             return response()->json([
                 'status' => 404,
                 'message' => 'no such order found'
+            ], 404);
+        }
+    }
+
+
+    public function doanhthu($year)
+    {
+        $order = OrderDetail::whereYear('created_at', $year)->get();
+        if ($order->count() >= 0) {
+            return response()->json([
+                'status' => 200,
+                'content' => $order
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'no oder found'
             ], 404);
         }
     }

@@ -8,7 +8,7 @@ import { layDanhSachNguoiDungAction, xoaNguoiDungAction } from '../../../redux/a
 
 
 
-export default function UserMng() {
+export default function AdminUserMng() {
   let { arrUser } = useSelector(state => state.UserReducer);
   const dispatch = useDispatch();
   useEffect((value) => {
@@ -33,7 +33,7 @@ export default function UserMng() {
   };
   
 
-  const data = arrUser;
+  const data = arrUser.filter(item => item.role === 'QuanTri');
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (

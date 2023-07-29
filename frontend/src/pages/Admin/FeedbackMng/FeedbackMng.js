@@ -1,12 +1,10 @@
 import React, { Fragment, useEffect } from 'react'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, KeyOutlined } from '@ant-design/icons';
 import { Button, DatePicker, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { useDispatch, useSelector } from 'react-redux';
-import {  xoaRapChieuAction } from '../../../redux/actions/QuanLyRapAction';
-import { layDanhSachFeedbackAction } from '../../../redux/actions/QuanLyFeedbackAction';
+import { layDanhSachFeedbackAction, xoaFeedbackAction } from '../../../redux/actions/QuanLyFeedbackAction';
 import dayjs from 'dayjs';
-import { values } from 'lodash';
 
 
 export default function FeedbackMng() {
@@ -16,10 +14,7 @@ export default function FeedbackMng() {
     dispatch(layDanhSachFeedbackAction())
   }, [dispatch])
 
-
   const data = arrFeedback;
-  console.log('arrFeedback',arrFeedback)
-  
 
   const columns = [
     {
@@ -60,7 +55,7 @@ export default function FeedbackMng() {
       sorter: (a, b) => a.ngayXuLy.length - b.ngayXuLy.length,
       sortDirections: ['descend', 'ascend'],
       render: (text,feedback)=>{
-        return <DatePicker format={'DD-MM-YYYY'}/>
+        return feedback.ngayXuLy ? <div>{dayjs(feedback.ngayXuLy).format('DD-MM-YYYY')}</div> : ''
       }
     },
     {
@@ -72,14 +67,12 @@ export default function FeedbackMng() {
     },
     {
       title: 'Quản Lý',
-      render: (text, movie) => {
+      render: (text, feedback) => {
         return <Fragment>
-          <Button key={1} href={`/admin/theatremng/edit/${movie.maRap}`} type="link" icon={<EditOutlined />} onClick={() => {
-            localStorage.setItem('theatreParams', JSON.stringify(movie));
-          }}></Button>
+          <Button key={1} href={`/admin/editfeedback/${feedback.maFeedback}`} type="link" icon={<KeyOutlined />}></Button>
           <Button key={2} type="link" danger icon={<DeleteOutlined />} onClick={() => {
-            if (window.confirm('Bạn có chắc chắn muốn xóa rạp ' + movie.tenRap + '?')) {
-              dispatch(xoaRapChieuAction(movie.maRap))
+            if (window.confirm('Bạn có chắc chắn muốn xóa feedback có mã ' + feedback.maFeedback + '?')) {
+              dispatch(xoaFeedbackAction(feedback.maFeedback))
             }
           }}></Button>
         </Fragment>

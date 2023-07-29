@@ -87,6 +87,7 @@ Route::get('laydanhsachdonhang', [OrderDetailController::class, 'index']);
 Route::post('laydanhsachdonhang', [OrderDetailController::class, 'store']);
 Route::get('laychitietdonhang/{id}', [OrderDetailController::class, 'show']);
 Route::get('laydanhsachdonhang/{id}', [OrderDetailController::class, 'showByUser']);
+Route::get('doanhthu/{year}', [OrderDetailController::class, 'doanhthu']);
 
 //tin tuc
 Route::get('laydanhsachtintuc', [PostController::class, 'index']);
@@ -127,6 +128,7 @@ Route::post('laydanhsachfeedback', [FeedBackController::class, 'store']);
 Route::get('laydanhsachfeedback/{id}', [FeedBackController::class, 'show']);
 Route::post('laydanhsachfeedback/{id}/update', [FeedBackController::class, 'update']);
 Route::delete('laydanhsachfeedback/{id}/delete', [FeedBackController::class, 'destroy']);
+
 
 //authen
 Route::group([

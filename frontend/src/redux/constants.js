@@ -31,6 +31,7 @@ export const DAT_VE = 'DAT_VE'
 export const LAY_DANH_SACH_DON_HANG_THEO_USER = 'LAY_DANH_SACH_DON_HANG_THEO_USER'
 export const SET_THONG_TIN_DAT_VE = 'SET_THONG_TIN_DAT_VE'
 export const DAT_VE_HOAN_TAT = 'DAT_VE_HOAN_TAT'
+export const LAY_DOANH_THU = 'LAY_DOANH_THU'
 
 
 export const GET_TIN_TUC = 'GET_TIN_TUC';
