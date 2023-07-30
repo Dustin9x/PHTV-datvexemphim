@@ -47,6 +47,7 @@ import FreeUserMng from './pages/Admin/UserMng/FreeUserMng';
 import RevenueMonth from './pages/Admin/Revenue/RevenueMonth';
 import RevenueMovie from './pages/Admin/Revenue/RevenueMovie';
 import UserOrder from './pages/Admin/UserMng/UserOrder';
+import OrderList from './pages/Admin/Revenue/OrderList';
 
 
 export const history = createBrowserHistory();
@@ -95,6 +96,7 @@ function App() {
         <AdminTemplate path='/admin/theatremng/edit/:id' exact Component={EditTheatreChild} />
 
         {/* Doanh Thu */}
+        <AdminTemplate path='/admin/orderlist' exact Component={OrderList} />
         <AdminTemplate path='/admin/revenuemonth' exact Component={RevenueMonth} />
         <AdminTemplate path='/admin/revenuemovie' exact Component={RevenueMovie} />
 

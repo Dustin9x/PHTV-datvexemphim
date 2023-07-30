@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useEffect } from "react";
 import { Alert, DatePicker, Table } from "antd";
 import {
@@ -10,7 +10,6 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import axios from "axios";
 import "./revenueMovie.css";
 import { useDispatch, useSelector } from "react-redux";
 import { layDoanhThuAction } from "../../../redux/actions/QuanLyDonHangAction";
@@ -22,7 +21,7 @@ export default function RevenueMovie() {
   const dispatch = useDispatch()
   const { arrDoanhThu } = useSelector(state => state.OrderDetailReducer)
 
-console.log('arrDoanhThu',arrDoanhThu)
+  console.log('arrDoanhThu', arrDoanhThu)
   var resMap = new Map();
   var arrChart = [];
   arrDoanhThu?.map((item) => {
@@ -41,7 +40,7 @@ console.log('arrDoanhThu',arrDoanhThu)
   const year = dayjs().year()
   useEffect(() => {
     dispatch(layDoanhThuAction(year))
-  }, [dispatch,year]);
+  }, [dispatch, year]);
 
 
 
@@ -79,7 +78,7 @@ console.log('arrDoanhThu',arrDoanhThu)
       key: "tongTien",
       sorter: (a, b) => a.tongTien.length - b.tongTien.length,
       sortDirections: ["descend", "ascend"],
-      render: (text,order) => {
+      render: (text, order) => {
         return <div>{order.tongTien.toLocaleString()}</div>
       }
     },
@@ -96,23 +95,17 @@ console.log('arrDoanhThu',arrDoanhThu)
         <DatePicker defaultValue={dayjs()} onChange={onChange} picker="year" />
         <div>
           <h1 className="titleRevenueTable text-xl"> BIỂU ĐỒ DOANH THU THEO PHIM</h1>
+          {arrChart.length === 0 || arrChart === undefined ? <Alert message="Chưa có dữ liệu" type="warning" /> : ''}
           <div className="chartt" >
-        {arrChart.length === 0 || arrChart === undefined ? <Alert message="Chưa có dữ liệu" type="warning" /> : ''}
-            
-            <Bar data={datachart} style={{height:'100%',maxHeight:'300px'}}></Bar>
+            <Bar data={datachart} style={{ height: '100%', maxHeight: '300px' }}></Bar>
           </div>
         </div>
       </div>
       <hr />
       <div className="revenueTable">
         <h1 className="titleRevenueTable text-xl">BẢNG DOANH THU THEO PHIM </h1>
-        <div>
-          {" "}
-          <div></div>
-        </div>
       </div>
       <div>
-        {" "}
         <Table columns={columns} dataSource={arrChart} f />
       </div>
     </>

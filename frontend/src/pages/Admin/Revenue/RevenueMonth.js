@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useEffect } from "react";
 import { Alert, DatePicker, Table } from "antd";
 import {
@@ -10,7 +10,6 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import axios from "axios";
 import "./revenueMovie.css";
 import { useDispatch, useSelector } from "react-redux";
 import { layDoanhThuAction } from "../../../redux/actions/QuanLyDonHangAction";
@@ -41,8 +40,6 @@ export default function RevenueMonth() {
   useEffect(() => {
     dispatch(layDoanhThuAction(year))
   }, [dispatch, year]);
-
-  console.log('months', months)
 
   const datachart = {
     labels: months.map(value => value.thang),
@@ -95,8 +92,8 @@ export default function RevenueMonth() {
         <DatePicker defaultValue={dayjs()} onChange={onChange} picker="year" />
         <div>
           <h1 className="titleRevenueTable text-xl"> BIỂU ĐỒ DOANH THU THEO PHIM </h1>
-          <div className="chartt" >
             {months.length === 0 || months === undefined ? <Alert message="Chưa có dữ liệu" type="warning" /> : ''}
+          <div className="chartt" >
             <Bar data={datachart} style={{ height: '100%', maxHeight: '300px' }}></Bar>
           </div>
         </div>
@@ -104,13 +101,8 @@ export default function RevenueMonth() {
       <hr />
       <div className="revenueTable">
         <h1 className="titleRevenueTable text-xl">BẢNG DOANH THU THEO THÁNG </h1>
-        <div>
-          {" "}
-          <div></div>
-        </div>
       </div>
       <div>
-        {" "}
         <Table columns={columns} dataSource={months} f />
       </div>
     </>

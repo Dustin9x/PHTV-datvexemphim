@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { Route } from "react-router-dom";
-import { HomeOutlined, UserOutlined, BankOutlined, VideoCameraOutlined, FormOutlined, QuestionOutlined } from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, BankOutlined, VideoCameraOutlined, FormOutlined, QuestionOutlined, LineChartOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme, Button } from 'antd';
 import { Avatar, Popover } from 'antd';
 import { NavLink } from "react-router-dom";
@@ -31,11 +31,12 @@ const items = [
     getItem('Quản Trị Viên', '5', <NavLink className='text-decoration-none' to="/admin/adminusers"><UserOutlined /></NavLink>),
     getItem('Khách Hàng', '6', <NavLink className='text-decoration-none' to="/admin/freeusers"><UserOutlined /></NavLink>),
   ]),
-  getItem('Theo Dõi Doanh Thu', 'sub3', <UserOutlined />, [
-    getItem('Doanh Thu Theo Tháng', '7', <NavLink className='text-decoration-none' to="/admin/revenuemonth"><UserOutlined /></NavLink>),
-    getItem('Doanh Thu Theo Phim', '8', <NavLink className='text-decoration-none' to="/admin/revenuemovie"><UserOutlined /></NavLink>),
+  getItem('Theo Dõi Doanh Thu', 'sub3', <LineChartOutlined />, [
+    getItem('Danh Sách Đơn Hàng', '7', <NavLink className='text-decoration-none' to="/admin/orderlist"><LineChartOutlined /></NavLink>),
+    getItem('Doanh Thu Theo Tháng', '8', <NavLink className='text-decoration-none' to="/admin/revenuemonth"><LineChartOutlined /></NavLink>),
+    getItem('Doanh Thu Theo Phim', '9', <NavLink className='text-decoration-none' to="/admin/revenuemovie"><LineChartOutlined /></NavLink>),
   ]),
-  getItem('Quản Lý Feedback', '9', <NavLink className='text-decoration-none' to="/admin/feedbackmng"><QuestionOutlined /></NavLink>),
+  getItem('Quản Lý Feedback', '10', <NavLink className='text-decoration-none' to="/admin/feedbackmng"><QuestionOutlined /></NavLink>),
 ]
 
 
