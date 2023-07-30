@@ -67,41 +67,10 @@ console.log('arrDoanhThu',arrDoanhThu)
   };
   const columns = [
     {
-      title: "Mã Đơn Hàng",
-      dataIndex: "maOrder",
-      key: "maOrder",
-      sorter: (a, b) => a.maOrder.length - b.maOrder.length,
-      sortDirections: ["descend", "ascend"],
-    },
-    {
       title: "Phim",
       dataIndex: "phim",
       key: "phim",
       sorter: (a, b) => a.phim.length - b.phim.length,
-      sortDirections: ["descend", "ascend"],
-    },
-    {
-      title: "Rạp",
-      dataIndex: "rapChieu",
-      key: "rapChieu",
-      sorter: (a, b) => a.rapChieu.length - b.rapChieu.length,
-      sortDirections: ["descend", "ascend"],
-    },
-    {
-      title: "Ngày Chiếu",
-      dataIndex: "ngayChieu",
-      key: "ngayChieu",
-      sorter: (a, b) => a.ngayChieu.length - b.ngayChieu.length,
-      sortDirections: ["descend", "ascend"],
-      render: (text,order) => {
-        return <div>{dayjs(order.ngayChieu).format('DD-MM-YYYY')}</div>
-      }
-    },
-    {
-      title: "Suất Chiếu",
-      dataIndex: "gioChieu",
-      key: "gioChieu",
-      sorter: (a, b) => a.gioChieu.length - b.gioChieu.length,
       sortDirections: ["descend", "ascend"],
     },
     {
@@ -126,11 +95,8 @@ console.log('arrDoanhThu',arrDoanhThu)
       <div className="">
         <DatePicker defaultValue={dayjs()} onChange={onChange} picker="year" />
         <div>
-          <h1 className="titleRevenueTable">
-            BIỂU ĐỒ TỔNG DOANH THU THEO PHIM
-          </h1>
+          <h1 className="titleRevenueTable text-xl"> BIỂU ĐỒ DOANH THU THEO PHIM</h1>
           <div className="chartt" >
-        {/* {arrChart.length === 0 || arrChart === undefined ? <p style={{height:50, top:'25%',left:'50%'}} className="z-20 p-5 relative text-center bg-white rounded-lg shadow-md">Chưa có dữ liệu</p> : ''} */}
         {arrChart.length === 0 || arrChart === undefined ? <Alert message="Chưa có dữ liệu" type="warning" /> : ''}
             
             <Bar data={datachart} style={{height:'100%',maxHeight:'300px'}}></Bar>
@@ -139,7 +105,7 @@ console.log('arrDoanhThu',arrDoanhThu)
       </div>
       <hr />
       <div className="revenueTable">
-        <h1 className="titleRevenueTable">VẢNG TỔNG DOANH THU THEO PHIM </h1>
+        <h1 className="titleRevenueTable text-xl">BẢNG DOANH THU THEO PHIM </h1>
         <div>
           {" "}
           <div></div>
@@ -147,7 +113,7 @@ console.log('arrDoanhThu',arrDoanhThu)
       </div>
       <div>
         {" "}
-        <Table columns={columns} dataSource={arrDoanhThu} f />
+        <Table columns={columns} dataSource={arrChart} f />
       </div>
     </>
   );

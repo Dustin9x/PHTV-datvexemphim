@@ -32,8 +32,8 @@ export default function RevenueMonth() {
     const [key, values] = entry;
 
     return {
-      months: key,
-      total: sumBy(values, 'tongTien'),
+      thang: key,
+      tongTien: sumBy(values, 'tongTien'),
     };
   });
 
@@ -44,63 +44,32 @@ export default function RevenueMonth() {
 
   console.log('months', months)
 
-  // const datachart = {
-  //   labels: arrChart.map(value => value.phim),
-  //   datasets: [
-  //     {
-  //       label: "VND",
-  //       data: arrChart.map(value => value.tongTien),
-  //       options: {
-  //         scales: {
-  //           y: {
-  //             beginAtZero: true
-  //           }
-  //         }
-  //       },
-  //       backgroundColor: 'rgba(255, 99, 132, 0.2)',
-  //       borderColor: 'rgb(255, 99, 132)',
-  //       borderWidth: 1,
-  //       borderRadius: 5
-  //     },
-  //   ],
-  // };
+  const datachart = {
+    labels: months.map(value => value.thang),
+    datasets: [
+      {
+        label: "VND",
+        data: months.map(value => value.tongTien),
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        },
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgb(255, 99, 132)',
+        borderWidth: 1,
+        borderRadius: 5
+      },
+    ],
+  };
   const columns = [
     {
-      title: "Mã Đơn Hàng",
-      dataIndex: "maOrder",
-      key: "maOrder",
-      sorter: (a, b) => a.maOrder.length - b.maOrder.length,
-      sortDirections: ["descend", "ascend"],
-    },
-    {
-      title: "Phim",
-      dataIndex: "phim",
-      key: "phim",
-      sorter: (a, b) => a.phim.length - b.phim.length,
-      sortDirections: ["descend", "ascend"],
-    },
-    {
-      title: "Rạp",
-      dataIndex: "rapChieu",
-      key: "rapChieu",
-      sorter: (a, b) => a.rapChieu.length - b.rapChieu.length,
-      sortDirections: ["descend", "ascend"],
-    },
-    {
-      title: "Ngày Chiếu",
-      dataIndex: "ngayChieu",
-      key: "ngayChieu",
-      sorter: (a, b) => a.ngayChieu.length - b.ngayChieu.length,
-      sortDirections: ["descend", "ascend"],
-      render: (text, order) => {
-        return <div>{dayjs(order.ngayChieu).format('DD-MM-YYYY')}</div>
-      }
-    },
-    {
-      title: "Suất Chiếu",
-      dataIndex: "gioChieu",
-      key: "gioChieu",
-      sorter: (a, b) => a.gioChieu.length - b.gioChieu.length,
+      title: "Tháng",
+      dataIndex: "thang",
+      key: "thang",
+      sorter: (a, b) => a.thang.length - b.thang.length,
       sortDirections: ["descend", "ascend"],
     },
     {
@@ -125,19 +94,16 @@ export default function RevenueMonth() {
       <div className="">
         <DatePicker defaultValue={dayjs()} onChange={onChange} picker="year" />
         <div>
-          <h1 className="titleRevenueTable">
-            BIỂU ĐỒ TỔNG DOANH THU THEO PHIM
-          </h1>
+          <h1 className="titleRevenueTable text-xl"> BIỂU ĐỒ DOANH THU THEO PHIM </h1>
           <div className="chartt" >
-            {/* {arrChart.length === 0 || arrChart === undefined ? <Alert message="Chưa có dữ liệu" type="warning" /> : ''} */}
-
-            {/* <Bar data={datachart} style={{ height: '100%', maxHeight: '300px' }}></Bar> */}
+            {months.length === 0 || months === undefined ? <Alert message="Chưa có dữ liệu" type="warning" /> : ''}
+            <Bar data={datachart} style={{ height: '100%', maxHeight: '300px' }}></Bar>
           </div>
         </div>
       </div>
       <hr />
       <div className="revenueTable">
-        <h1 className="titleRevenueTable">VẢNG TỔNG DOANH THU THEO PHIM </h1>
+        <h1 className="titleRevenueTable text-xl">BẢNG DOANH THU THEO THÁNG </h1>
         <div>
           {" "}
           <div></div>
@@ -145,7 +111,7 @@ export default function RevenueMonth() {
       </div>
       <div>
         {" "}
-        <Table columns={columns} dataSource={arrDoanhThu} f />
+        <Table columns={columns} dataSource={months} f />
       </div>
     </>
   );
