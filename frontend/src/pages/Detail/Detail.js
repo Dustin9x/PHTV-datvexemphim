@@ -13,6 +13,7 @@ import _ from 'lodash';
 import { GET_BINH_LUAN_DETAIL_PHIM } from '../../redux/constants';
 import { useFormik } from 'formik';
 import { TOKEN } from '../../util/settings/config';
+import { layDanhSachNguoiDungAction } from '../../redux/actions/QuanLyNguoiDungAction';
 const { TabPane } = Tabs;
 
 export default function Detail(props) {
@@ -20,6 +21,7 @@ export default function Detail(props) {
     const { movieEditDetail } = useSelector(state => state.MovieReducer);
     const { lichChieuTheoPhim } = useSelector(state => state.QuanLyDatVeReducer);
     const { userLogin } = useSelector(state => state.UserReducer)
+    const { arrUser } = useSelector(state => state.UserReducer)
     const { arrBinhLuanPhim } = useSelector(state => state.MovieReducer);
     const { detailBinhLuanPhim } = useSelector(state => state.MovieReducer);
     const { cumRap } = useSelector(state => state.RapReducer);
@@ -30,9 +32,11 @@ export default function Detail(props) {
         dispatch(layLichChieuTheoPhimAction(id))
         dispatch(layDanhSachCumRapAction())
         dispatch(layDanhSachBinhLuanPhimAction(id))
-        dispatch(layChiTietBinhLuanPhimAction(id))
+        dispatch(layDanhSachNguoiDungAction())
     }, [dispatch, id])
 
+console.log('arrBinhLuanPhim',arrBinhLuanPhim)
+console.log('arrUser',arrUser)
     const [lichChieuTheoRap, setLichChieuTheoRap] = useState(lichChieuTheoPhim.filter((item) => item.ngayChieu === ""));
     const handleClick = (event) => {
         let clickNgayChieu = event.target.name;
@@ -55,6 +59,8 @@ export default function Detail(props) {
         let cumRaptheotinh = cumRap.filter(item => item.maTinh_id === clickTinhThanh)
         setCumRaptheotinh(cumRaptheotinh);
     };
+    let cmtAvatar = '';
+    console.log('cmtAvatar',cmtAvatar)
 
     console.log('listNgayChieuActive', listNgayChieuActive)
 
@@ -110,11 +116,14 @@ export default function Detail(props) {
                 bodyStyle={{ width: '100%' }}
 
             >
+                
                 <div className='d-flex align-center'>
-                    {userLogin.avatar ?
-                        <div style={{ minWidth: '40px', minHeight: '40px', height: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${userLogin.avatar})` }} />
-                        : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={userLogin?.name.substr(0, 1)} />
-                    }
+                
+                    
+                    {arrUser.find(us => us.email == item.useremail).avatar !== null
+                    ? <div style={{ width:40, height:40, minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${arrUser.find(us => us.email == item.useremail).avatar})` }} />
+                    : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={item.username.substr(0, 1)} />}
+                    
                     <div className='w-full'>
                         <p className='my-auto m-3 text-danger'>{item.username}</p>
                         <p className='my-auto ml-3'>{dayjs(item.created_at).format('DD-MM-YYYY')}</p>

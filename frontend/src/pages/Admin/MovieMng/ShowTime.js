@@ -199,10 +199,10 @@ export default function ShowTime(props) {
                         </Form.Item>
 
                         <Form.Item label="Giá vé thường">
-                            <InputNumber onChange={handleChangeInputNumber('giaVeThuong')} value={formik.values.giaVeThuong} />
+                            <InputNumber min={0} onChange={handleChangeInputNumber('giaVeThuong')} value={formik.values.giaVeThuong} />
                         </Form.Item>
                         <Form.Item label="Giá vé VIP">
-                            <InputNumber onChange={handleChangeInputNumber('giaVeVip')} value={formik.values.giaVeVip} />
+                            <InputNumber min={0} onChange={handleChangeInputNumber('giaVeVip')} value={formik.values.giaVeVip} />
                         </Form.Item>
 
 

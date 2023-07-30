@@ -8,7 +8,7 @@ import _ from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import { TOKEN, USER_LOGIN } from "../util/settings/config";
 import { history } from "../App";
-import { dangNhapAction } from "../redux/actions/QuanLyNguoiDungAction";
+import { dangNhapAction, layDanhSachNguoiDungAction, layThongTinNguoiDungAction } from "../redux/actions/QuanLyNguoiDungAction";
 const { Header, Content, Sider } = Layout;
 
 function getItem(label, key, icon, children) {
@@ -49,12 +49,21 @@ export const AdminTemplate = (props) => { //path, exact, Component
 
   const selectedKeys = ['/admin/moviemng', '/admin/carouselmng', '/admin/theatremng', '/admin/theatrechildmng', '/admin/newsmng', '/admin/users',]
   const selectedKey = (selectedKeys.indexOf(props.path) + 1).toString();
-  const { userLogin } = useSelector(state => state.UserReducer)
+  // const { userLogin } = useSelector(state => state.UserReducer)
+  const { arrUser } = useSelector(state => state.UserReducer)
 
+  let userLogin = {}
+  if (localStorage.getItem(USER_LOGIN)) {
+    userLogin = JSON.parse(localStorage.getItem(USER_LOGIN))
+  }
   useEffect(() => {
     window.scrollTo(0, 0);
-    dispatch(dangNhapAction())
-  })
+    dispatch(layDanhSachNguoiDungAction())
+  },[])
+
+  
+
+  let usLogin = arrUser?.find(obj => obj.id === userLogin.id)
 
   if (!localStorage.getItem(TOKEN)) {
     // alert('Bạn không có quyền truy cập trang này!')
@@ -88,9 +97,9 @@ export const AdminTemplate = (props) => { //path, exact, Component
         <Popover placement="bottomRight" title={userLogin.taiKhoan} content={content} trigger="click">
           <Button className='rounded-full bg-slate-300 p-0 d-flex justify-center items-center w-full h-full' style={{ width: 40, height: 40 }}>
             {/* <Avatar size={40} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={userLogin.name.substr(0, 1)} /> */}
-            {userLogin.avatar ?
-              <div style={{ minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${userLogin.avatar})` }} />
-              : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={userLogin?.name.substr(0, 1)} />
+            {usLogin !== null ?
+              <div style={{ minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${usLogin?.avatar})` }} />
+              : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={usLogin?.name.substr(0,1)} />
             }
           </Button>
         </Popover>

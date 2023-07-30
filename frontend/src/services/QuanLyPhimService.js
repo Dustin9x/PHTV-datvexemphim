@@ -35,7 +35,11 @@ export class QuanLyPhimService extends baseService {
 
     //Review Phim
     layBinhLuanPhim = (id) => {
-        return this.get(`/api/laydanhsachbinhluanphim/${id}`);
+        if (id != '') {
+            return this.get(`/api/laydanhsachbinhluanphim/${id}`);
+        } else {
+            return this.get(`/api/laydanhsachbinhluanphim/`);
+        }
     }
 
     themBinhLuanPhim = (binhLuan) => {

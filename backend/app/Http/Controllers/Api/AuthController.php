@@ -19,29 +19,40 @@ class AuthController extends Controller
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|confirmed',
-            'role' => 'nullable|string'
+            'role' => 'nullable|string',
+            'avatar' => 'nullable|string',
+            'fileName' => 'nullable|string'
         ]);
  
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'fails',
+                'status' => '401',
                 'message' => 'Email này đã được sử dụng',
-                // 'message' => $validator->errors()->first(),
+                'message' => $validator->errors()->first(),
                 'errors' => $validator->errors()->toArray(),
             ]);
+        } else {
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+            return response()->json([
+                'status' => 200,
+            ]);
         }
+
+        
  
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
-        ]);
+        // $user = new User([
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'password' => bcrypt($request->password)
+        // ]);
  
-        $user->save();
+        // $user->save();
  
-        return response()->json([
-            'status' => 'success',
-        ]);
+        
     }
  
     public function login(Request $request)

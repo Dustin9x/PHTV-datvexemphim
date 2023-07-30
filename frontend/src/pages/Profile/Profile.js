@@ -28,7 +28,11 @@ const Profile = () => {
       <h3 className='mb-5'>Thông tin người dùng: {profile.name}</h3>
       <div className='row mx-10'>
         <div className='col-4'>
-        {profile.avatar ? <img style={{width:200, height:200, objectFit: 'cover', borderRadius: '50%'}} src={profile.avatar} alt={profile.avatar} /> : <Avatar size={200} style={{ fontSize: '80px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={userLogin.name.substr(0, 1)} />}
+        {/* {profile.avatar ? <img style={{width:200, height:200, objectFit: 'cover', borderRadius: '50%'}} src={profile.avatar} alt={profile.avatar} /> : <Avatar size={200} style={{ fontSize: '80px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={userLogin.name.substr(0, 1)} />} */}
+        {profile.avatar !== null ?
+              <div style={{ minWidth: '40px', minHeight: 40, width:200, height:200, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${profile?.avatar})` }} />
+              : <Avatar size={200} style={{ fontSize: '200px', lineHeight: '170px' }} icon={profile?.name.substr(0,1)} />
+            }
         </div>
         <div className='col-8'>
           <div className='col-6'>

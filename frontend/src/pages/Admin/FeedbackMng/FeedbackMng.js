@@ -42,6 +42,13 @@ export default function FeedbackMng() {
       sortDirections: ['descend', 'ascend']
     },
     {
+      title: 'Tiêu Đề',
+      dataIndex: 'tieuDe',
+      key: 'tieuDe',
+      sorter: (a, b) => a.tieuDe.length - b.tieuDe.length,
+      sortDirections: ['descend', 'ascend']
+    },
+    {
       title: 'Nội Dung',
       dataIndex: 'noiDung',
       key: 'noiDung',

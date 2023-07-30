@@ -6,15 +6,18 @@ import _ from 'lodash';
 import { TOKEN, USER_LOGIN } from '../../../util/settings/config';
 import { history } from '../../../App';
 import { layKetQuaTimKiem } from '../../../redux/actions/QuanLyTinTucAction';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Header(props) {
     const dispatch = useDispatch()
+    const { arrUser } = useSelector(state => state.UserReducer)
     let userLogin = {}
     if (localStorage.getItem(USER_LOGIN)) {
         userLogin = JSON.parse(localStorage.getItem(USER_LOGIN))
     }
-    console.log('userLogin', userLogin.role)
+
+    let usLogin = arrUser?.find(obj => obj.id === userLogin.id)
+    console.log('usLogin',usLogin)
 
     const content = (
         <div style={{ width: 200 }}>
@@ -37,11 +40,11 @@ export default function Header(props) {
         } else {
             return <Popover placement="bottomRight" title={userLogin.name} content={content} trigger="click">
                 <Button className='rounded-full bg-slate-300 p-0 d-flex justify-center items-center w-full h-full' style={{ width: 40, height: 40 }}>
-                    {userLogin.avatar?
-                    <div style={{minWidth:'40px', minHeight:40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${userLogin.avatar})`}} />
-                    : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={userLogin?.name.substr(0, 1)} />
+                    {usLogin?.avatar !== null ?
+                        <div style={{ minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${usLogin?.avatar})` }} />
+                        : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={usLogin?.name.substr(0, 1)} />
                     }
-                    </Button>
+                </Button>
             </Popover>
         }
 
@@ -60,24 +63,24 @@ export default function Header(props) {
                     </NavLink>
                     <ul className="items-stretch hidden space-x-3 lg:flex ml-20">
                         <li className="flex">
-                            <NavLink to="/home" style={{textDecoration:'none'}} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-violet-400" activeClassName="border-b-2 text-violet-400 border-violet-600">Trang Chủ</NavLink>
+                            <NavLink to="/home" style={{ textDecoration: 'none' }} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-violet-400" activeClassName="border-b-2 text-violet-400 border-violet-600">Trang Chủ</NavLink>
                         </li>
                         <li className="flex">
-                            <NavLink to="/news" style={{textDecoration:'none'}} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-violet-400" activeClassName="border-b-2 text-violet-400 border-violet-600">Tin Tức</NavLink>
+                            <NavLink to="/news" style={{ textDecoration: 'none' }} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-violet-400" activeClassName="border-b-2 text-violet-400 border-violet-600">Tin Tức</NavLink>
                         </li>
                         <li className="flex">
-                            <NavLink to="/contact" style={{textDecoration:'none'}} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-violet-400" activeClassName="border-b-2 text-violet-400 border-violet-600">Liên Hệ</NavLink>
+                            <NavLink to="/contact" style={{ textDecoration: 'none' }} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-violet-400" activeClassName="border-b-2 text-violet-400 border-violet-600">Liên Hệ</NavLink>
                         </li>
 
                     </ul>
 
                     <div className="items-center flex-shrink-0 hidden lg:flex">
-                        <Input allowClear placeholder="Tìm kiếm" id='search' className='rounded-full mr-3' prefix={<SearchOutlined />} onPressEnter={(e)=>{
+                        <Input allowClear placeholder="Tìm kiếm" id='search' className='rounded-full mr-3' prefix={<SearchOutlined />} onPressEnter={(e) => {
                             dispatch(layKetQuaTimKiem(e.target.value));
                             history.push(`/search/?search=${e.target.value}`);
                             var url = new URL("http://localhost:3000/search/?search=hihi");
                             url.searchParams.set('search', e.target.value);
-                        }}/>
+                        }} />
                         {renderLogin()}
                     </div>
                     <button className="p-4 lg:hidden">

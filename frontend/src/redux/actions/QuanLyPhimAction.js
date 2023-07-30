@@ -75,7 +75,7 @@ export const xoaPhimAction = (maPhim) => {
 export const layDanhSachBinhLuanPhimAction = (id = '') => {
     return async (dispatch) => {
       try {
-        const result = await quanLyPhimService.layBinhLuanPhim(id='');
+        const result = await quanLyPhimService.layBinhLuanPhim(id);
         dispatch({
           type: GET_BINH_LUAN_PHIM,
           arrBinhLuanPhim: result.data.content,

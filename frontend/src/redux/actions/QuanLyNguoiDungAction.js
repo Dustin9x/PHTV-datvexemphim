@@ -13,7 +13,6 @@ export const dangNhapAction = (thongTinDangNhap) => {
                     thongTinDangNhap: result.data.content
                 })
                 history.push('home');
-                console.log('thongtindangnhap',result)
             }
         } catch (error) {
             console.log(error)
@@ -27,8 +26,12 @@ export const dangKyAction = (thongTinDangKy) => {
     return async (dispatch) => {
         try {
             const result = await quanLyNguoiDungService.dangKy(thongTinDangKy);
-            alert('Đăng ký thành công, xin đăng nhập để tiếp tục')
-            history.replace('login');
+            if (result.data.status === 200) {
+                alert('Đăng ký thành công, xin đăng nhập để tiếp tục')
+                history.replace('login');
+            } else {
+                alert('Xin lỗi! Email này đã được sử dụng!')
+            }
         } catch (error) {
             console.log(error)
         }
@@ -52,6 +55,7 @@ export const capNhatNguoiDungAction = (id,newUser) => {
         try {
             const result = await quanLyNguoiDungService.capNhatNguoiDung(id,newUser);
             dispatch(layDanhSachNguoiDungAction())
+            dispatch(layThongTinNguoiDungAction(id))
             alert('Cập nhật người dùng thành công')
             history.goBack();
         } catch (error) {
@@ -76,10 +80,10 @@ export const layThongTinDatVeAction = () => {
     }
 }
 
-export const layDanhSachNguoiDungAction = (id = '') => {
+export const layDanhSachNguoiDungAction = () => {
     return async (dispatch) => {
         try {
-            const result = await quanLyNguoiDungService.layDanhSachNguoiDung(id);
+            const result = await quanLyNguoiDungService.layDanhSachNguoiDung();
             if (result.data.status === 200) {
                 dispatch({
                     type: LAY_DANH_SACH_NGUOI_DUNG,

@@ -30,16 +30,11 @@ function SamplePrevArrow(props) {
 export default function MovieMultiRowSlick(props) {
   const { TabPane } = Tabs;
   const { arrMovie } = useSelector(state => state.MovieReducer);
-
-
-
-
   const btnRef = useRef();
 
   useEffect(() => {
     btnRef.current.focus();
   }, []);
-
 
   const settings = {
     className: "center variable-width",
@@ -56,23 +51,18 @@ export default function MovieMultiRowSlick(props) {
   };
   return (
     <div>
-      <Tabs defaultActiveKey='1' left className='mt-5' style={{ border: 0 }} tabBarStyle={{ width: '100%', border: 0 }}>
+      <Tabs defaultActiveKey='1' left className='' tabBarStyle={{ width: '100%', border: 0 }}>
         <TabPane tab={<button class="block w-full text-xl  focus:outline-none mr-4 py-2 px-4 rounded-full font-semibold  bg-violet-50 text-violet-700 hover:bg-violet-100 focus:bg-violet-700 active:bg-violet-700 focus:text-white"
           ref={btnRef}>ĐANG CHIẾU
         </button>} key="1">
 
-        <Slider {...settings} >
+          <Slider {...settings} >
             {arrMovie.filter(item => item.dangChieu === 1).slice(0, 16).map((item, index) => {
               return <div key={index} >
                 <MovieHover phim={item} />
               </div>
             })}
           </Slider>
-
-
-
-
-
         </TabPane>
         <TabPane tab={<button class="block w-full text-xl  focus:outline-none mr-4 py-2 px-4 rounded-full font-semibold  bg-violet-50 text-violet-700 hover:bg-violet-100 focus:bg-violet-700 active:bg-violet-700 focus:text-white"
         >SẮP CHIẾU
@@ -84,17 +74,8 @@ export default function MovieMultiRowSlick(props) {
               </div>
             })}
           </Slider>
-          {/* {arrMovie.filter(item => item.sapChieu === 1).slice(0, 16).map((item, index) => {
-            return <Slider {...settings} >
-              <div key={index} >
-                <MovieHover phim={item} />
-              </div>
-            </Slider>
-          })} */}
         </TabPane>
       </Tabs>
-
     </div>
   );
-
 }

@@ -6,7 +6,7 @@ import {
     Select,
 } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { capNhatNguoiDungAction } from '../../../redux/actions/QuanLyNguoiDungAction';
+import { capNhatNguoiDungAction, layThongTinNguoiDungAction } from '../../../redux/actions/QuanLyNguoiDungAction';
 import { useFormik } from 'formik';
 import { values } from 'lodash';
 const { Option } = Select;
@@ -20,7 +20,7 @@ const UserEdit = (props) => {
         user = JSON.parse(localStorage.getItem('userParams'));
     }
 
-    const [imgSrc, setImgSrc] = useState('/img/placeholder-image.jpg');
+    const [imgSrc, setImgSrc] = useState(user.avatar || '/img/placeholder-image.jpg');
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -42,6 +42,7 @@ const UserEdit = (props) => {
             }
             console.table('formData', [...formData])
             dispatch(capNhatNguoiDungAction(id, formData));
+            
         }
     })
 
@@ -143,7 +144,7 @@ const UserEdit = (props) => {
                 <Form.Item label="Avatar">
                     <input type="file" onChange={handleChangeFile} accept="image/png, image/jpeg,image/gif,image/png" />
                     <br />
-                    <img style={{ width: 200, height: 200, objectFit: 'cover', borderRadius: '50%' }} src={user.avatar ? user.avatar : imgSrc} alt="..." />
+                    <img style={{ width: 200, height: 200, objectFit: 'cover', borderRadius: '50%' }} src={imgSrc === '' ? '/img/placeholder-image.jpg' : imgSrc} alt="..." />
                 </Form.Item>
 
                 <Form.Item label="Tác vụ">

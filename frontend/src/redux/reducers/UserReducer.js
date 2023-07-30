@@ -42,6 +42,7 @@ export const UserReducer = (state = initialState, action) => {
 
     case LAY_CHI_TIET_NGUOI_DUNG:
       state.profile = action.profile;
+      
       return { ...state }
 
     case SET_THONG_TIN_DAT_VE:

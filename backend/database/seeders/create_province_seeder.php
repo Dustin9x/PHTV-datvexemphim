@@ -23,7 +23,7 @@ class create_province_seeder extends Seeder
             ['tenTinh' => 'Đà Nẵng', 'created_at'=>$now, 'updated_at'=>$now],
             ['tenTinh' => 'An Giang', 'created_at'=>$now, 'updated_at'=>$now],
             ['tenTinh' => 'Bà Rịa-Vũng Tàu', 'created_at'=>$now, 'updated_at'=>$now],
-            ['tenTinh' => 'Bà Rịa-Vũng Tàu', 'created_at'=>$now, 'updated_at'=>$now],
+            ['tenTinh' => 'Bạc Liêu', 'created_at'=>$now, 'updated_at'=>$now],
             ['tenTinh' => 'Bắc Giang', 'created_at'=>$now, 'updated_at'=>$now],
             ['tenTinh' => 'Bắc Kạn', 'created_at'=>$now, 'updated_at'=>$now],
             ['tenTinh' => 'Bắc Ninh', 'created_at'=>$now, 'updated_at'=>$now],
