@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Slider from "react-slick";
 import styleSlick from './MovieMultiRowSlick.module.css';
 import MovieHover from "./MovieHover";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Tabs } from 'antd';
 
 function SampleNextArrow(props) {
@@ -58,17 +58,16 @@ export default function MovieMultiRowSlick(props) {
     <div>
       <Tabs defaultActiveKey='1' left className='mt-5' style={{ border: 0 }} tabBarStyle={{ width: '100%', border: 0 }}>
         <TabPane tab={<button class="block w-full text-xl  focus:outline-none mr-4 py-2 px-4 rounded-full font-semibold  bg-violet-50 text-violet-700 hover:bg-violet-100 focus:bg-violet-700 active:bg-violet-700 focus:text-white"
-       ref={btnRef}>ĐANG CHIẾU
+          ref={btnRef}>ĐANG CHIẾU
         </button>} key="1">
 
-          {arrMovie.filter(item => item.dangChieu === 1).slice(0, 16).map((item, index) => {
-            return <Slider {...settings} >
-              <div key={index} >
-                {/* <Movie phim={item} /> */}
+        <Slider {...settings} >
+            {arrMovie.filter(item => item.dangChieu === 1).slice(0, 16).map((item, index) => {
+              return <div key={index} >
                 <MovieHover phim={item} />
               </div>
-            </Slider>
-          })}
+            })}
+          </Slider>
 
 
 
@@ -78,14 +77,20 @@ export default function MovieMultiRowSlick(props) {
         <TabPane tab={<button class="block w-full text-xl  focus:outline-none mr-4 py-2 px-4 rounded-full font-semibold  bg-violet-50 text-violet-700 hover:bg-violet-100 focus:bg-violet-700 active:bg-violet-700 focus:text-white"
         >SẮP CHIẾU
         </button>} key="2">
-          {arrMovie.filter(item => item.sapChieu === 1).slice(0, 16).map((item, index) => {
+          <Slider {...settings} >
+            {arrMovie.filter(item => item.sapChieu === 1).slice(0, 16).map((item, index) => {
+              return <div key={index} >
+                <MovieHover phim={item} />
+              </div>
+            })}
+          </Slider>
+          {/* {arrMovie.filter(item => item.sapChieu === 1).slice(0, 16).map((item, index) => {
             return <Slider {...settings} >
               <div key={index} >
-                {/* <Movie phim={item} /> */}
                 <MovieHover phim={item} />
               </div>
             </Slider>
-          })}
+          })} */}
         </TabPane>
       </Tabs>
 

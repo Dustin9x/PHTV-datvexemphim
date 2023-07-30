@@ -46,7 +46,7 @@ export default function Detail(props) {
         })
     })))
     let todayDate = new Date().toISOString().slice(0, 10);
-    let listNgayChieuActive = listNgayChieu.filter(e => e > todayDate)
+    let listNgayChieuActive = listNgayChieu.filter(e => e >= todayDate)
 
     let uniqueTinhThanh = [...new Map(listTinhThanh.map((item) => [item["maTinh"], item])).values(),];
     const [cumRaptheotinh, setCumRaptheotinh] = useState(cumRap.filter((item) => item.maTinh_id === ''));
@@ -56,7 +56,7 @@ export default function Detail(props) {
         setCumRaptheotinh(cumRaptheotinh);
     };
 
-
+    console.log('listNgayChieuActive', listNgayChieuActive)
 
     const [form] = Form.useForm();
     const formik = useFormik({
@@ -211,16 +211,25 @@ export default function Detail(props) {
 
                         <Tabs defaultActiveKey='1' tabPosition={'left'} className='text-white mt-20'>
                             {cumRaptheotinh.map((rap, index) => {
-                                var now = dayjs(new Date().getTime()).format('HH:mm');
+
+                                const today = dayjs().format('YYYY-MM-DD')
+                                const now = dayjs(new Date().getTime()).format('HH:mm');
+
                                 return <TabPane className='p-3' tab={<div className='bg-slate-50 p-4 rounded-xl'><div className='text-lg d-flex justify-center'><img style={{ width: 40 }} src='/img/logo.png' alt='logo' />{rap.tenRap}</div><div>{rap.diaChi}</div></div>} key={index}>
-                                    {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(item => item.maRap === rap.maRap).filter(item => now > item.gioChieu).map((item, index) => {
+                                    {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(item => item.maRap === rap.maRap).filter(item => item.ngayChieu === today).filter(item => now > item.gioChieu).map((item, index) => {
                                         return <Tag disabled className='text-lg mr-3 px-3 opacity-50 cursor-default select-none' color='gray'>{item.gioChieu.substr(0, 5)}</Tag>
                                     })}
-                                    {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(item => item.maRap === rap.maRap).filter(item => now <= item.gioChieu).map((item, index) => {
+                                    {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(item => item.maRap === rap.maRap).filter(item => item.ngayChieu === today).filter(item => now <= item.gioChieu).map((item, index) => {
                                         return <NavLink to={`/checkout/${item.maLichChieu}`}>
                                             <Tag className='text-lg mr-3 px-3' color='green'>{item.gioChieu.substr(0, 5)}</Tag>
                                         </NavLink>
                                     })}
+                                    {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(item => item.maRap === rap.maRap).filter(item => item.ngayChieu !== today).map((item, index) => {
+                                        return <NavLink to={`/checkout/${item.maLichChieu}`}>
+                                            <Tag className='text-lg mr-3 px-3' color='green'>{item.gioChieu.substr(0, 5)}</Tag>
+                                        </NavLink>
+                                    })}
+
                                 </TabPane>
                             })}
                         </Tabs>

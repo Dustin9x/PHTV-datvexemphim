@@ -118,7 +118,7 @@ export default function MovieMng() {
       dataIndex: 'hinhAnh',
       key: 'hinhAnh',
       width: '15%',
-      render: (text, movie, index) => { return <img key={index} width={150} style={{objectFit: 'cover', borderRadius: '6px'}} src={movie.hinhAnh} alt={movie.hinhAnh} /> }
+      render: (text, movie, index) => { return <img key={index} style={{width:120, height:170,objectFit: 'cover', borderRadius: '6px'}} src={movie.hinhAnh} alt={movie.hinhAnh} /> }
     },
     {
       title: 'Tên Phim',
