@@ -316,7 +316,7 @@ export function KetQuaDatVe(props) {
                     <div className="row">
                         {arrDonHang.length < 1 || arrDonHang == undefined ? <p className='text-xl text-center w-full'>Bạn chưa có đơn hàng nào</p> :
                         <div className='row'>
-                            <div className='col-12 mt-3 '>
+                            <div className='col-6 offset-3 mt-3 '>
                                 <h1 className='text-center text-lg mb-5'>Vé vừa mua</h1>
                                 <Card
                                     hoverable
