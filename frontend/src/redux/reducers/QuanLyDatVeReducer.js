@@ -11,7 +11,8 @@ const initialState = {
     danhSachGheKhachDat: [{ maGhe: 61641 }, { maGhe: 61642 }],
     tabActive: '1',
     donhang: {},
-    arrDonHang: []
+    arrDonHang: [],
+    disableTab: false
 }
 
 export const QuanLyDatVeReducer = (state = initialState, action) => {
@@ -58,10 +59,13 @@ export const QuanLyDatVeReducer = (state = initialState, action) => {
 
         case CHUYEN_TAB:
             state.tabActive = '2'
+            state.disableTab = true
             return { ...state }
 
         case CHUYEN_TAB_ACTIVE:
             state.tabActive = action.number
+            state.disableTab = true
+            state.disableTab1 = true
             return { ...state }
 
         default:

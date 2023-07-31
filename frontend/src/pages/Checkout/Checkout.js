@@ -19,7 +19,8 @@ const { TabPane } = Tabs;
 
 
 export default function ChonGhe(props) {
-
+    const { disableTab } = useSelector(state => state.QuanLyDatVeReducer)
+    const { disableTab1 } = useSelector(state => state.QuanLyDatVeReducer)
     const { tabActive } = useSelector(state => state.QuanLyDatVeReducer)
     const { userLogin } = useSelector(state => state.UserReducer)
     const { donHang } = useSelector(state => state.QuanLyDatVeReducer)
@@ -67,13 +68,13 @@ export default function ChonGhe(props) {
                 number: key
             })
         }}>
-            <TabPane tab='01 CHỌN GHẾ & THANH TOÁN' key='1' >
+            <TabPane disabled={!donHang || disableTab1} tab='01 CHỌN GHẾ & THANH TOÁN' key='1' >
                 <Checkout {...props} />
             </TabPane>
-            <TabPane disabled={!donHang} tab='02 XÁC NHẬN THÔNG TIN ĐẶT VÉ' key='2' >
+            <TabPane disabled={!donHang || disableTab} tab='02 XÁC NHẬN THÔNG TIN ĐẶT VÉ' key='2' >
                 <XacNhanThongTin {...props} />
             </TabPane>
-            <TabPane disabled={!donHang} tab='03 KẾT QUẢ ĐẶT VÉ' key='3' >
+            <TabPane disabled={!donHang || disableTab} tab='03 KẾT QUẢ ĐẶT VÉ' key='3' >
                 <KetQuaDatVe {...props} />
             </TabPane>
         </Tabs>
@@ -244,7 +245,6 @@ function Checkout(props) {
 
 
 export function XacNhanThongTin(props) {
-
     const { donHang } = useSelector(state => state.QuanLyDatVeReducer)
     console.log('donHang', donHang)
     const dispatch = useDispatch();
@@ -302,6 +302,8 @@ export function KetQuaDatVe(props) {
 
 
     console.log('arrDonHang', arrDonHang)
+    console.log('lastTicket',arrDonHang[arrDonHang.length -1])
+    let lastTicket = arrDonHang[arrDonHang.length -1];
     return <div className='grid grid-cols-12'>
         <div className='col-span-12 mx-20'>
 
@@ -313,7 +315,44 @@ export function KetQuaDatVe(props) {
                     </div>
                     <div className="row">
                         {arrDonHang.length < 1 || arrDonHang == undefined ? <p className='text-xl text-center w-full'>Bạn chưa có đơn hàng nào</p> :
-                        arrDonHang?.map((item, index) => {
+                        <div className='row'>
+                            <div className='col-12 mt-3 '>
+                                <h1 className='text-center text-lg mb-5'>Vé vừa mua</h1>
+                                <Card
+                                    hoverable
+                                    className='bg-red-100 p-2 d-flex'
+                                    style={{
+                                        width: '100%',
+                                    }}
+                                    cover={<div>
+                                        <small className='text-right'>Ngày đặt vé: {dayjs(lastTicket.create_at).format('DD-MM-YYYY')}</small>
+                                        <QRCode value={
+                                            'Mã đơn: ' + lastTicket.maOrder +
+                                            ', Phim: ' + lastTicket.phim +
+                                            ', Rạp: ' + lastTicket.rapChieu +
+                                            ', Ngày: ' + dayjs(lastTicket.ngayChieu).format('DD-MM-YYYY') +
+                                            ', Suất: ' + lastTicket.gioChieu.substr(0, 5) +
+                                            ', Ghế: ' + lastTicket.danhSachGhe
+                                        }
+                                        />
+                                    </div>
+                                    }
+                                >
+
+                                    <Meta className='font-bold' title={lastTicket.phim} />
+                                    <div className='mt-2 text-gray-500'>
+                                        <div>Ngày chiếu: {dayjs(lastTicket.ngayChieu).format('DD-MM-YYYY')}</div>
+                                        <div>Giờ chiếu: {lastTicket.gioChieu.substr(0, 5)}</div>
+                                        <div>Rạp: {lastTicket.rapChieu}</div>
+                                        <div>Ghế: {lastTicket.danhSachGhe}</div>
+                                        <div className='font-bold'>Bạn cần xuất trình vé điện tử này để vào phòng chiếu</div>
+                                    </div>
+
+                                </Card>
+                            <h1 className='text-center text-lg mt-20'>Vé đã mua</h1><br/>
+                            </div> 
+                            {arrDonHang.slice(0,-1)?.map((item, index) => {
+                                
                             return <div className='col-6 mt-3 '>
                                 <Card
                                     hoverable
@@ -349,6 +388,8 @@ export function KetQuaDatVe(props) {
                             </div>
 
                         }).reverse()}
+                        </div>
+                        }
 
                     </div>
                 </div>

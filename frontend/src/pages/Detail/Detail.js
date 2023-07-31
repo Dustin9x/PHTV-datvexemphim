@@ -59,8 +59,6 @@ console.log('arrUser',arrUser)
         let cumRaptheotinh = cumRap.filter(item => item.maTinh_id === clickTinhThanh)
         setCumRaptheotinh(cumRaptheotinh);
     };
-    let cmtAvatar = '';
-    console.log('cmtAvatar',cmtAvatar)
 
     console.log('listNgayChieuActive', listNgayChieuActive)
 
@@ -120,8 +118,8 @@ console.log('arrUser',arrUser)
                 <div className='d-flex align-center'>
                 
                     
-                    {arrUser.find(us => us.email == item.useremail).avatar !== null
-                    ? <div style={{ width:40, height:40, minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${arrUser.find(us => us.email == item.useremail).avatar})` }} />
+                    {arrUser.find(us => us.email == item.useremail)?.avatar !== null
+                    ? <div style={{ width:40, height:40, minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${arrUser.find(us => us.email == item.useremail)?.avatar})` }} />
                     : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={item.username.substr(0, 1)} />}
                     
                     <div className='w-full'>

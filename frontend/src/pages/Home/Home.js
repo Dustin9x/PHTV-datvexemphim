@@ -43,14 +43,6 @@ export default function Home(props) {
     }).reverse()
   }
 
-  console.log('arrMovie', arrMovie)
-  const renderTrailer = () => {
-    arrMovie.map((item, index) => {
-      return <iframe id="ytplayer" type="text/html" width="720" height="405"
-      src="https://www.youtube.com/embed/M7lc1UVf-VE"
-      frameborder="0" allowfullscreen/>
-    })
-  }
 
   return (
     <div>
@@ -64,13 +56,6 @@ export default function Home(props) {
           <hr />
           <div className='col-8 mt-3'>
             {renderTinTuc()}
-          </div>
-        </div>
-        <div className='my-12'>
-          <h1 className='text-center text-2xl'>NHỮNG TRAILER VỪA RA MẮT</h1>
-          <hr />
-          <div className='col-8 mt-3'>
-            {renderTrailer()}
           </div>
         </div>
       </div>
