@@ -94,4 +94,21 @@ class CommentArticleController extends Controller
         }
     }
 
+
+    public function edit($id)
+    {
+        $comment = Comment::where('maComment', $id)->first();
+        if ($comment) {
+            return response()->json([
+                'status' => 200,
+                'content' => $comment
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'no such comment found'
+            ], 404);
+        }
+    }
+
 }

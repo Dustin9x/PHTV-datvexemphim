@@ -21,6 +21,7 @@ export default function NewsDetail(props) {
         dispatch(layDanhSachTinTucAction())
     }, [dispatch, id])
 
+    console.log('detailBinhLuan',detailBinhLuan)
 
     const [form] = Form.useForm();
 
@@ -64,7 +65,6 @@ export default function NewsDetail(props) {
                             dispatch(xoaBinhLuanAction(item.maComment))
                             dispatch(layDanhSachBinhLuanAction(id))
                         }
-
                     }
 
                     }>Xóa</Button>
@@ -85,7 +85,7 @@ export default function NewsDetail(props) {
                         <p className='my-auto m-3 text-danger'>{item.username}</p>
                         <p className='my-auto ml-3'>{dayjs(item.created_at).format('DD-MM-YYYY')}</p>
                     </div>
-                    {item.useremail === userLogin.email ? <Popover placement="bottomRight" content={content} trigger="hover">
+                    {item.useremail === userLogin.email || userLogin.role==='QuanTri' ? <Popover placement="bottomRight" content={content} trigger="hover">
                         <div className='btn cursor-pointer px-3 border-none drop-shadow-none hover:bg-gray-100'>...</div>
                     </Popover> : ''}
 

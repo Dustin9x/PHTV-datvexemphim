@@ -90,7 +90,7 @@ export default function Home(props) {
           <hr />
           <div className='mt-3'>
             {renderTinTuc()}
-            <Button className='text-red-500 text-right w-full' href='/news' type='link'>Xem thêm >></Button>
+            <Button className='text-red-500 text-right w-full' href='/news' type='link'>Xem thêm &gt;&gt;</Button>
           </div>
         </div>
       </div>
