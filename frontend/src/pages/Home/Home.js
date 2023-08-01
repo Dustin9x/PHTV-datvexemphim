@@ -5,7 +5,8 @@ import { layDanhSachPhimAction } from '../../redux/actions/QuanLyPhimAction';
 import HomeCarousel from '../../templates/HomeTemplate/Layout/HomeCarousel';
 import { layDanhSachNguoiDungAction } from '../../redux/actions/QuanLyNguoiDungAction';
 import { layDanhSachTinTucAction } from '../../redux/actions/QuanLyTinTucAction';
-import { Card } from 'antd';
+import { Button, Card } from 'antd';
+import dayjs from 'dayjs';
 
 export default function Home(props) {
   const dispatch = useDispatch();
@@ -16,31 +17,64 @@ export default function Home(props) {
   useEffect(() => {
     dispatch(layDanhSachPhimAction());
     dispatch(layDanhSachTinTucAction())
-    // dispatch(layDanhSachNguoiDungAction())
   }, [])
 
+  console.log('arrTinTuc',arrTinTuc)
+  console.log('arrMovie',arrMovie)
+
   const renderTinTuc = () => {
-    return arrTinTuc.splice(0, 5).map((item, index) => {
-      return <a className='hover:no-underline' href={`/news/detail/${item.maBaiViet}`}>
-        <Card
-          key={index}
-          hoverable
-          className='d-flex my-3 w-full no-underline'
-          style={{ height: 180, overflow: 'hidden' }}
-          bodyStyle={{ width: '100%' }}
-          cover={<img alt={item.tieuDe} className='ant-card-cover-customs' src={item.hinhAnh} style={{ minWidth: 300, height: 180, objectFit: 'cover' }} />}
-        >
-          <div className='d-flex justify-between w-full mb-4'>
-            <div className='text-danger w-1/3'>{item.tacGia}</div>
-            <div className='w-1/3 text-left'>{item.theLoai}</div>
-            <div className='w-1/3 text-right'>{item.created_at.substr(0, 10)}</div>
-          </div>
+    return <div className='row d-flex'>
+      <div className='col-6 flex-1'>
+        {arrTinTuc.slice(-1).map((item, index) => {
+          return <a className='hover:no-underline' href={`/news/detail/${item.maBaiViet}`}>
+            <Card
+              key={index}
+              hoverable
+              className='my-3 w-full no-underline'
+              style={{ overflow: 'hidden' }}
+              bodyStyle={{ width: '100%', height: '100%' }}
+              cover={<img alt={item.tieuDe} className='' src={item.hinhAnh} style={{ minWidth: 300, height: 390, objectFit: 'cover' }} />}
+            >
+              <div className='d-flex justify-between w-full'>
+                <div className='text-danger'>{item.tacGia}</div>
+                <div className='text-right'>{dayjs(item.created_at).format('DD-MM-YYYY')}</div>
+              </div>
+              <div className='text-left'>{item.theLoai}</div>
+              <div>
+                <h1 className='text-4xl mt-2'>{item.tieuDe}</h1>
+                <p className='text-gray-500 text-ellipsis overflow-hidden line-clamp-3'>{item.noiDungPhu}</p>
+              </div>
+            </Card>
+          </a>
+        })}
+      </div>
+      <div className='col-6'>
+        {arrTinTuc.slice(-5, -1).map((item, index) => {
+          return <a className='hover:no-underline' href={`/news/detail/${item.maBaiViet}`}>
+            <Card
+              key={index}
+              hoverable
+              className='d-flex my-3 w-full no-underline'
+              style={{ height: 155, overflow: 'hidden' }}
+              bodyStyle={{ width: '100%', padding:'12px' }}
+              cover={<img alt={item.tieuDe} className='ant-card-cover-customs' src={item.hinhAnh} style={{ minWidth: 220, height: 155, objectFit: 'cover' }} />}
+            >
+              <div className='d-flex justify-between w-full'>
+                <div className='text-danger'>{item.tacGia}</div>
+                <div className='text-right'>{dayjs(item.created_at).format('DD-MM-YYYY')}</div>
+              </div>
+              <div className='text-left'>{item.theLoai}</div>
+              <div>
+                <h1 className='text-lg mt-1'>{item.tieuDe}</h1>
+                <p className='text-gray-500 text-ellipsis overflow-hidden line-clamp-2'>{item.noiDungPhu}</p>
+              </div>
+            </Card>
 
-          <Meta title={item.tieuDe} description={item.noiDungPhu} />
-        </Card>
+          </a>
+        }).reverse()}
+      </div>
+    </div>
 
-      </a>
-    }).reverse()
   }
 
 
@@ -54,8 +88,9 @@ export default function Home(props) {
         <div className='my-12'>
           <h1 className='text-center text-2xl'>CÁC TIN TỨC PHIM ẢNH MỚI NHẤT</h1>
           <hr />
-          <div className='col-8 mt-3'>
+          <div className='mt-3'>
             {renderTinTuc()}
+            <Button className='text-red-500 text-right w-full' href='/news' type='link'>Xem thêm >></Button>
           </div>
         </div>
       </div>

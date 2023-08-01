@@ -21,14 +21,14 @@ export default function Footer() {
         <div className="grid grid-cols-2 text-sm gap-x-3 gap-y-8 lg:w-2/3 sm:grid-cols-4">
           <div className="space-y-3">
             <h3 className="tracking-wide uppercase dark:text-gray-50">PHTV Việt Nam</h3>
-            <NavLink to="/home" style={{ textDecoration: 'none' }} className="items-center  hover:text-violet-400">Giới thiệu</NavLink><br />
-            <NavLink to="/home" style={{ textDecoration: 'none' }} className="items-center  hover:text-violet-400">Tuyển dụng</NavLink><br />
+            <NavLink to="/about" style={{ textDecoration: 'none' }} className="items-center  hover:text-violet-400">Giới thiệu</NavLink><br />
+            <NavLink to="/recruitment" style={{ textDecoration: 'none' }} className="items-center  hover:text-violet-400">Tuyển dụng</NavLink><br />
             <NavLink to="/home" style={{ textDecoration: 'none' }} className="items-center  hover:text-violet-400">Liên hệ</NavLink><br />
           </div>
           <div className="space-y-3">
             <h3 className="tracking-wide uppercase dark:text-gray-50">Điều khoản sử dụng</h3>
-            <NavLink to="/home" style={{ textDecoration: 'none' }} className="items-center  hover:text-violet-400">Điều khoản chung</NavLink><br />
-            <NavLink to="/home" style={{ textDecoration: 'none' }} className="items-center  hover:text-violet-400">Điều khoản giao dịch</NavLink><br />
+            <NavLink to="/terms" style={{ textDecoration: 'none' }} className="items-center  hover:text-violet-400">Điều khoản chung</NavLink><br />
+            <NavLink to="/termsoftransaction" style={{ textDecoration: 'none' }} className="items-center  hover:text-violet-400">Điều khoản giao dịch</NavLink><br />
           </div>
           <div className="space-y-3">
             <h3 className="uppercase dark:text-gray-50">Chăm sóc khách hàng</h3>
@@ -36,7 +36,7 @@ export default function Footer() {
               Hotline: 1900 6017<br />
               Giờ làm việc: 8:00 - 22:00 <br /> 
               (Tất cả các ngày bao gồm cả Lễ Tết)<br />
-              Email hỗ trợ: hoidap@cgv.vn<br />
+              Email hỗ trợ: hoidap@phtv.com<br />
             </p>
           </div>
           <div className="space-y-3">

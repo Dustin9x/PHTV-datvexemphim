@@ -48,6 +48,10 @@ import RevenueMonth from './pages/Admin/Revenue/RevenueMonth';
 import RevenueMovie from './pages/Admin/Revenue/RevenueMovie';
 import UserOrder from './pages/Admin/UserMng/UserOrder';
 import OrderList from './pages/Admin/Revenue/OrderList';
+import AboutUs from './pages/AboutUs/AboutUs';
+import Recruitment from './pages/Recruitment/Recruitment';
+import GeneralTerms from './pages/Terms/GeneralTerms';
+import TermsOfTransaction from './pages/Terms/TermsOfTransaction';
 
 
 export const history = createBrowserHistory();
@@ -63,6 +67,12 @@ function App() {
         <HomeTemplate path='/news/detail/:id' exact Component={NewsDetail} />
         <MovieTemplate path='/detail/:id' exact Component={Detail} />
         <CheckOutTemplate path='/checkout/:id' exact Component={Checkout} />
+
+        {/* Footer */}
+        <HomeTemplate path='/about' exact Component={AboutUs} />
+        <HomeTemplate path='/recruitment' exact Component={Recruitment} />
+        <HomeTemplate path='/terms' exact Component={GeneralTerms} />
+        <HomeTemplate path='/termsoftransaction' exact Component={TermsOfTransaction} />
 
         <UserTemplate path='/login' exact Component={Login} />
         <UserTemplate path='/register' exact Component={Register} />

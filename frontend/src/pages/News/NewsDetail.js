@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { capNhatBinhLuanAction, layChiTietBinhLuanAction, layDanhSachBinhLuanAction, layDanhSachTinTucAction, themBinhLuanAction, xoaBinhLuanAction } from '../../redux/actions/QuanLyTinTucAction';
-import { Card, Avatar, Form, Input, Popover, Button } from 'antd';
+import { Card, Avatar, Form, Input, Popover, Button, List } from 'antd';
 import { useFormik } from 'formik';
 import dayjs from 'dayjs';
 import { GET_BINH_LUAN_DETAIL } from '../../redux/constants';
@@ -9,10 +9,8 @@ import { TOKEN } from '../../util/settings/config';
 
 export default function NewsDetail(props) {
     const { TextArea } = Input;
-    const { arrBinhLuan, detailTinTuc, detailBinhLuan } = useSelector(state => state.NewsReducer);
+    const { arrBinhLuan, arrTinTuc, detailTinTuc, detailBinhLuan } = useSelector(state => state.NewsReducer);
     const { userLogin } = useSelector(state => state.UserReducer)
-
-    console.log('detailBinhLuan', detailBinhLuan)
 
     const dispatch = useDispatch();
 
@@ -20,6 +18,7 @@ export default function NewsDetail(props) {
     useEffect(() => {
         dispatch(layDanhSachTinTucAction(id))
         dispatch(layDanhSachBinhLuanAction(id))
+        dispatch(layDanhSachTinTucAction())
     }, [dispatch, id])
 
 
@@ -146,12 +145,23 @@ export default function NewsDetail(props) {
                     </div>
                     <div className='col-4'>
                         <div className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-md md:flex-row w-full my-3">
-                            <div className="flex flex-col justify-between p-4 leading-normal">
+                            <div className="flex flex-col justify-between p-4 leading-normal w-full">
                                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Bài Viết Mới Nhất</h5>
-                                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                    Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
-
-                                </p>
+                                <List
+                                    itemLayout="horizontal"
+                                    dataSource={arrTinTuc.slice(-5).reverse()}
+                                    renderItem={(item, index) => (
+                                        <List.Item>
+                                            <div className='d-flex mb-1 mt-1 w-full font-normal text-gray-700 dark:text-gray-400'>
+                                                <img className='rounded-md' src={item.hinhAnh} alt={item.hinhAnh} style={{ width: 140, height: 110, objectFit: 'cover' }} />
+                                                <div className='p-2'>
+                                                    <a className='text-md font-bold' href={`/news/detail/${item.maBaiViet}`}>{item.tieuDe}</a>
+                                                    <div className='text-ellipsis overflow-hidden line-clamp-2'>{item.noiDungPhu}</div>
+                                                </div>
+                                            </div>
+                                        </List.Item>
+                                    )}
+                                />
                             </div>
                         </div>
                     </div>

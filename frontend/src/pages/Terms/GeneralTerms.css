@@ -1,0 +1,51 @@
+.header__with-img{
+    position: relative;
+    padding-bottom: 20%;
+    background-size: cover;
+    background-image: url(/public/img/tix.png);
+    filter: brightness(40%);
+}
+
+.header__img-text{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 150px;
+    color: var(--white-color);
+    z-index: 10;
+    /* bottom: 20%; */
+}
+
+.heading__text{
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.end__text{
+    font-size: 1.5rem;
+    text-shadow: 0 0 2px #000;
+}
+
+.body{
+    margin: 20px;
+}
+
+.body_header{
+    font-size: 2rem;
+    font-weight: 500;
+    padding: 1rem;
+    color: red;
+    margin: 0;
+}
+.body_body{
+  font-size: 1.6rem;
+  font-weight: 500;
+  /* padding: 1rem; */
+}
+.body_text{
+    font-size: 1.2rem;
+    padding:  0.2rem 1rem;
+    line-height: 2.4rem;
+    color: #636363;
+}
+

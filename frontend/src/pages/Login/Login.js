@@ -64,7 +64,7 @@ export default function Login(props) {
             },
           ]}
         >
-          <Input className="block text-sm py-3 px-4 rounded-lg w-full border outline-none" placeholder="Username" />
+          <Input className="block text-sm py-3 px-4 rounded-lg w-full border outline-none" placeholder="Email" />
         </Form.Item>
 
         <Form.Item

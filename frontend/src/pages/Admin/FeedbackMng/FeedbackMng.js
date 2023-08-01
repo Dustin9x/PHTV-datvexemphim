@@ -52,6 +52,7 @@ export default function FeedbackMng() {
       title: 'Nội Dung',
       dataIndex: 'noiDung',
       key: 'noiDung',
+      width: '25%',
       sorter: (a, b) => a.noiDung.length - b.noiDung.length,
       sortDirections: ['descend', 'ascend']
     },
@@ -69,11 +70,13 @@ export default function FeedbackMng() {
       title: 'Nội Dung Xử Lý',
       dataIndex: 'noiDungXuLy',
       key: 'noiDungXuLy',
+      width: '25%',
       sorter: (a, b) => a.noiDungXuLy.length - b.noiDungXuLy.length,
       sortDirections: ['descend', 'ascend']
     },
     {
       title: 'Quản Lý',
+      width: '7%',
       render: (text, feedback) => {
         return <Fragment>
           <Button key={1} href={`/admin/editfeedback/${feedback.maFeedback}`} type="link" icon={<KeyOutlined />}></Button>

@@ -1,0 +1,114 @@
+.center{
+    display: flex;
+    justify-content: center;
+}
+.header__with-img{
+    position: relative;
+    padding-bottom: 20%;
+    background-size: cover;
+    background-image: url(/public/img/tix.png);
+    filter: brightness(40%);
+}
+
+.header__img-text{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 150px;
+    color: var(--white-color);
+    z-index: 10;
+    /* bottom: 20%; */
+}
+
+.heading__text{
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.end__text{
+    font-size: 1.5rem;
+    text-shadow: 0 0 2px #000;
+}
+
+.body{
+    margin: 20px;
+}
+
+.body_body{
+  font-size: 1.6rem;
+  font-weight: 500;
+  padding: 0 1rem;
+}
+.body_text{
+    font-size: 1.4rem;
+    padding:  0.2rem 1rem;
+    line-height: 2.4rem;
+    margin: 14px 0;
+}
+
+.history{
+    margin: 0;
+}
+
+.history__list{
+    display: flex;
+    position: relative;
+}
+
+.history__text{
+    font-size: 1.4rem;
+    padding:  0.2rem 1rem;
+    line-height: 2.4rem;
+    color: #636363;
+}
+
+.history__list::after{
+    content: "";
+    border-bottom: 1px solid #e1e1e1;
+    position: absolute;
+    top: 0px;
+    left: 20px;
+    right: 20px;
+}
+
+.history__list:first-child::after{
+    display: none;
+}
+
+.text__image{
+    display: flex;
+    justify-content: space-around;
+    margin: 10px;
+}
+
+.text__images{
+    max-width: 100%;
+    display: inline-block;
+}
+
+.split__bar{
+    border-right: 1px solid #000;
+    margin-bottom: 10px;
+}
+
+.image__office{
+    display: flex;
+    justify-content: center;
+}
+
+.image__office-link{
+    padding: 6px;
+    margin-left: 10px;
+    display: block;
+    cursor: pointer;
+}
+
+.application{
+   border: 4px solid #bcb890;
+   background: #f0eedc;
+   padding: 10px;
+   margin-bottom: 20px;
+   height: 400px;
+   border-radius: 60px;
+}
+

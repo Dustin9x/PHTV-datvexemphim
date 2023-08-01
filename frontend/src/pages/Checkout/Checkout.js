@@ -24,6 +24,13 @@ export default function ChonGhe(props) {
     const { tabActive } = useSelector(state => state.QuanLyDatVeReducer)
     const { userLogin } = useSelector(state => state.UserReducer)
     const { donHang } = useSelector(state => state.QuanLyDatVeReducer)
+    const { arrUser } = useSelector(state => state.UserReducer)
+    // let userLogin = {}
+    // if (localStorage.getItem(USER_LOGIN)) {
+    //     userLogin = JSON.parse(localStorage.getItem(USER_LOGIN))
+    // }
+
+    let usLogin = arrUser?.find(obj => obj.id === userLogin.id)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -55,7 +62,11 @@ export default function ChonGhe(props) {
             <Button type="link" href="/"><HomeOutlined style={{ fontSize: '24px' }} /></Button>
             <Popover placement="bottomRight" title={userLogin.taiKhoan} content={content} trigger="click">
                 <Button className='rounded-full bg-slate-300 p-0 d-flex justify-center items-center w-full h-full' style={{ width: 40, height: 40 }}>
-                    <Avatar size={40} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={userLogin.name.substr(0, 1)} />
+                {usLogin?.avatar !== null ?
+                        <div style={{ minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${usLogin?.avatar})` }} />
+                        : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={usLogin?.name.substr(0, 1)} />
+                    }
+                    {/* <Avatar size={40} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={userLogin.name.substr(0, 1)} /> */}
                 </Button>
             </Popover>
         </div>}
@@ -301,10 +312,8 @@ export function KetQuaDatVe(props) {
     }, [])
 
 
-    console.log('arrDonHang', arrDonHang)
-    console.log('lastTicket',arrDonHang[arrDonHang.length -1])
     let lastTicket = arrDonHang[arrDonHang.length -1];
-    return <div className='grid grid-cols-12'>
+    return <div className='row'>
         <div className='col-span-12 mx-20'>
 
             <section className="text-gray-600 body-font">

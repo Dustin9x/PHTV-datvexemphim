@@ -2,7 +2,8 @@ import React, { useEffect } from 'react'
 import './News.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { layDanhSachTinTucAction } from './../../redux/actions/QuanLyTinTucAction';
-import { Card, List } from 'antd';
+import { Avatar, Card, List } from 'antd';
+import dayjs from 'dayjs';
 
 export default function News() {
   const { Meta } = Card;
@@ -16,24 +17,26 @@ export default function News() {
   const renderTinTuc = () => {
     return arrTinTuc.map((item, index) => {
       return <a className='hover:no-underline' href={`/news/detail/${item.maBaiViet}`}>
-        <Card
-          key={index}
-          hoverable
-          className='d-flex my-3 w-full no-underline'
-          style={{ height: 180, overflow: 'hidden' }}
-          bodyStyle={{ width: '100%' }}
-          cover={<img alt={item.tieuDe} className='ant-card-cover-customs' src={item.hinhAnh} style={{ minWidth: 300, height: 180, objectFit: 'cover' }} />}
-        >
-          <div className='d-flex justify-between w-full mb-4'>
-            <div className='text-danger w-1/3'>{item.tacGia}</div>
-            <div className='w-1/3 text-left'>{item.theLoai}</div>
-            <div className='w-1/3 text-right'>{item.created_at.substr(0, 10)}</div>
-          </div>
+      <Card
+        key={index}
+        hoverable
+        className='d-flex my-3 w-full no-underline'
+        style={{ height: 185, overflow: 'hidden' }}
+        bodyStyle={{ width: '100%', padding:'12px' }}
+        cover={<img alt={item.tieuDe} className='ant-card-cover-customs' src={item.hinhAnh} style={{ minWidth: 320, height: 185, objectFit: 'cover' }} />}
+      >
+        <div className='d-flex justify-between w-full'>
+          <div className='text-danger'>{item.tacGia}</div>
+          <div className='text-right'>{dayjs(item.created_at).format('DD-MM-YYYY')}</div>
+        </div>
+        <div className='text-left'>{item.theLoai}</div>
+        <div>
+          <h1 className='text-lg mt-1'>{item.tieuDe}</h1>
+          <p className='text-gray-500 text-ellipsis overflow-hidden line-clamp-2'>{item.noiDungPhu}</p>
+        </div>
+      </Card>
 
-          <Meta title={item.tieuDe} description={item.noiDungPhu} />
-        </Card>
-
-      </a>
+    </a>
     }).reverse()
   }
   return (
@@ -51,18 +54,20 @@ export default function News() {
               <div className="flex flex-col justify-between p-4 leading-normal w-full">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Bài Viết Mới Nhất</h5>
                 <List
-                    itemLayout="horizontal"
-                    dataSource={arrTinTuc.splice(0, 5).reverse()}
-                    renderItem={(item, index) => (
-                      <List.Item>
-                        <List.Item.Meta
-                        className='mb-3 w-full font-normal text-gray-700 dark:text-gray-400'
-                          title={<a href={`/news/detail/${item.maBaiViet}`}>{item.tieuDe}</a>}
-                          description={item.noiDungPhu}
-                        />
-                      </List.Item>
-                    )}
-                  />
+                  itemLayout="horizontal"
+                  dataSource={arrTinTuc.slice(-5).reverse()}
+                  renderItem={(item, index) => (
+                    <List.Item>
+                      <div className='d-flex mb-1 mt-1 w-full font-normal text-gray-700 dark:text-gray-400'>
+                        <img className='rounded-md' src={item.hinhAnh} alt={item.hinhAnh} style={{ width: 140, height: 110, objectFit: 'cover' }} />
+                        <div className='p-2'>
+                        <a className='text-md font-bold' href={`/news/detail/${item.maBaiViet}`}>{item.tieuDe}</a>
+                        <div className='text-ellipsis overflow-hidden line-clamp-2'>{item.noiDungPhu}</div>
+                        </div>
+                      </div>
+                    </List.Item>
+                  )}
+                />
               </div>
             </div>
           </div>
