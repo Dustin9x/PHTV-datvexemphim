@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, Select, DatePicker, InputNumber, TimePicker, Table, Tag } from 'antd';
+import { Form, Button, Select, DatePicker, InputNumber, TimePicker, Table, Tag, Tooltip } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useFormik } from 'formik';
 import moment from 'moment';
@@ -26,6 +26,8 @@ export default function ShowTime(props) {
         film = JSON.parse(localStorage.getItem('filmParams'));
     }
 
+    const ngayKhoiChieu = film.ngayKhoiChieu
+
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -41,7 +43,7 @@ export default function ShowTime(props) {
             for (let key in values) {
                 formData.append(key, values[key]);
             }
-            console.table('formData123',[...formData])
+            console.table('formData123', [...formData])
             if (!localStorage.getItem('lichChieuEdit')) {
                 dispatch(taoLichChieuAction(formData));
                 dispatch(layLichChieuTheoPhimAction(id));
@@ -57,9 +59,9 @@ export default function ShowTime(props) {
     useEffect(() => {
         dispatch(layDanhSachCumRapAction())
         dispatch(layLichChieuTheoPhimAction(id))
-    }, [dispatch,id]);
+    }, [dispatch, id]);
 
-    
+
 
     const handleChangeCumRap = (value) => {
         formik.setFieldValue('maRap', value)
@@ -117,8 +119,7 @@ export default function ShowTime(props) {
             key: 'ngayChieu',
             sorter: (a, b) => moment(a.ngayChieu).unix() - moment(b.ngayChieu).unix(),
             render: (text, movie) => {
-                // if (dayjs(movie.ngayChieu)> dayjs((new Date).getDate()-1)) {
-                    if (dayjs().isBefore(dayjs(movie.ngayChieu))) {
+                if (dayjs().isBefore(dayjs(movie.ngayChieu))) {
                     return <Tag color='green'>{dayjs(movie.ngayChieu).format(dateFormat)}</Tag>
                 } else {
                     return <Tag color='red'>{dayjs(movie.ngayChieu).format(dateFormat)}</Tag>
@@ -147,7 +148,7 @@ export default function ShowTime(props) {
         {
             title: 'Quản Lý',
             width: '10%',
-            render: (text, movie) => {
+            render: (text, movie, index) => {
                 return <Fragment>
                     <Button key={1} type="link" icon={<EditOutlined />} onClick={() => {
                         dispatch(layDanhSachLichChieuAction(movie.maLichChieu))
@@ -155,8 +156,8 @@ export default function ShowTime(props) {
                     }}></Button>
                     <Button key={2} type="link" danger icon={<DeleteOutlined />} onClick={() => {
                         if (window.confirm('Bạn có chắc chắn muốn xóa lịch chiếu phim này?')) {
-                              dispatch(xoaLichChieuAction(movie.maLichChieu))
-                              dispatch(layDanhSachLichChieuAction(movie.maLichChieu))
+                            dispatch(xoaLichChieuAction(movie.maLichChieu))
+                            dispatch(layDanhSachLichChieuAction(movie.maLichChieu))
                         }
                     }}></Button>
                 </Fragment>
@@ -168,9 +169,10 @@ export default function ShowTime(props) {
         <div className="container">
             <div className='row'>
                 <div className='col-4'>
-                    <h3 className="text-2xl">Tạo lịch chiếu cho Phim:</h3>
-                    <h3 className="text-2xl">{film.tenPhim}</h3>
-                    <img src={film.hinhAnh} alt='...' style={{ width: 350, height: 250, objectFit: 'cover', borderRadius: '6px' }} />
+                    <h3 className="text-xl">Tạo lịch chiếu cho:</h3>
+                    <h3 className="text-2xl text-red-500">Phim: {film.tenPhim}</h3>
+                    <h3 className="text-xl">Ngày khởi chiếu: {dayjs(film.ngayKhoiChieu).format('DD-MM-YYYY')}</h3>
+                    <img src={film.hinhAnh} alt='...' style={{ width: 250, height: 200, objectFit: 'cover', borderRadius: '6px' }} />
                 </div>
                 <div className='col-8'>
                     <Form
@@ -183,16 +185,18 @@ export default function ShowTime(props) {
                             <Select options={cumRap?.map((cumRap, index) => ({ label: cumRap.tenRap, value: cumRap.maRap }))} value={formik.values.maRap} onChange={handleChangeCumRap} placeholder="Chọn cụm rạp" />
                         </Form.Item>
                         <Form.Item label="Ngày chiếu">
-                            {localStorage.getItem('lichChieuEdit') 
-                            ? <DatePicker value={dayjs(defaultDate, dateFormat)} format={dateFormat} onChange={onChangeDate} onOk={onOkHour} /> 
-                            : <DatePicker format={dateFormat} onChange={onChangeDate} onOk={onOk} />
+                            <Tooltip title="Lưu ý: Chỉ được chọn lịch chiếu trong vòng 40 ngày kể từ ngày khởi chiếu">
+                            {localStorage.getItem('lichChieuEdit')
+                                ? <DatePicker disabledDate={d => !d || d.isBefore(dayjs(ngayKhoiChieu)) || d.isAfter(dayjs(ngayKhoiChieu).add(40,'day'))} value={dayjs(defaultDate, dateFormat)} format={dateFormat} onChange={onChangeDate} onOk={onOkHour} />
+                                : <DatePicker disabledDate={d => !d || d.isBefore(dayjs(ngayKhoiChieu)) || d.isAfter(dayjs(ngayKhoiChieu).add(40,'day'))} format={dateFormat} onChange={onChangeDate} onOk={onOk} />
                             }
+                            </Tooltip>
                         </Form.Item>
 
                         <Form.Item label="Giờ chiếu">
-                            {localStorage.getItem('lichChieuEdit') 
-                            ? <TimePicker value={dayjs(defaultTime, timeFormat)} format={timeFormat} onChange={onChangeHour} onOk={onOkHour} /> 
-                            : <TimePicker format={timeFormat} onChange={onChangeHour} onOk={onOkHour} />
+                            {localStorage.getItem('lichChieuEdit')
+                                ? <TimePicker value={dayjs(defaultTime, timeFormat)} format={timeFormat} onChange={onChangeHour} onOk={onOkHour} />
+                                : <TimePicker format={timeFormat} onChange={onChangeHour} onOk={onOkHour} />
                             }
 
 

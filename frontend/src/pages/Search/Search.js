@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { layKetQuaTimKiem } from './../../redux/actions/QuanLyTinTucAction';
 import { Card } from 'antd';
 import { Modal } from 'antd';
+import dayjs from 'dayjs';
 
 
 
@@ -17,7 +18,7 @@ export default function Search(props) {
 
   useEffect(() => {
     dispatch(layKetQuaTimKiem(searchValue));
-  }, [dispatch,searchValue])
+  }, [dispatch, searchValue])
 
   // console.log('arrTimKiem', arrTimKiem)
   const renderNews = () => {
@@ -28,17 +29,19 @@ export default function Search(props) {
             key={index}
             hoverable
             className='d-flex my-3 w-full no-underline'
-            style={{ height: 180, overflow: 'hidden' }}
-            bodyStyle={{ width: '100%' }}
-            cover={<img alt={item.tieuDe} className='ant-card-cover-customs' src={item.hinhAnh} style={{ minWidth: 300, height: 180, objectFit: 'cover' }} />}
+            style={{ height: 185, overflow: 'hidden' }}
+            bodyStyle={{ width: '100%', padding: '12px' }}
+            cover={<img alt={item.tieuDe} className='ant-card-cover-customs' src={item.hinhAnh} style={{ minWidth: 250, height: 185, objectFit: 'cover' }} />}
           >
-            <div className='d-flex justify-between w-full mb-4'>
-              <div className='text-danger w-1/3'>{item.tacGia}</div>
-              <div className='w-1/3 text-left'>{item.theLoai}</div>
-              <div className='w-1/3 text-right'>{item.created_at.substr(0, 10)}</div>
+            <div className='d-flex justify-between w-full'>
+              <div className='text-danger'>{item.tacGia}</div>
+              <div className='text-right'>{dayjs(item.created_at).format('DD-MM-YYYY')}</div>
             </div>
-
-            <Meta title={item.tieuDe} description={item.noiDungPhu} />
+            <div className='text-left'>{item.theLoai}</div>
+            <div>
+              <h1 className='text-lg mt-1'>{item.tieuDe}</h1>
+              <p className='text-gray-500 text-ellipsis overflow-hidden line-clamp-2'>{item.noiDungPhu}</p>
+            </div>
           </Card>
         </a>
       </div>
@@ -49,7 +52,7 @@ export default function Search(props) {
   const renderMovies = () => {
     return movie?.map((phim, index) => {
       return <div className='col-3'>
-        <div className="container_foto" style={{width:250, height:350}}>
+        <div className="container_foto" style={{ width: 250, height: 350 }}>
           <div className="ver_mas text-center">
             <span id="click" className="lnr lnr-eye" />
             <a href={`/detail/${phim.maPhim}`} className='btn btn-danger text-white'>Đặt vé</a>
@@ -80,19 +83,18 @@ export default function Search(props) {
 
   return (
     <div>
-      <div className="header__img-text" style={{maxHeight:120}}>
+      <div className="header__img-text" style={{ maxHeight: 120 }}>
         <h2 className=" text-white text-2xl mt-5">Tìm kiếm từ khóa</h2>
         <h2 className=" text-white text-xl">{searchValue}</h2>
       </div>
-      <div className="header__bg-dark header__with-img" style={{maxHeight:120}}></div>
+      <div className="header__bg-dark header__with-img" style={{ maxHeight: 120 }}></div>
       <div className='container'>
         <div className='row'>
           <h1 className="text-3xl text-center w-full mt-3">Kết Quả Tìm Kiếm Phim</h1>
           {movie?.length !== 0 ? renderMovies() : <p className='text-center w-full'>Xin lỗi! Không tìm thấy phim nào</p>}
         </div>
-
         <div className='row'>
-        <h1 className="text-3xl text-center w-full mt-5">Kết Quả Tìm Kiếm Tin Tức</h1>
+          <h1 className="text-3xl text-center w-full mt-5">Kết Quả Tìm Kiếm Tin Tức</h1>
           {news?.length !== 0 ? renderNews() : <p className='text-center w-full'>Xin lỗi! Không tìm thấy tin tức nào</p>}
         </div>
       </div>

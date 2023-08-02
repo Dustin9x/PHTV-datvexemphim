@@ -6,11 +6,12 @@ import { useFormik } from 'formik';
 import dayjs from 'dayjs';
 import { GET_BINH_LUAN_DETAIL } from '../../redux/constants';
 import { TOKEN } from '../../util/settings/config';
+import { layDanhSachNguoiDungAction } from '../../redux/actions/QuanLyNguoiDungAction';
 
 export default function NewsDetail(props) {
     const { TextArea } = Input;
     const { arrBinhLuan, arrTinTuc, detailTinTuc, detailBinhLuan } = useSelector(state => state.NewsReducer);
-    const { userLogin } = useSelector(state => state.UserReducer)
+    const { userLogin, arrUser } = useSelector(state => state.UserReducer)
 
     const dispatch = useDispatch();
 
@@ -19,9 +20,10 @@ export default function NewsDetail(props) {
         dispatch(layDanhSachTinTucAction(id))
         dispatch(layDanhSachBinhLuanAction(id))
         dispatch(layDanhSachTinTucAction())
+        dispatch(layDanhSachNguoiDungAction())
     }, [dispatch, id])
 
-    console.log('detailBinhLuan',detailBinhLuan)
+    console.log('detailBinhLuan', detailBinhLuan)
 
     const [form] = Form.useForm();
 
@@ -39,7 +41,7 @@ export default function NewsDetail(props) {
                 formData.append(key, values[key]);
             }
             console.table('formData123', [...formData])
-            if (!detailBinhLuan.maComment) {
+            if (!detailBinhLuan.maComment && !!values.comment !== '') {
                 dispatch(themBinhLuanAction(id, formData))
             } else {
                 dispatch(capNhatBinhLuanAction(detailBinhLuan.maComment, formData))
@@ -77,15 +79,14 @@ export default function NewsDetail(props) {
 
             >
                 <div className='d-flex align-center'>
-                    {userLogin.avatar ?
-                        <div style={{ minWidth: '40px', minHeight: '40px', height: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${userLogin.avatar})` }} />
-                        : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={userLogin?.name.substr(0, 1)} />
-                    }
+                    {arrUser.find(us => us.email == item.useremail)?.avatar !== null
+                        ? <div style={{ width: 40, height: 40, minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${arrUser.find(us => us.email == item.useremail)?.avatar})` }} />
+                        : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={item.username.substr(0, 1)} />}
                     <div className='w-full'>
                         <p className='my-auto m-3 text-danger'>{item.username}</p>
                         <p className='my-auto ml-3'>{dayjs(item.created_at).format('DD-MM-YYYY')}</p>
                     </div>
-                    {item.useremail === userLogin.email || userLogin.role==='QuanTri' ? <Popover placement="bottomRight" content={content} trigger="hover">
+                    {item.useremail === userLogin.email || userLogin.role === 'QuanTri' ? <Popover placement="bottomRight" content={content} trigger="hover">
                         <div className='btn cursor-pointer px-3 border-none drop-shadow-none hover:bg-gray-100'>...</div>
                     </Popover> : ''}
 

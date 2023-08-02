@@ -35,6 +35,8 @@ export default function Detail(props) {
         dispatch(layDanhSachNguoiDungAction())
     }, [dispatch, id])
 
+    
+
     const [lichChieuTheoRap, setLichChieuTheoRap] = useState(lichChieuTheoPhim.filter((item) => item.ngayChieu === ""));
     const handleClick = (event) => {
         let clickNgayChieu = event.target.name;
@@ -104,6 +106,7 @@ export default function Detail(props) {
                     }>Xóa</Button>
                 </div>
             );
+            console.log('arrUser',arrUser.find(us => us.email == item.useremail)?.avatar)
             return <Card
                 key={index}
                 className='d-flex my-3 w-full no-underline'
