@@ -43,7 +43,7 @@ export default function MovieMultiRowSlick(props) {
     centerPadding: "100px",
     slidesToShow: 2,
     speed: 500,
-    rows: 1,
+    rows: 2,
     slidesPerRow: 2,
     variableWidth: true,
     nextArrow: <SampleNextArrow />,

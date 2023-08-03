@@ -922,3 +922,7 @@
 	color: #e08833;
   }
   
+
+  .ant-list-item-extra {
+	width: 70% !important;
+  }

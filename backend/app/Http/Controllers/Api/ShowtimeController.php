@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Seat;
 use App\Models\Showtime;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class ShowtimeController extends Controller
@@ -27,7 +28,7 @@ class ShowtimeController extends Controller
 
     public function showbyMovie($id)
     {
-        $showtime = Showtime::where('maPhim', $id)->with(['rapchieu','rapchieu.tinhthanh', 'phim'])->get();
+        $showtime = Showtime::where('maPhim', $id)->with(['rapchieu', 'rapchieu.tinhthanh', 'phim'])->get();
         if ($showtime) {
             return response()->json([
                 'status' => 200,
@@ -43,7 +44,7 @@ class ShowtimeController extends Controller
 
     public function show($id)
     {
-        $showtime = Showtime::where('maLichChieu', $id)->with(['rapchieu','phim'])->first();
+        $showtime = Showtime::where('maLichChieu', $id)->with(['rapchieu', 'phim'])->first();
         if ($showtime) {
             return response()->json([
                 'status' => 200,
@@ -59,53 +60,17 @@ class ShowtimeController extends Controller
 
     public function store(Request $request)
     {
-        $showtime = Showtime::create([
-            'ngayChieu' => $request->ngayChieu,
-            'gioChieu' => $request->gioChieu,
-            'giaVeThuong' => $request->giaVeThuong,
-            'giaVeVip' => $request->giaVeVip,
-            'maPhim' => $request->maPhim,
-            'maRap' => $request->maRap,
+        $validator = Validator::make($request->all(), [
+            'gioChieu' => 'unique:showtime,gioChieu,null,null,gioChieu,' . $request->gioChieu . ',ngayChieu,' . $request->ngayChieu . ',maRap,' . $request->maRap . ''
         ]);
 
-        if ($showtime) {
-            for ($i = 1; $i <= 160; $i++) {
-                if (
-                    ($i >= 35   && $i <= 46) ||
-                    ($i >= 51   && $i <= 62) ||
-                    ($i >= 67   && $i <= 78) ||
-                    ($i >= 83   && $i <= 94) ||
-                    ($i >= 99   && $i <= 110) ||
-                    ($i >= 115   && $i <= 126)
-                ) {
-                    $loaighe = 'vip';
-                } else {
-                    $loaighe = 'thuong';
-                }
-                Seat::insert([
-                    'tenGhe' => $i,
-                    'loaiGhe' => $loaighe,
-                    'maLichChieu' => $showtime->maLichChieu,
-                ]);
-            }
+        if ($validator->fails()) {
             return response()->json([
-                'status' => 200,
-                'message' => 'Showtime successfully created',
-                'content' => $showtime
-            ], 200);
+                'status' => 401,
+                'message' => 'Showtime not created'
+            ]);
         } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'Showtime not successfully created'
-            ], false);
-        }
-    }
-
-    public function update(Request $request, $id)
-    {
-        $showtime = Showtime::where('maLichChieu', $id)->first();
-        if ($showtime) {
-            $showtime->update([
+            $showtime = Showtime::create([
                 'ngayChieu' => $request->ngayChieu,
                 'gioChieu' => $request->gioChieu,
                 'giaVeThuong' => $request->giaVeThuong,
@@ -113,17 +78,66 @@ class ShowtimeController extends Controller
                 'maPhim' => $request->maPhim,
                 'maRap' => $request->maRap,
             ]);
+
+
+
+            if ($showtime) {
+                for ($i = 1; $i <= 160; $i++) {
+                    if (
+                        ($i >= 35   && $i <= 46) ||
+                        ($i >= 51   && $i <= 62) ||
+                        ($i >= 67   && $i <= 78) ||
+                        ($i >= 83   && $i <= 94) ||
+                        ($i >= 99   && $i <= 110) ||
+                        ($i >= 115   && $i <= 126)
+                    ) {
+                        $loaighe = 'vip';
+                    } else {
+                        $loaighe = 'thuong';
+                    }
+                    Seat::insert([
+                        'tenGhe' => $i,
+                        'loaiGhe' => $loaighe,
+                        'maLichChieu' => $showtime->maLichChieu,
+                    ]);
+                }
+            }
             return response()->json([
                 'status' => 200,
-                'message' => 'Showtime successfully updated'
+                'message' => 'Showtime successfully created',
+                'content' => $showtime
             ], 200);
-        } else {
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        $showtime = Showtime::where('maLichChieu', $id)->first();
+        $validator = Validator::make($request->all(), [
+            'gioChieu' => 'unique:showtime,gioChieu,null,null,gioChieu,' . $request->gioChieu . ',ngayChieu,' . $request->ngayChieu . ',maRap,' . $request->maRap . ''
+        ]);
+
+        if ($validator->fails()) {
             return response()->json([
-                'status' => 404,
-                'message' => 'No such showtime found',
-                'errors' => response()->errors()->toArray(),
-            ], 404);
-        };
+                'status' => 401,
+                'message' => 'Showtime not updated'
+            ]);
+        } else {
+            if ($showtime) {
+                $showtime->update([
+                    'ngayChieu' => $request->ngayChieu,
+                    'gioChieu' => $request->gioChieu,
+                    'giaVeThuong' => $request->giaVeThuong,
+                    'giaVeVip' => $request->giaVeVip,
+                    'maPhim' => $request->maPhim,
+                    'maRap' => $request->maRap,
+                ]);
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Showtime successfully updated'
+                ], 200);
+            }
+        }
     }
 
     public function destroy($id)

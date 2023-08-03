@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id('maComment');
             $table->string('username');
             $table->string('useremail');
-            $table->text('comment');
+            $table->text('comment');            
             $table->unsignedBigInteger('maBaiViet')->nullable();
             $table->unsignedBigInteger('maPhim')->nullable();
+            $table->foreign('maBaiViet')->references('maBaiViet')->on('tbnews')->onDelete('CASCADE');
+            $table->foreign('maPhim')->references('maPhim')->on('movies')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

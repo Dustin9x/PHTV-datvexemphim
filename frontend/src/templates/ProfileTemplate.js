@@ -51,8 +51,9 @@ export const ProfileTemplate = (props) => { //path, exact, Component
 
   const content = (
     <div style={{ width: 200 }}>
+      {(profile.role === 'Super') ? <Button type="text" className='w-full text-left' href="/admin/moviemng">Super Admin</Button> : ''}
+      {(profile.role === 'QuanTri') ? <Button type="text" className='w-full text-left' href="/mod/moviemng">Trang Quản Trị</Button> : ''}
       <Button type="text" href="/users/profile" className='w-full text-left'>Trang Cá Nhân</Button>
-      {(profile.role === 'QuanTri') ? <Button type="text" className='w-full text-left' href="/admin/moviemng">Trang Quản Trị</Button> : ''}
       <Button type="text" href="/home" className='w-full text-left' onClick={() => {
         localStorage.removeItem(USER_LOGIN)
         localStorage.removeItem(TOKEN)

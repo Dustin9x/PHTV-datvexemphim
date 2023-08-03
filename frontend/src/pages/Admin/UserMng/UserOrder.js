@@ -20,9 +20,12 @@ export default function UserOrder(props) {
   return (
     <div>
       <p>Lịch Sử Đặt Vé Của: </p>
-      <h1>User: {user.name}</h1>  
-      <h1>Email: {user.email} </h1> 
-      <KetQuaDatVe />
+      <h1>User: {user.name}</h1>
+      <h1>Email: {user.email} </h1>
+      <div className='container'>
+        <KetQuaDatVe />
+
+      </div>
     </div>
   )
 }

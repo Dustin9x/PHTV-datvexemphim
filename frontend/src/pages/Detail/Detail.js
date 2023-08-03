@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './Detail.css'
-import { Tabs, Rate, Tag, Button, Form, Input, Card, Avatar, Popover } from 'antd';
+import { Tabs, Rate, Tag, Button, Form, Input, Card, Avatar, Popover, List } from 'antd';
 import moment from 'moment/moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -35,7 +35,7 @@ export default function Detail(props) {
         dispatch(layDanhSachNguoiDungAction())
     }, [dispatch, id])
 
-    
+
 
     const [lichChieuTheoRap, setLichChieuTheoRap] = useState(lichChieuTheoPhim.filter((item) => item.ngayChieu === ""));
     const handleClick = (event) => {
@@ -53,12 +53,17 @@ export default function Detail(props) {
     let listNgayChieuActive = listNgayChieu.filter(e => e >= todayDate)
 
     let uniqueTinhThanh = [...new Map(listTinhThanh.map((item) => [item["maTinh"], item])).values(),];
+    const noNullCumRap = _.uniqBy(_.flatten(lichChieuTheoRap.map(item => item.rapchieu)),'maRap')
     const [cumRaptheotinh, setCumRaptheotinh] = useState(cumRap.filter((item) => item.maTinh_id === ''));
     const handleClickRap = (event) => {
         let clickTinhThanh = Number(event.target.name);
         let cumRaptheotinh = cumRap.filter(item => item.maTinh_id === clickTinhThanh)
         setCumRaptheotinh(cumRaptheotinh);
     };
+
+    // console.log('lichChieuTheoPhim',lichChieuTheoPhim)
+    console.log('noNullCumRap',noNullCumRap)
+    console.log('cumRaptheotinh',cumRaptheotinh)
 
 
     const [form] = Form.useForm();
@@ -106,27 +111,25 @@ export default function Detail(props) {
                     }>Xóa</Button>
                 </div>
             );
-            console.log('arrUser',arrUser.find(us => us.email == item.useremail)?.avatar)
             return <Card
                 key={index}
                 className='d-flex my-3 w-full no-underline'
                 style={{ minHeight: 130, overflow: 'hidden' }}
                 bodyStyle={{ width: '100%' }}
-
             >
-                
+
                 <div className='d-flex align-center'>
-                
-                    
+
+
                     {arrUser.find(us => us.email == item.useremail)?.avatar !== null
-                    ? <div style={{ width:40, height:40, minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${arrUser.find(us => us.email == item.useremail)?.avatar})` }} />
-                    : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={item.username.substr(0, 1)} />}
-                    
+                        ? <div style={{ width: 40, height: 40, minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${arrUser.find(us => us.email == item.useremail)?.avatar})` }} />
+                        : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={item.username.substr(0, 1)} />}
+
                     <div className='w-full'>
                         <p className='my-auto m-3 text-danger'>{item.username}</p>
                         <p className='my-auto ml-3'>{dayjs(item.created_at).format('DD-MM-YYYY')}</p>
                     </div>
-                    {item.useremail === userLogin.email || userLogin.role==='QuanTri' ? <Popover placement="bottomRight" content={content} trigger="hover">
+                    {item.useremail === userLogin.email || userLogin.role === 'QuanTri' ? <Popover placement="bottomRight" content={content} trigger="hover">
                         <div className='btn cursor-pointer px-3 border-none drop-shadow-none hover:bg-gray-100'>...</div>
                     </Popover> : ''}
 
@@ -137,6 +140,10 @@ export default function Detail(props) {
         }).reverse()
 
     };
+    const today = dayjs().format('YYYY-MM-DD')
+    const now = dayjs(new Date().getTime()).format('HH:mm');
+
+    
 
     return (
         <div style={{ position: 'absolute', height: 'auto', width: '100%' }}>
@@ -194,7 +201,8 @@ export default function Detail(props) {
 
                 </div>
             </div>
-            <div className='container' style={{ minHeight: '500px' }}>
+            <div className='container px-5 pb-2 mb-5 rounded-2xl' style={{ minHeight: '500px', background: 'rgba(204, 204, 204, 0.5)' }}>
+
                 <Tabs defaultActiveKey='1' centered className='text-white mt-20'>
                     <TabPane tab={<p className='text-lg bg-slate-800 px-5 py-2 rounded-full'>Lịch Chiếu</p>} key="1" >
                         {listNgayChieuActive.sort().map((item, index) => {
@@ -216,37 +224,50 @@ export default function Detail(props) {
                             })}
                         </div>
 
-                        <Tabs defaultActiveKey='1' tabPosition={'left'} className='text-white mt-20'>
-                            {cumRaptheotinh.map((rap, index) => {
+                        <List
+                            itemLayout="vertical"
+                            size="large"
+                            dataSource={noNullCumRap}
+                            renderItem={(item) => (
 
-                                const today = dayjs().format('YYYY-MM-DD')
-                                const now = dayjs(new Date().getTime()).format('HH:mm');
+                                <List.Item
+                                    key={item.index}
+                                    extra={
 
-                                return <TabPane className='p-3' tab={<div className='bg-slate-50 p-4 rounded-xl'><div className='text-lg d-flex justify-center'><img style={{ width: 40 }} src='/img/logo.png' alt='logo' />{rap.tenRap}</div><div>{rap.diaChi}</div></div>} key={index}>
-                                    {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(item => item.maRap === rap.maRap).filter(item => item.ngayChieu === today).filter(item => now > item.gioChieu).map((item, index) => {
-                                        return <Tag disabled className='text-lg mr-3 px-3 opacity-50 cursor-default select-none' color='gray'>{item.gioChieu.substr(0, 5)}</Tag>
-                                    })}
-                                    {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(item => item.maRap === rap.maRap).filter(item => item.ngayChieu === today).filter(item => now <= item.gioChieu).map((item, index) => {
-                                        return <NavLink to={`/checkout/${item.maLichChieu}`}>
-                                            <Tag className='text-lg mr-3 px-3' color='green'>{item.gioChieu.substr(0, 5)}</Tag>
-                                        </NavLink>
-                                    })}
-                                    {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(item => item.maRap === rap.maRap).filter(item => item.ngayChieu !== today).map((item, index) => {
-                                        return <NavLink to={`/checkout/${item.maLichChieu}`}>
-                                            <Tag className='text-lg mr-3 px-3' color='green'>{item.gioChieu.substr(0, 5)}</Tag>
-                                        </NavLink>
-                                    })}
+                                        <div style={{minWidth:'80%'}} >
+                                            {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(rap => rap.maRap === item.maRap).filter(rap => rap.ngayChieu === today).filter(rap => now > rap.gioChieu).map((item, index) => {
+                                                return <Tag disabled className='text-lg mr-3 px-3 opacity-50 cursor-default select-none' color='gray'>{item.gioChieu.substr(0, 5)}</Tag>
+                                            })}
+                                            {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(rap => rap.maRap === item.maRap).filter(rap => rap.ngayChieu === today).filter(rap => now <= rap.gioChieu).map((item, index) => {
+                                                return <NavLink to={`/checkout/${item.maLichChieu}`}>
+                                                    <Tag className='text-lg mr-3 px-3' color='green'>{item.gioChieu.substr(0, 5)}</Tag>
+                                                </NavLink>
+                                            })}
+                                            {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(rap => rap.maRap === item.maRap).filter(rap => rap.ngayChieu !== today).map((item, index) => {
+                                                return <NavLink to={`/checkout/${item.maLichChieu}`}>
+                                                    <Tag className='text-lg mr-3 px-3' color='green'>{item.gioChieu.substr(0, 5)}</Tag>
+                                                </NavLink>
+                                            })}
+                                        </div>
+                                    }
+                                >
+                                    <List.Item.Meta
+                                        avatar={<Avatar style={{width:50,height:50}} src='/img/logo.png' />}
+                                        title={<h1>{item.tenRap}</h1>}
+                                        description={item.diaChi}
+                                    />
+                                </List.Item>
+                            )}
+                        />
 
-                                </TabPane>
-                            })}
-                        </Tabs>
+                        
 
                     </TabPane>
                     <TabPane tab={<p className='text-lg bg-slate-800 px-5 py-2 rounded-full'>Thông Tin</p>} key="2">
-                        <p className='text-lg'>{movieEditDetail.moTa}</p>
+                        <p className='text-lg text-slate-900'>{movieEditDetail.moTa}</p>
                     </TabPane>
-                    <TabPane tab={<p className='text-lg bg-slate-800 px-5 py-2 rounded-full'>Đánh Giá</p>} key="3">
-                        <h1 className='mt-5 text-xl'>Bình Luận Từ Người Xem</h1>
+                    <TabPane tab={<p className='text-lg bg-slate-900 px-5 py-2 rounded-full'>Đánh Giá</p>} key="3">
+                        <h1 className='mt-5 text-xl text-slate-900'>Bình Luận Từ Người Xem</h1>
                         <div className='bg-light rounded-xl p-2 mb-5 '>
 
                             {(localStorage.getItem(TOKEN)) ? <Form form={form} onSubmitCapture={formik.handleSubmit} className='w-full d-flex flex-col items-end' >
@@ -259,10 +280,9 @@ export default function Detail(props) {
                         </div>
                         {renderBinhLuanPhim()}
                     </TabPane>
+                            
                 </Tabs>
-
             </div>
-
         </div >
 
 

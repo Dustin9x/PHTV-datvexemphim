@@ -19,9 +19,6 @@ export default function Home(props) {
     dispatch(layDanhSachTinTucAction())
   }, [])
 
-  console.log('arrTinTuc',arrTinTuc)
-  console.log('arrMovie',arrMovie)
-
   const renderTinTuc = () => {
     return <div className='row d-flex'>
       <div className='col-6 flex-1'>

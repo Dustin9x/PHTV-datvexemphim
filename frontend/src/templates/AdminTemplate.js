@@ -20,26 +20,6 @@ function getItem(label, key, icon, children) {
   };
 }
 
-const items = [
-  getItem('Quản Lý Phim', 'sub1', <VideoCameraOutlined />, [
-    getItem('Danh Sách Phim', '1', <NavLink className='text-decoration-none' to="/admin/moviemng"><VideoCameraOutlined /></NavLink>),
-    getItem('Danh Sách Carousel', '2', <NavLink className='text-decoration-none' to="/admin/carouselmng"><VideoCameraOutlined /></NavLink>),
-  ]),
-  getItem('Rạp Chiếu', '3', <NavLink className='text-decoration-none' to="/admin/theatrechildmng"><BankOutlined /></NavLink>),
-  getItem('Quản Lý Bài Viết', '4', <NavLink className='text-decoration-none' to="/admin/newsmng"><FormOutlined /></NavLink>),
-  getItem('Quản Lý Người Dùng', 'sub2', <UserOutlined />, [
-    getItem('Quản Trị Viên', '5', <NavLink className='text-decoration-none' to="/admin/adminusers"><UserOutlined /></NavLink>),
-    getItem('Khách Hàng', '6', <NavLink className='text-decoration-none' to="/admin/freeusers"><UserOutlined /></NavLink>),
-  ]),
-  getItem('Theo Dõi Doanh Thu', 'sub3', <LineChartOutlined />, [
-    getItem('Danh Sách Đơn Hàng', '7', <NavLink className='text-decoration-none' to="/admin/orderlist"><LineChartOutlined /></NavLink>),
-    getItem('Doanh Thu Theo Tháng', '8', <NavLink className='text-decoration-none' to="/admin/revenuemonth"><LineChartOutlined /></NavLink>),
-    getItem('Doanh Thu Theo Phim', '9', <NavLink className='text-decoration-none' to="/admin/revenuemovie"><LineChartOutlined /></NavLink>),
-  ]),
-  getItem('Quản Lý Feedback', '10', <NavLink className='text-decoration-none' to="/admin/feedbackmng"><QuestionOutlined /></NavLink>),
-]
-
-
 
 export const AdminTemplate = (props) => { //path, exact, Component
   const dispatch = useDispatch();
@@ -52,33 +32,62 @@ export const AdminTemplate = (props) => { //path, exact, Component
   // const { userLogin } = useSelector(state => state.UserReducer)
   const { arrUser } = useSelector(state => state.UserReducer)
 
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    dispatch(layDanhSachNguoiDungAction())
+  },[dispatch])
+
   let userLogin = {}
   if (localStorage.getItem(USER_LOGIN)) {
     userLogin = JSON.parse(localStorage.getItem(USER_LOGIN))
   }
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    dispatch(layDanhSachNguoiDungAction())
-  },[])
-
-  
-
-  let usLogin = arrUser?.find(obj => obj.id === userLogin.id)
 
   if (!localStorage.getItem(TOKEN)) {
     // alert('Bạn không có quyền truy cập trang này!')
     history.replace('/')
   }
-
-  if (userLogin.role !== 'QuanTri') {
-    // alert('Bạn không có quyền truy cập trang này!');
+  
+  if (userLogin.role !== 'Super' && userLogin.role !== 'QuanTri') {
+    alert('Bạn không có quyền truy cập trang này!');
     history.replace('/')
   }
 
+  let usLogin = arrUser?.find(obj => obj.id === userLogin.id)
+  console.log('usLogin',usLogin)
+
+  const items = (userLogin.role === 'Super') ? [
+    getItem('Quản Lý Phim', 'sub1', <VideoCameraOutlined />, [
+      getItem('Danh Sách Phim', '1', <NavLink className='text-decoration-none' to="/admin/moviemng"><VideoCameraOutlined /></NavLink>),
+      getItem('Danh Sách Carousel', '2', <NavLink className='text-decoration-none' to="/admin/carouselmng"><VideoCameraOutlined /></NavLink>),
+    ]),
+    getItem('Rạp Chiếu', '3', <NavLink className='text-decoration-none' to="/admin/theatrechildmng"><BankOutlined /></NavLink>),
+    getItem('Quản Lý Bài Viết', '4', <NavLink className='text-decoration-none' to="/admin/newsmng"><FormOutlined /></NavLink>),
+    getItem('Quản Lý Người Dùng', 'sub2', <UserOutlined />, [
+      getItem('Quản Trị Viên', '5', <NavLink className='text-decoration-none' to="/admin/adminusers"><UserOutlined /></NavLink>),
+      getItem('Khách Hàng', '6', <NavLink className='text-decoration-none' to="/admin/freeusers"><UserOutlined /></NavLink>),
+    ]),
+    getItem('Theo Dõi Doanh Thu', 'sub3', <LineChartOutlined />, [
+      getItem('Danh Sách Đơn Hàng', '7', <NavLink className='text-decoration-none' to="/admin/orderlist"><LineChartOutlined /></NavLink>),
+      getItem('Doanh Thu Theo Tháng', '8', <NavLink className='text-decoration-none' to="/admin/revenuemonth"><LineChartOutlined /></NavLink>),
+      getItem('Doanh Thu Theo Phim', '9', <NavLink className='text-decoration-none' to="/admin/revenuemovie"><LineChartOutlined /></NavLink>),
+    ]),
+    getItem('Quản Lý Feedback', '10', <NavLink className='text-decoration-none' to="/admin/feedbackmng"><QuestionOutlined /></NavLink>),
+  ] : [
+    getItem('Quản Lý Phim', 'sub1', <VideoCameraOutlined />, [
+      getItem('Danh Sách Phim', '1', <NavLink className='text-decoration-none' to="/admin/moviemng"><VideoCameraOutlined /></NavLink>),
+      getItem('Danh Sách Carousel', '2', <NavLink className='text-decoration-none' to="/admin/carouselmng"><VideoCameraOutlined /></NavLink>),
+    ]),
+    getItem('Rạp Chiếu', '3', <NavLink className='text-decoration-none' to="/admin/theatrechildmng"><BankOutlined /></NavLink>),
+    getItem('Quản Lý Bài Viết', '4', <NavLink className='text-decoration-none' to="/admin/newsmng"><FormOutlined /></NavLink>),
+    getItem('Quản Lý Feedback', '5', <NavLink className='text-decoration-none' to="/admin/feedbackmng"><QuestionOutlined /></NavLink>),
+  ]
+
   const content = (
     <div style={{ width: 200 }}>
-      <Button type="text" href="/users/profile" className='w-full text-left'>Trang Cá Nhân</Button>
+      {(userLogin.role === 'Super') ? <Button type="text" className='w-full text-left' href="/admin/moviemng">Super Admin</Button> : ''}
       {(userLogin.role === 'QuanTri') ? <Button type="text" className='w-full text-left' href="/admin/moviemng">Trang Quản Trị</Button> : ''}
+      <Button type="text" href="/users/profile" className='w-full text-left'>Trang Cá Nhân</Button>
       <Button type="text" href="/home" className='w-full text-left' onClick={() => {
         localStorage.removeItem(USER_LOGIN)
         localStorage.removeItem(TOKEN)
@@ -96,9 +105,8 @@ export const AdminTemplate = (props) => { //path, exact, Component
         <Button type="link" href="/"><HomeOutlined style={{ fontSize: '24px' }} /></Button>
         <Popover placement="bottomRight" title={userLogin.taiKhoan} content={content} trigger="click">
           <Button className='rounded-full bg-slate-300 p-0 d-flex justify-center items-center w-full h-full' style={{ width: 40, height: 40 }}>
-            {/* <Avatar size={40} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={userLogin.name.substr(0, 1)} /> */}
-            {usLogin !== null ?
-              <div style={{ minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${usLogin?.avatar})` }} />
+          {usLogin?.avatar !== null ?
+              <div style={{ minWidth: '40px', minHeight: 40, width:40, height:40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${usLogin?.avatar})` }} />
               : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={usLogin?.name.substr(0,1)} />
             }
           </Button>

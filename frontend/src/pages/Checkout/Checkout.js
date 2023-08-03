@@ -1,20 +1,17 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Avatar, Button, Card, Popover, QRCode } from 'antd';
-import { UserOutlined, HomeOutlined } from '@ant-design/icons';
+import { Avatar, Button, Card, Form, Input, Popover, QRCode, Tabs } from 'antd';
+import { UserOutlined, HomeOutlined, CreditCardOutlined, KeyOutlined } from '@ant-design/icons';
 import './Checkout.css'
-import { layChiTietLichChieuAction, layDanhSachGheAction, layDanhSachLichChieuAction, xacNhanDatVeAction } from '../../redux/actions/QuanLyDatVeAction';
-import { CHUYEN_TAB, CHUYEN_TAB_ACTIVE, DAT_VE } from '../../redux/constants';
+import { layChiTietLichChieuAction, layDanhSachGheAction, xacNhanDatVeAction } from '../../redux/actions/QuanLyDatVeAction';
+import { CHUYEN_TAB_ACTIVE, DAT_VE } from '../../redux/constants';
 import _ from 'lodash';
 import { ThongTinDatVe } from '../../_core/models/ThongTinDatVe';
-import { Tabs } from 'antd';
-import { layThongTinDatVeAction } from '../../redux/actions/QuanLyNguoiDungAction';
-import moment from 'moment';
+import { layThongTinNguoiDungAction } from '../../redux/actions/QuanLyNguoiDungAction';
+import { datVeAction, layDonHangTheoUserAction } from '../../redux/actions/QuanLyDonHangAction';
 import { TOKEN, USER_LOGIN } from '../../util/settings/config';
 import dayjs from 'dayjs';
 import { history } from './../../App';
-import { layDanhSachCumRapAction } from '../../redux/actions/QuanLyRapAction';
-import { datVeAction, layDonHangTheoUserAction } from '../../redux/actions/QuanLyDonHangAction';
 const { TabPane } = Tabs;
 
 
@@ -22,30 +19,31 @@ export default function ChonGhe(props) {
     const { disableTab } = useSelector(state => state.QuanLyDatVeReducer)
     const { disableTab1 } = useSelector(state => state.QuanLyDatVeReducer)
     const { tabActive } = useSelector(state => state.QuanLyDatVeReducer)
-    const { userLogin } = useSelector(state => state.UserReducer)
     const { donHang } = useSelector(state => state.QuanLyDatVeReducer)
-    const { arrUser } = useSelector(state => state.UserReducer)
-    // let userLogin = {}
-    // if (localStorage.getItem(USER_LOGIN)) {
-    //     userLogin = JSON.parse(localStorage.getItem(USER_LOGIN))
-    // }
+    const { profile } = useSelector(state => state.UserReducer)
 
-    let usLogin = arrUser?.find(obj => obj.id === userLogin.id)
+    let userLogin = {}
+    if (localStorage.getItem(USER_LOGIN)) {
+        userLogin = JSON.parse(localStorage.getItem(USER_LOGIN))
+    }
     const dispatch = useDispatch()
+    console.log('userLogin', userLogin)
+    console.log('profile', profile)
 
     useEffect(() => {
-        return () => {
-            dispatch({
-                type: CHUYEN_TAB_ACTIVE,
-                number: '1'
-            })
-        }
-    }, [])
+        dispatch(layThongTinNguoiDungAction(userLogin.id))
+        dispatch({
+            type: CHUYEN_TAB_ACTIVE,
+            number: '1'
+        })
+    }, [dispatch, userLogin.id])
+
 
     const content = (
         <div style={{ width: 200 }}>
+            {(userLogin.role === 'Super') ? <Button type="text" className='w-full text-left' href="/admin/moviemng">Super Admin</Button> : ''}
+            {(userLogin.role === 'QuanTri') ? <Button type="text" className='w-full text-left' href="/admin/users">Trang Quản Trị</Button> : ''}
             <Button type="text" href="/users/profile" className='w-full text-left'>Trang Cá Nhân</Button>
-            {(userLogin.maLoaiNguoiDung === 'QuanTri') ? <Button type="text" className='w-full text-left' href="/admin/users">Trang Quản Trị</Button> : ''}
             <Button type="text" href="/home" className='w-full text-left' onClick={() => {
                 localStorage.removeItem(USER_LOGIN)
                 localStorage.removeItem(TOKEN)
@@ -62,9 +60,9 @@ export default function ChonGhe(props) {
             <Button type="link" href="/"><HomeOutlined style={{ fontSize: '24px' }} /></Button>
             <Popover placement="bottomRight" title={userLogin.taiKhoan} content={content} trigger="click">
                 <Button className='rounded-full bg-slate-300 p-0 d-flex justify-center items-center w-full h-full' style={{ width: 40, height: 40 }}>
-                {usLogin?.avatar !== null ?
-                        <div style={{ minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${usLogin?.avatar})` }} />
-                        : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={usLogin?.name.substr(0, 1)} />
+                    {profile?.avatar !== null ?
+                        <div style={{ minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${profile?.avatar})` }} />
+                        : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={profile?.name.substr(0, 1)} />
                     }
                     {/* <Avatar size={40} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={userLogin.name.substr(0, 1)} /> */}
                 </Button>
@@ -117,13 +115,12 @@ function Checkout(props) {
 
     const { userLogin } = useSelector(state => state.UserReducer)
     const { lichChieuChiTiet, danhSachGhe, danhSachGheDangChon } = useSelector(state => state.QuanLyDatVeReducer)
-    const { cumRap } = useSelector(state => state.RapReducer)
     const dispatch = useDispatch();
     let { id } = props.match.params;
     useEffect(() => {
         dispatch(layDanhSachGheAction(id))
         dispatch(layChiTietLichChieuAction(id))
-    }, [])
+    }, [dispatch, id])
 
     const thongTinPhim = lichChieuChiTiet?.phim;
     const rapChieu = lichChieuChiTiet?.rapchieu;
@@ -257,42 +254,108 @@ function Checkout(props) {
 
 export function XacNhanThongTin(props) {
     const { donHang } = useSelector(state => state.QuanLyDatVeReducer)
-    console.log('donHang', donHang)
+    const [show, setShow] = useState(false);
+    const onFinish = (values) => {
+        setShow(true)
+    };
+    const onSubmit = (values) => {
+        if (values === '123456') {
+            dispatch(datVeAction(donHang))
+        }
+    };
     const dispatch = useDispatch();
     return (
         <div className='container min-h-screen mt-5'>
-
-            <div className='d-flex'>
+            <div className='row'>
                 <div className='col-6'>
-                    <Card className='m-2 w-full bg-indigo-400'>
-                        <p>Chi tiết đơn hàng</p>
-                        <h3 className='text-xl font-bold'>{donHang.phim}</h3>
-                        <p className='text-lg'>Rạp chiếu: {donHang.rapChieu}</p>
-                        <p className='text-lg'>Suất <b>{donHang.gioChieu.substr(0, 5)}</b> Ngày <b>{dayjs(donHang.ngayChieu).format('DD-MM-YYYY')}</b></p>
-                        <p className='text-lg'><b>{donHang.tenRap}</b> Ghế <b>{donHang.danhSachGhe}</b></p>
+                    <div className=''>
+                        <Card className='m-2 w-full bg-indigo-400'>
+                            <p>Chi tiết đơn hàng</p>
+                            <h3 className='text-xl font-bold'>{donHang.phim}</h3>
+                            <p className='text-lg'>Rạp chiếu: {donHang.rapChieu}</p>
+                            <p className='text-lg'>Suất <b>{donHang.gioChieu.substr(0, 5)}</b> Ngày <b>{dayjs(donHang.ngayChieu).format('DD-MM-YYYY')}</b></p>
+                            <p className='text-lg'><b>{donHang.tenRap}</b> Ghế <b>{donHang.danhSachGhe}</b></p>
+                        </Card>
+                    </div>
+                    <Card className='m-2 w-full bg-orange-400'>
+                        <p>Tổng đơn hàng</p>
+                        <h3 className=' text-xl font-bold'>{donHang.tongTien.toLocaleString()} đ</h3>
                     </Card>
+                    <Card className='m-2 w-full bg-cyan-400'>
+                        <p>Người đặt vé</p>
+                        <p className='text-md'>Tên: {donHang.name}</p>
+                        <p className='text-md'>Email: {donHang.email}</p>
+                    </Card>
+                    <p className='text-gray-400 ml-5'>(*) Quý khách vui lòng kiểm tra kỹ thông tin, đơn hàng sau khi đặt sẽ không được hủy hoặc hoàn lại.</p>
+
                 </div>
+                <div className='col-6'>
+                    <div className='row'>
+                        <div className='col-6 mx-auto'>
+                            <h1 className='text-center text-xl mb-5'>THANH TOÁN BẰNG THẺ TÍN DỤNG</h1>
+                            {!show ? <Form
+                                name="basic"
+                                onFinish={onFinish}
+                                autoComplete="off"
+                            >
+                                <Form.Item
+                                    name="otp"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            type: 'string',
+                                            min: 16,
+                                            max: 19,
+                                            message: 'Số thẻ gồm 16-19 số và không được để trống!',
+                                        },
+                                    ]}
+                                >
+                                    <Input size="large" placeholder='Số Thẻ' prefix={<CreditCardOutlined />} />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="chuThe"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            type: 'string',
+                                            message: 'Tên chủ thẻ không được để trống!',
+                                        },
+                                    ]}
+                                >
+                                    <Input size="large" placeholder='Tên Chủ Thẻ Không Dấu' onInput={e => e.target.value = e.target.value.toUpperCase()} prefix={<UserOutlined />} />
+                                </Form.Item>
+                                <button type="primary" className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full' htmlType="submit">Tiếp tục</button>
+                            </Form>
+                                : <Form onFinish={onSubmit}>
+                                    <Form.Item
+                                        rules={[
+                                            {
+                                                required: true,
+                                                type: 'string',
+                                                min: 6,
+                                                max: 6,
+                                                message: 'OTP gồm 6 số và không được để trống!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input size="large" placeholder='Nhập OTP' prefix={<KeyOutlined />} />
+                                    </Form.Item>
+                                    <div className='mt-5 d-flex justify-center'>
+                                        <button type="button" style={{ width: 350 }} className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full"
+                                            onClick={() => {
+                                                dispatch(datVeAction(donHang))
+                                            }}
+                                        >Xác Nhận Thanh Toán</button>
+                                    </div>
+                                </Form>
+                            }
+                        </div>
+
+                    </div>
 
 
-                <Card className='m-2 w-full bg-orange-400'>
-                    <p>Tổng đơn hàng</p>
-                    <h3 className=' text-xl font-bold'>{donHang.tongTien.toLocaleString()} đ</h3>
-                </Card>
-                <Card className='m-2 w-full bg-cyan-400'>
-                    <p>Người đặt vé</p>
-                    <p className='text-md'>Tên: {donHang.name}</p>
-                    <p className='text-md'>Email: {donHang.email}</p>
-                </Card>
-
-            </div>
-            <p className='text-gray-400 ml-5'>(*) Quý khách vui lòng kiểm tra kỹ thông tin, đơn hàng sau khi đặt sẽ không được hủy hoặc hoàn lại.</p>
-
-            <div className='mt-5 d-flex justify-center'>
-                <button type="button" style={{ width: 350 }} className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full"
-                    onClick={() => {
-                        dispatch(datVeAction(donHang))
-                    }}
-                >Thanh Toán</button>
+                </div>
             </div>
         </div>
     )
@@ -312,92 +375,94 @@ export function KetQuaDatVe(props) {
     }, [])
 
 
-    let lastTicket = arrDonHang[arrDonHang.length -1];
+    let lastTicket = arrDonHang[arrDonHang.length - 1];
     return <div className='row'>
-        <div className='col-span-12 mx-20'>
-
+        <div className='col-12'>
             <section className="text-gray-600 body-font">
                 <div className="container px-5 py-24 mx-auto">
                     <div className="flex flex-col text-center w-full mb-20">
                         <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Lịch Sử Đặt Vé</h1>
                         <p className="lg:w-2/3 mx-auto leading-relaxed text-base">Xin cám ơn bạn đã ủng hộ dịch vụ của chúng tôi, chúc bạn có những trải nghiệm tuyệt vời</p>
                     </div>
-                    <div className="row">
-                        {arrDonHang.length < 1 || arrDonHang == undefined ? <p className='text-xl text-center w-full'>Bạn chưa có đơn hàng nào</p> :
-                        <div className='row'>
-                            <div className='col-6 offset-3 mt-3 '>
-                                <h1 className='text-center text-lg mb-5'>Vé vừa mua</h1>
-                                <Card
-                                    hoverable
-                                    className='bg-red-100 p-2 d-flex'
-                                    style={{
-                                        width: '100%',
-                                    }}
-                                    cover={<div>
-                                        <small className='text-right'>Ngày đặt vé: {dayjs(lastTicket.create_at).format('DD-MM-YYYY')}</small>
-                                        <QRCode value={
-                                            'Mã đơn: ' + lastTicket.maOrder +
-                                            ', Phim: ' + lastTicket.phim +
-                                            ', Rạp: ' + lastTicket.rapChieu +
-                                            ', Ngày: ' + dayjs(lastTicket.ngayChieu).format('DD-MM-YYYY') +
-                                            ', Suất: ' + lastTicket.gioChieu.substr(0, 5) +
-                                            ', Ghế: ' + lastTicket.danhSachGhe
-                                        }
-                                        />
-                                    </div>
-                                    }
-                                >
+                    <div className="container">
+                        {arrDonHang.length < 1 || arrDonHang == undefined ? <p className='text-xl text-center w-full'>Chưa có đơn hàng nào</p> :
+                            <div>
+                                <div className='row'>
+                                    <div className='col-6 ml-auto mr-auto mt-3 '>
+                                        <h1 className='text-center text-lg mb-5'>Vé vừa mua</h1>
+                                        <Card
+                                            hoverable
+                                            className='bg-red-100 p-2 d-flex'
+                                            style={{
+                                                width: '100%',
+                                            }}
+                                            cover={<div>
+                                                <small className='text-right'>Ngày đặt vé: {dayjs(lastTicket.create_at).format('DD-MM-YYYY')}</small>
+                                                <QRCode value={
+                                                    'Mã đơn: ' + lastTicket.maOrder +
+                                                    ', Phim: ' + lastTicket.phim +
+                                                    ', Rạp: ' + lastTicket.rapChieu +
+                                                    ', Ngày: ' + dayjs(lastTicket.ngayChieu).format('DD-MM-YYYY') +
+                                                    ', Suất: ' + lastTicket.gioChieu.substr(0, 5) +
+                                                    ', Ghế: ' + lastTicket.danhSachGhe
+                                                }
+                                                />
+                                            </div>
+                                            }
+                                        >
+                                            <Meta className='font-bold' title={lastTicket.phim} />
+                                            <div className='mt-2 text-gray-500'>
+                                                <div>Ngày chiếu: {dayjs(lastTicket.ngayChieu).format('DD-MM-YYYY')}</div>
+                                                <div>Giờ chiếu: {lastTicket.gioChieu.substr(0, 5)}</div>
+                                                <div>Rạp: {lastTicket.rapChieu}</div>
+                                                <div>Ghế: {lastTicket.danhSachGhe}</div>
+                                                <div className='font-bold'>Bạn cần xuất trình vé điện tử này để vào phòng chiếu</div>
+                                            </div>
 
-                                    <Meta className='font-bold' title={lastTicket.phim} />
-                                    <div className='mt-2 text-gray-500'>
-                                        <div>Ngày chiếu: {dayjs(lastTicket.ngayChieu).format('DD-MM-YYYY')}</div>
-                                        <div>Giờ chiếu: {lastTicket.gioChieu.substr(0, 5)}</div>
-                                        <div>Rạp: {lastTicket.rapChieu}</div>
-                                        <div>Ghế: {lastTicket.danhSachGhe}</div>
-                                        <div className='font-bold'>Bạn cần xuất trình vé điện tử này để vào phòng chiếu</div>
+                                        </Card>
+                                        <h1 className='text-center text-lg mt-20'>Vé đã mua</h1>
                                     </div>
+                                </div>
+                                <div className='row'>
+                                    {arrDonHang.slice(0, -1)?.map((item, index) => {
 
-                                </Card>
-                            <h1 className='text-center text-lg mt-20'>Vé đã mua</h1><br/>
-                            </div> 
-                            {arrDonHang.slice(0,-1)?.map((item, index) => {
-                                
-                            return <div className='col-6 mt-3 '>
-                                <Card
-                                    hoverable
-                                    className='bg-teal-100 p-2 d-flex'
-                                    style={{
-                                        width: '100%',
-                                    }}
-                                    cover={<div>
-                                        <small className='text-right'>Ngày đặt vé: {dayjs(item.create_at).format('DD-MM-YYYY')}</small>
-                                        <QRCode value={
-                                            'Mã đơn: ' + item.maOrder +
-                                            ', Phim: ' + item.phim +
-                                            ', Rạp: ' + item.rapChieu +
-                                            ', Ngày: ' + dayjs(item.ngayChieu).format('DD-MM-YYYY') +
-                                            ', Suất: ' + item.gioChieu.substr(0, 5) +
-                                            ', Ghế: ' + item.danhSachGhe
-                                        }
-                                        />
-                                    </div>
-                                    }
-                                >
+                                        return <div className='col-6 mt-3 '>
+                                            <Card
+                                                hoverable
+                                                className='bg-teal-100 p-2 d-flex'
+                                                style={{
+                                                    width: '100%',
+                                                }}
+                                                cover={<div>
+                                                    <small className='text-right'>Ngày đặt vé: {dayjs(item.create_at).format('DD-MM-YYYY')}</small>
+                                                    <QRCode value={
+                                                        'Mã đơn: ' + item.maOrder +
+                                                        ', Phim: ' + item.phim +
+                                                        ', Rạp: ' + item.rapChieu +
+                                                        ', Ngày: ' + dayjs(item.ngayChieu).format('DD-MM-YYYY') +
+                                                        ', Suất: ' + item.gioChieu.substr(0, 5) +
+                                                        ', Ghế: ' + item.danhSachGhe
+                                                    }
+                                                    />
+                                                </div>
+                                                }
+                                            >
 
-                                    <Meta className='font-bold' title={item.phim} />
-                                    <div className='mt-2 text-gray-500'>
-                                        <div>Ngày chiếu: {dayjs(item.ngayChieu).format('DD-MM-YYYY')}</div>
-                                        <div>Giờ chiếu: {item.gioChieu.substr(0, 5)}</div>
-                                        <div>Rạp: {item.rapChieu}</div>
-                                        <div>Ghế: {item.danhSachGhe}</div>
-                                        <div className='font-bold'>Bạn cần xuất trình vé điện tử này để vào phòng chiếu</div>
-                                    </div>
+                                                <Meta className='font-bold' title={item.phim} />
+                                                <div className='mt-2 text-gray-500'>
+                                                    <div>Ngày chiếu: {dayjs(item.ngayChieu).format('DD-MM-YYYY')}</div>
+                                                    <div>Giờ chiếu: {item.gioChieu.substr(0, 5)}</div>
+                                                    <div>Rạp: {item.rapChieu}</div>
+                                                    <div>Ghế: {item.danhSachGhe}</div>
+                                                    <div className='font-bold'>Bạn cần xuất trình vé điện tử này để vào phòng chiếu</div>
+                                                </div>
 
-                                </Card>
+                                            </Card>
+                                        </div>
+
+                                    }).reverse()}
+                                </div>
                             </div>
-
-                        }).reverse()}
-                        </div>
                         }
 
                     </div>

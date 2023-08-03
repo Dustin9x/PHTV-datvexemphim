@@ -5,10 +5,25 @@ import { useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useDispatch, useSelector } from 'react-redux';
 import { layDanhSachNguoiDungAction, xoaNguoiDungAction } from '../../../redux/actions/QuanLyNguoiDungAction';
+import { TOKEN, USER_LOGIN } from '../../../util/settings/config';
+import { history } from '../../../App';
 
 
 
 export default function FreeUserMng() {
+  let userLogin = {}
+if (localStorage.getItem(USER_LOGIN)) {
+    userLogin = JSON.parse(localStorage.getItem(USER_LOGIN))
+}
+
+if (!localStorage.getItem(TOKEN)) {
+    history.replace('/')
+}
+
+if (userLogin.role !== 'Super') {
+    alert('Bạn không có quyền truy cập trang này!');
+    history.replace('/')
+}
   let { arrUser } = useSelector(state => state.UserReducer);
   const dispatch = useDispatch();
   useEffect((value) => {

@@ -55,8 +55,12 @@ export const taoLichChieuAction = (thongTinLichChieu) => {
     return async (dispatch) => {
         try {
             const result = await quanLyDatVeService.taoLichChieu(thongTinLichChieu);
-            alert('Thêm lịch chiếu thành công');
-            // history.push('/admin/moviemng');
+            if (result.data.status === 200) {
+                alert('Thêm lịch chiếu thành công');
+            } else if (result.data.status === 401) {
+                alert('Lịch chiếu bị trùng lặp, vui lòng kiểm tra lại');
+            }
+            
             console.log('lichchieu',result)
         } catch (error) {
             console.log(error)
@@ -68,7 +72,12 @@ export const capNhatLichChieuAction = (id,formData) => {
     return async (dispatch) => {
         try {
             const result = await quanLyDatVeService.capNhatLichChieu(id,formData)
-            alert('Cập nhật lịch chiếu thành công');
+            if (result.data.status === 200) {
+                alert('Cập nhật lịch chiếu thành công');
+            } else if (result.data.status === 401) {
+                alert('Lịch chiếu bị trùng lặp, vui lòng kiểm tra lại');
+            }
+            
         } catch (error) {
             console.log('error', error);
         }

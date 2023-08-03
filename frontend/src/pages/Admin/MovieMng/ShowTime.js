@@ -39,19 +39,24 @@ export default function ShowTime(props) {
             giaVeVip: lichEdit?.giaVeVip,
         },
         onSubmit: (values) => {
-            let formData = new FormData();
-            for (let key in values) {
-                formData.append(key, values[key]);
-            }
-            console.table('formData123', [...formData])
-            if (!localStorage.getItem('lichChieuEdit')) {
-                dispatch(taoLichChieuAction(formData));
-                dispatch(layLichChieuTheoPhimAction(id));
+            if (values.giaVeThuong <= values.giaVeVip) {
+                let formData = new FormData();
+                for (let key in values) {
+                    formData.append(key, values[key]);
+                }
+                console.table('formData123', [...formData])
+                if (!localStorage.getItem('lichChieuEdit')) {
+                    dispatch(taoLichChieuAction(formData));
+                    dispatch(layLichChieuTheoPhimAction(id));
+                } else {
+                    dispatch(capNhatLichChieuAction(lichEdit.maLichChieu, formData))
+                    dispatch(layLichChieuTheoPhimAction(id));
+                }
+                localStorage.removeItem("lichChieuEdit");
             } else {
-                dispatch(capNhatLichChieuAction(lichEdit.maLichChieu, formData))
-                dispatch(layLichChieuTheoPhimAction(id));
+                alert('Giá vé VIP phải cao hơn giá vé thường')
             }
-            localStorage.removeItem("lichChieuEdit");
+            
 
         }
     })
@@ -109,7 +114,7 @@ export default function ShowTime(props) {
             key: 'rapchieu.tenRap',
             render: (text, movie) => {
                 return cumRap.filter(item => item.maRap === movie.maRap).map((item, index) => {
-                    return <p>{item.tenRap}</p>
+                    return <p key={index}>{item.tenRap}</p>
                 })
             }
         },
@@ -133,7 +138,6 @@ export default function ShowTime(props) {
             render: (text, movie) => {
                 return <Tag color='green'>{movie.gioChieu.substr(0, 5)}</Tag>
             }
-
         },
         {
             title: 'Giá Vé Thường',
@@ -157,7 +161,7 @@ export default function ShowTime(props) {
                     <Button key={2} type="link" danger icon={<DeleteOutlined />} onClick={() => {
                         if (window.confirm('Bạn có chắc chắn muốn xóa lịch chiếu phim này?')) {
                             dispatch(xoaLichChieuAction(movie.maLichChieu))
-                            dispatch(layDanhSachLichChieuAction(movie.maLichChieu))
+                            dispatch(layLichChieuTheoPhimAction(id))
                         }
                     }}></Button>
                 </Fragment>
@@ -182,7 +186,7 @@ export default function ShowTime(props) {
                         onSubmitCapture={formik.handleSubmit}
                     >
                         <Form.Item label="Cụm rạp">
-                            <Select options={cumRap?.map((cumRap, index) => ({ label: cumRap.tenRap, value: cumRap.maRap }))} value={formik.values.maRap} onChange={handleChangeCumRap} placeholder="Chọn cụm rạp" />
+                            <Select options={cumRap?.map((cumRap, index) => ({key:index, label: (cumRap.tenRap)+' ('+(cumRap.tinh_thanh[0].tenTinh)+')', value: cumRap.maRap }))} value={formik.values.maRap} onChange={handleChangeCumRap} placeholder="Chọn cụm rạp" />
                         </Form.Item>
                         <Form.Item label="Ngày chiếu">
                             <Tooltip title="Lưu ý: Chỉ được chọn lịch chiếu trong vòng 40 ngày kể từ ngày khởi chiếu">

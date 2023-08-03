@@ -58,7 +58,11 @@ export default function EditFeedback(props) {
                     <pre>Nội Dung: {formik.values.noiDung}</pre>
                 </Typography>
                 <Form.Item>
-                    Ngày Xử Lý: <br /> <DatePicker format={'DD-MM-YYYY'} value={dayjs(formik.values.ngayXuLy, 'YYYY-MM-DD')} onChange={handleChangeDatePicker} />
+                Ngày Xử Lý: <br />
+                {feedbackEditDetail?.ngayXuLy
+                                ? <DatePicker format={'DD-MM-YYYY'} value={dayjs(formik.values.ngayXuLy, 'YYYY-MM-DD')} onChange={handleChangeDatePicker} />
+                                : <DatePicker format={'DD-MM-YYYY'} onChange={handleChangeDatePicker} />
+                            }
                 </Form.Item>
                 <Form.Item>
                     Nội Dung Xử Lý: <br />

@@ -119,6 +119,7 @@ function App() {
         <AdminTemplate path='/admin/feedbackmng' exact Component={FeedbackMng} />
         <AdminTemplate path='/admin/editfeedback/:id' exact Component={EditFeedback} />
 
+
         <HomeTemplate path='/' exact Component={Home} />
         <HomeTemplate path='/search/*' exact Component={Search} />
         <HomeTemplate Component={Home} />

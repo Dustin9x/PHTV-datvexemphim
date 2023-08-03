@@ -5,10 +5,25 @@ import { useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useDispatch, useSelector } from 'react-redux';
 import { layDanhSachNguoiDungAction, xoaNguoiDungAction } from '../../../redux/actions/QuanLyNguoiDungAction';
+import { TOKEN, USER_LOGIN } from '../../../util/settings/config';
+import { history } from '../../../App';
 
 
 
 export default function AdminUserMng() {
+  let userLogin = {}
+if (localStorage.getItem(USER_LOGIN)) {
+    userLogin = JSON.parse(localStorage.getItem(USER_LOGIN))
+}
+
+if (!localStorage.getItem(TOKEN)) {
+    history.replace('/')
+}
+
+if (userLogin.role !== 'Super') {
+    alert('Bạn không có quyền truy cập trang này!');
+    history.replace('/')
+}
   let { arrUser } = useSelector(state => state.UserReducer);
   const dispatch = useDispatch();
   useEffect((value) => {
@@ -25,13 +40,14 @@ export default function AdminUserMng() {
     setSearchedColumn(dataIndex);
   };
 
-  
+
   const resetSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
-    setSearchText(selectedKeys[0]='');
+    setSearchText(selectedKeys[0] = '');
     setSearchedColumn(dataIndex);
   };
-  
+
+
 
   const data = arrUser.filter(item => item.role === 'QuanTri');
 
@@ -121,9 +137,11 @@ export default function AdminUserMng() {
       title: 'Avatar',
       dataIndex: 'avatar',
       key: 'avatar',
-      render: (text, movie, index) => {return movie.avatar 
-        ? <img key={index} style={{width:40, height:40, objectFit: 'cover', borderRadius: '50%'}} src={movie.avatar} alt={movie.avatar} /> 
-      : <Avatar size={40} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={movie.name.substr(0, 1)} />}
+      render: (text, movie, index) => {
+        return movie.avatar
+          ? <img key={index} style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: '50%' }} src={movie.avatar} alt={movie.avatar} />
+          : <Avatar size={40} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={movie.name.substr(0, 1)} />
+      }
     },
     {
       title: 'Họ và Tên',
@@ -170,7 +188,7 @@ export default function AdminUserMng() {
       <h3 className='text-lg'>Quản Lý Người Dùng</h3>
       <Button href='/admin/users/adduser' type="primary" className='ml-3 small bg-primary'>+ Thêm Người Dùng</Button>
     </div>
-    
+
     <Table columns={columns} dataSource={data} rowKey={'id'} />;
   </div>
 }

@@ -4,15 +4,21 @@ import {
     Input,
     Button,
     Select,
+    Checkbox,
 } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { capNhatNguoiDungAction, layThongTinNguoiDungAction } from '../../../redux/actions/QuanLyNguoiDungAction';
 import { useFormik } from 'formik';
 import { values } from 'lodash';
+import { TOKEN, USER_LOGIN } from '../../../util/settings/config';
+import { history } from '../../../App';
 const { Option } = Select;
+
+
 
 const UserEdit = (props) => {
     const dispatch = useDispatch();
+    const [checked, setChecked] = useState(false);
     const { userLogin } = useSelector(state => state.UserReducer)
     let { id } = props.match.params;
     let user = {};
@@ -26,7 +32,7 @@ const UserEdit = (props) => {
         initialValues: {
             name: user.name,
             email: user.email,
-            password: user.pass || null,
+            // password: user.pass || null,
             role: user.role,
             avatar: user.avatar,
             fileName: ''
@@ -42,7 +48,7 @@ const UserEdit = (props) => {
             }
             console.table('formData', [...formData])
             dispatch(capNhatNguoiDungAction(id, formData));
-            
+
         }
     })
 
@@ -62,6 +68,10 @@ const UserEdit = (props) => {
     const handleChangeRole = (value) => {
         formik.setFieldValue('role', value)
     }
+
+    const onChangeCheck = (e) => {
+        setChecked(e.target.checked);
+    };
 
     return (
         <div >
@@ -95,18 +105,28 @@ const UserEdit = (props) => {
                 </Form.Item>
 
                 <Form.Item
-                    label="Mật Khẩu"
-                    name="password"
-                    initialValue={user.password}
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Password không được để trống!',
-                        },
-                    ]}
+                    label="Thay đổi password?"
                 >
-                    <Input.Password name='password' onChange={formik.handleChange} placeholder="Mật khẩu" />
+                    <Checkbox checked={checked} onChange={onChangeCheck}></Checkbox>
                 </Form.Item>
+
+                {checked ?
+                    <Form.Item
+                        label="Mật Khẩu"
+                        name="password"
+                        initialValue={user.password}
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Password không được để trống!',
+                            },
+                        ]}
+                    >
+                        <Input.Password name='password' onChange={formik.handleChange} placeholder="Mật khẩu" />
+                    </Form.Item>
+                    : ''}
+
+
 
 
 
@@ -124,7 +144,7 @@ const UserEdit = (props) => {
                     <Input name='name' onChange={formik.handleChange} placeholder="Họ và tên" />
                 </Form.Item>
 
-                {userLogin.role !== 'KhachHang' ? <Form.Item
+                {userLogin.role === 'Super' ? <Form.Item
                     name="role"
                     label="Loại Người Dùng"
                     initialValue={user.role}
