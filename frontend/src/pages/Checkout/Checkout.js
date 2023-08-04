@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Avatar, Button, Card, Form, Input, Popover, QRCode, Tabs } from 'antd';
+import { Avatar, Button, Card, Form, Input, Pagination, Popover, QRCode, Tabs } from 'antd';
 import { UserOutlined, HomeOutlined, CreditCardOutlined, KeyOutlined } from '@ant-design/icons';
 import './Checkout.css'
 import { layChiTietLichChieuAction, layDanhSachGheAction, xacNhanDatVeAction } from '../../redux/actions/QuanLyDatVeAction';
@@ -263,6 +263,17 @@ export function XacNhanThongTin(props) {
             dispatch(datVeAction(donHang))
         }
     };
+    const checkTiengViet = (e) => {
+        console.log(e.target.value)
+        // values
+        // .normalize("NFD")
+        // .replace(/[\u0300-\u036f]/g, "")
+        // .replace(/đ/g, "d")
+        // .replace(/Đ/g, "D");
+    }
+
+
+
     const dispatch = useDispatch();
     return (
         <div className='container min-h-screen mt-5'>
@@ -310,7 +321,7 @@ export function XacNhanThongTin(props) {
                                         },
                                     ]}
                                 >
-                                    <Input size="large" placeholder='Số Thẻ' prefix={<CreditCardOutlined />} />
+                                    <Input size="large" onInput={e => e.target.value = e.target.value.replace(/(\d{4})(\d+)/g, '$1 $2').trim()} placeholder='Số Thẻ' prefix={<CreditCardOutlined />} />
                                 </Form.Item>
 
                                 <Form.Item
@@ -323,11 +334,18 @@ export function XacNhanThongTin(props) {
                                         },
                                     ]}
                                 >
-                                    <Input size="large" placeholder='Tên Chủ Thẻ Không Dấu' onInput={e => e.target.value = e.target.value.toUpperCase()} prefix={<UserOutlined />} />
+                                    <Input size="large" placeholder='Tên Chủ Thẻ Không Dấu' onInput={e => 
+                                        {
+                                            e.target.value = e.target.value.toUpperCase()
+                                            e.target.value = e.target.value.normalize("NFD")
+                                            e.target.value = e.target.value.replace(/[\u0300-\u036f]/g, "")
+                                            e.target.value = e.target.value.replace(/đ/g, "d")
+                                            e.target.value = e.target.value.replace(/Đ/g, "D");
+                                        }} prefix={<UserOutlined />} />
                                 </Form.Item>
                                 <button type="primary" className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full' htmlType="submit">Tiếp tục</button>
                             </Form>
-                                : <Form onFinish={onSubmit}>
+                                : <Form onFinish={onSubmit} >
                                     <Form.Item
                                         rules={[
                                             {
@@ -339,7 +357,7 @@ export function XacNhanThongTin(props) {
                                             },
                                         ]}
                                     >
-                                        <Input size="large" placeholder='Nhập OTP' prefix={<KeyOutlined />} />
+                                        <Input size="large"  placeholder='Nhập OTP' prefix={<KeyOutlined />} />
                                     </Form.Item>
                                     <div className='mt-5 d-flex justify-center'>
                                         <button type="button" style={{ width: 350 }} className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full"
@@ -373,6 +391,14 @@ export function KetQuaDatVe(props) {
         const action = layDonHangTheoUserAction(donHang?.userId);
         dispatch(action)
     }, [])
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(5);
+
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const reverseArrDonHang = arrDonHang.slice().reverse()
+    const currentArrDonHang = reverseArrDonHang.slice(indexOfFirstPost, indexOfLastPost);
 
 
     let lastTicket = arrDonHang[arrDonHang.length - 1];
@@ -424,7 +450,7 @@ export function KetQuaDatVe(props) {
                                     </div>
                                 </div>
                                 <div className='row'>
-                                    {arrDonHang.slice(0, -1)?.map((item, index) => {
+                                    {currentArrDonHang.slice(0, -1)?.map((item, index) => {
 
                                         return <div className='col-6 mt-3 '>
                                             <Card
@@ -460,8 +486,10 @@ export function KetQuaDatVe(props) {
                                             </Card>
                                         </div>
 
-                                    }).reverse()}
+                                    })}
+
                                 </div>
+                                    <Pagination className='d-flex justify-center line-clamp-3 my-20' pageSize={postsPerPage} currentPage={currentPage} total={arrDonHang.length} onChange={(page) => { setCurrentPage(page) }} />
                             </div>
                         }
 

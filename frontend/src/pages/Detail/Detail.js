@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './Detail.css'
-import { Tabs, Rate, Tag, Button, Form, Input, Card, Avatar, Popover, List } from 'antd';
+import { Tabs, Rate, Tag, Button, Form, Input, Card, Avatar, Popover, List, Pagination } from 'antd';
 import moment from 'moment/moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -53,7 +53,7 @@ export default function Detail(props) {
     let listNgayChieuActive = listNgayChieu.filter(e => e >= todayDate)
 
     let uniqueTinhThanh = [...new Map(listTinhThanh.map((item) => [item["maTinh"], item])).values(),];
-    const noNullCumRap = _.uniqBy(_.flatten(lichChieuTheoRap.map(item => item.rapchieu)),'maRap')
+    const noNullCumRap = _.uniqBy(_.flatten(lichChieuTheoRap.map(item => item.rapchieu)), 'maRap')
     const [cumRaptheotinh, setCumRaptheotinh] = useState(cumRap.filter((item) => item.maTinh_id === ''));
     const handleClickRap = (event) => {
         let clickTinhThanh = Number(event.target.name);
@@ -61,9 +61,15 @@ export default function Detail(props) {
         setCumRaptheotinh(cumRaptheotinh);
     };
 
-    // console.log('lichChieuTheoPhim',lichChieuTheoPhim)
-    console.log('noNullCumRap',noNullCumRap)
-    console.log('cumRaptheotinh',cumRaptheotinh)
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(5);
+
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const reveseArrBinhLuanPhim = arrBinhLuanPhim.slice().reverse()
+    const currentArrBinhLuan = reveseArrBinhLuanPhim.slice(indexOfFirstPost, indexOfLastPost);
+
+ 
 
 
     const [form] = Form.useForm();
@@ -96,7 +102,8 @@ export default function Detail(props) {
     })
 
     const renderBinhLuanPhim = () => {
-        return arrBinhLuanPhim?.map((item, index) => {
+
+        return currentArrBinhLuan?.map((item, index) => {
             const content = (
                 <div className='d-flex flex-col'>
                     <Button className='btn' type='link' onClick={() => {
@@ -137,13 +144,13 @@ export default function Detail(props) {
 
                 <div className='text-slate-700 mt-3'> {item.comment} </div>
             </Card>
-        }).reverse()
+        })
 
     };
     const today = dayjs().format('YYYY-MM-DD')
     const now = dayjs(new Date().getTime()).format('HH:mm');
 
-    
+
 
     return (
         <div style={{ position: 'absolute', height: 'auto', width: '100%' }}>
@@ -234,7 +241,7 @@ export default function Detail(props) {
                                     key={item.index}
                                     extra={
 
-                                        <div style={{minWidth:'80%'}} >
+                                        <div style={{ minWidth: '80%' }} >
                                             {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(rap => rap.maRap === item.maRap).filter(rap => rap.ngayChieu === today).filter(rap => now > rap.gioChieu).map((item, index) => {
                                                 return <Tag disabled className='text-lg mr-3 px-3 opacity-50 cursor-default select-none' color='gray'>{item.gioChieu.substr(0, 5)}</Tag>
                                             })}
@@ -252,7 +259,7 @@ export default function Detail(props) {
                                     }
                                 >
                                     <List.Item.Meta
-                                        avatar={<Avatar style={{width:50,height:50}} src='/img/logo.png' />}
+                                        avatar={<Avatar style={{ width: 50, height: 50 }} src='/img/logo.png' />}
                                         title={<h1>{item.tenRap}</h1>}
                                         description={item.diaChi}
                                     />
@@ -260,7 +267,7 @@ export default function Detail(props) {
                             )}
                         />
 
-                        
+
 
                     </TabPane>
                     <TabPane tab={<p className='text-lg bg-slate-800 px-5 py-2 rounded-full'>Thông Tin</p>} key="2">
@@ -279,8 +286,9 @@ export default function Detail(props) {
 
                         </div>
                         {renderBinhLuanPhim()}
+                        <Pagination className='d-flex justify-center line-clamp-3 mb-20' pageSize={postsPerPage} currentPage={currentPage} total={arrBinhLuanPhim.length} onChange={(page) => { setCurrentPage(page) }} />
                     </TabPane>
-                            
+
                 </Tabs>
             </div>
         </div >
