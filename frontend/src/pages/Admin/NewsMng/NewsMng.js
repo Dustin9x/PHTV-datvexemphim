@@ -27,7 +27,7 @@ export default function NewsMng() {
 
   const resetSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
-    setSearchText(selectedKeys[0]='');
+    setSearchText(selectedKeys[0] = '');
     setSearchedColumn(dataIndex);
   };
 
@@ -36,7 +36,7 @@ export default function NewsMng() {
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
       <div
-        style={{padding: 8,}}
+        style={{ padding: 8, }}
         onKeyDown={(e) => e.stopPropagation()}
       >
         <Input
@@ -72,7 +72,7 @@ export default function NewsMng() {
           >
             Reset
           </Button>
-          
+
         </Space>
       </div>
     ),
@@ -111,7 +111,7 @@ export default function NewsMng() {
       title: 'Mã Bài Viết',
       dataIndex: 'maBaiViet',
       key: 'maBaiViet',
-      width:'10%',
+      width: '10%',
       sorter: (a, b) => a.maBaiViet - b.maBaiViet,
       sortDirections: ['descend', 'ascend'],
     },
@@ -135,7 +135,7 @@ export default function NewsMng() {
       title: 'Hình Ảnh',
       dataIndex: 'hinhAnh',
       key: 'hinhAnh',
-      render: (text, movie, index) => { return <img key={index} width={150} style={{borderRadius:'6px'}} src={movie.hinhAnh} alt={movie.hinhAnh} /> }
+      render: (text, movie, index) => { return <img key={index} width={150} style={{ borderRadius: '6px' }} src={movie.hinhAnh} alt={movie.hinhAnh} /> }
     },
     {
       title: 'Nội Dung Phụ',
@@ -147,7 +147,7 @@ export default function NewsMng() {
     },
     {
       title: 'Quản Lý',
-      width:'8%',
+      width: '8%',
       render: (text, movie) => {
         return <Fragment>
           <Button key={1} href={`/admin/newsmng/edit/${movie.maBaiViet}`} type="link" icon={<EditOutlined />}></Button>

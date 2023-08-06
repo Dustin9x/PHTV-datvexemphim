@@ -52,6 +52,7 @@ import AboutUs from './pages/AboutUs/AboutUs';
 import Recruitment from './pages/Recruitment/Recruitment';
 import GeneralTerms from './pages/Terms/GeneralTerms';
 import TermsOfTransaction from './pages/Terms/TermsOfTransaction';
+import ForgetPassword from './pages/Login/ForgetPassword';
 
 
 export const history = createBrowserHistory();
@@ -76,6 +77,8 @@ function App() {
 
         <UserTemplate path='/login' exact Component={Login} />
         <UserTemplate path='/register' exact Component={Register} />
+        <UserTemplate path='/forgetPassword' exact Component={ForgetPassword} />
+
         <ProfileTemplate path='/users' exact Component={Profile} />
         <ProfileTemplate path='/users/profile' exact Component={Profile} />
         <ProfileTemplate path='/users/edit/:id' exact Component={UserEdit} />

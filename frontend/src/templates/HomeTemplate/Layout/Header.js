@@ -40,9 +40,9 @@ export default function Header(props) {
         } else {
             return <Popover placement="bottomRight" title={userLogin.name} content={content} trigger="click">
                 <Button className='rounded-full bg-slate-300 p-0 d-flex justify-center items-center w-full h-full' style={{ width: 40, height: 40 }}>
-                    {usLogin?.avatar !== null ?
-                        <div style={{ minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${usLogin?.avatar})` }} />
-                        : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={usLogin?.name.substr(0, 1)} />
+                    {usLogin?.avatar == null || usLogin?.avatar == "" 
+                        ? <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={usLogin?.name.substr(0, 1)} />
+                        : <div style={{ minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${usLogin?.avatar})` }} />
                     }
                 </Button>
             </Popover>

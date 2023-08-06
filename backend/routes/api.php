@@ -141,6 +141,7 @@ Route::group([
 ], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('signup', [AuthController::class, 'signup']);
+    Route::post('passwordRetrieval', [AuthController::class, 'passwordRetrieval']);
 
     Route::group([
         'middleware' => 'auth:api'

@@ -1,6 +1,6 @@
 <?php
 // app/Http/Controllers/AuthController.php
- 
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -9,8 +9,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
- 
+use Illuminate\Support\Str;
+
 class AuthController extends Controller
 {
     public function signup(Request $request)
@@ -23,7 +25,7 @@ class AuthController extends Controller
             'avatar' => 'nullable|string',
             'fileName' => 'nullable|string'
         ]);
- 
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => '401',
@@ -41,10 +43,8 @@ class AuthController extends Controller
                 'status' => 200,
             ]);
         }
-
-        
     }
- 
+
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -52,7 +52,7 @@ class AuthController extends Controller
             'password' => 'required|string',
             'remember' => 'boolean'
         ]);
- 
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'fails',
@@ -60,37 +60,39 @@ class AuthController extends Controller
                 'errors' => $validator->errors()->toArray(),
             ]);
         }
- 
+
         $credentials = request(['email', 'password']);
- 
+
         if (!Auth::attempt($credentials)) {
             return response()->json([
                 'status' => 'fails',
                 'message' => 'Sai tên đăng nhập hoặc mật khẩu'
             ], 401);
         }
- 
+
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
- 
+
         if ($request->remember) {
             $token->expires_at = Carbon::now()->addWeeks(1);
         }
- 
+
         $token->save();
- 
+
         return response()->json([
             'status' => 200,
-            'content' => ['content'=>$user,
-            'accessToken' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at
-            )->toDateTimeString()]
-        ],200);
+            'content' => [
+                'content' => $user,
+                'accessToken' => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse(
+                    $tokenResult->token->expires_at
+                )->toDateTimeString()
+            ]
+        ], 200);
     }
- 
+
     public function logout(Request $request)
     {
         $request->user()->token()->revoke();
@@ -98,9 +100,45 @@ class AuthController extends Controller
             'status' => 'success',
         ]);
     }
- 
+
     public function user(Request $request)
     {
         return response()->json($request->user());
+    }
+
+
+    function passwordRetrieval(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|unique:users',
+        ]);
+
+        if (!$validator->valid()) {
+            //lay email user nhap
+            $tkEmail = $request->email;
+            //tao mat khau moi ngau nhien
+            $newPwd = Str::random(6);
+            //update mat khau vo database
+            $user = User::where('email', $tkEmail)->update(['password' => bcrypt($newPwd)]);
+            User::updated([
+                'password' => bcrypt($request->password),
+            ]);
+            //gui mail
+            Mail::send('mail.sendPassword',  array('pass' => $newPwd), function ($message) use ($tkEmail) {
+                $message->to($tkEmail, '$request->name')->subject('PHTV - Mật Khẩu Mới');
+                // $message->attach();
+            });
+            if ($user) {
+                return response()->json([
+                    'status' => 200,
+                    'content' => $user
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'no user found'
+                ], 404);
+            }
+        }
     }
 }

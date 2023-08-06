@@ -14,6 +14,10 @@ export class QuanLyNguoiDungService extends baseService {
         return this.post(`/api/auth/signup`,thongTinDangKy);
     }
 
+    layLaiMatKhau = (thongTinEmail) => {
+        return this.post(`/api/auth/passwordRetrieval`, thongTinEmail);
+      };
+
     themNguoiDung = (newUser) => {
         return this.post(`/api/laydanhsachuser`,newUser);
     }

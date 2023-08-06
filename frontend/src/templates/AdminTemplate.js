@@ -104,7 +104,7 @@ export const AdminTemplate = (props) => { //path, exact, Component
         <Button type="link" href="/"><HomeOutlined style={{ fontSize: '24px' }} /></Button>
         <Popover placement="bottomRight" title={userLogin.taiKhoan} content={content} trigger="click">
           <Button className='rounded-full bg-slate-300 p-0 d-flex justify-center items-center w-full h-full' style={{ width: 40, height: 40 }}>
-          {usLogin?.avatar !== null ?
+          {usLogin?.avatar !== null || usLogin?.avatar !== "" ?
               <div style={{ minWidth: '40px', minHeight: 40, width:40, height:40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${usLogin?.avatar})` }} />
               : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={usLogin?.name.substr(0,1)} />
             }

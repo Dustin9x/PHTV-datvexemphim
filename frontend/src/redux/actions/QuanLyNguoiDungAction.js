@@ -1,5 +1,5 @@
 import { quanLyNguoiDungService } from "../../services/QuanLyNguoiDungService"
-import { DANG_NHAP_ACTION, LAY_CHI_TIET_NGUOI_DUNG, LAY_DANH_SACH_NGUOI_DUNG, SET_THONG_TIN_DAT_VE, TIM_KIEM_NGUOI_DUNG } from "../constants";
+import { DANG_NHAP_ACTION, LAY_CHI_TIET_NGUOI_DUNG, LAY_DANH_SACH_NGUOI_DUNG, LAY_LAI_MAT_KHAU_ACTION, SET_THONG_TIN_DAT_VE, TIM_KIEM_NGUOI_DUNG } from "../constants";
 import { history } from './../../App';
 import { displayLoadingAction, hideLoadingAction } from "./LoadingAction";
 
@@ -40,6 +40,25 @@ export const dangKyAction = (thongTinDangKy) => {
         }
     }
 }
+
+export const layLaiMatKhauAction = (thongTinEmail) => {
+    return async (dispatch) => {
+      try {
+        const result = await quanLyNguoiDungService.layLaiMatKhau(thongTinEmail);
+        if (result.data.status === 200) {
+          dispatch({
+            type: LAY_LAI_MAT_KHAU_ACTION,
+            thongTinEmail: result.data.content,
+          });
+          alert("Lấy lại mật khẩu thành công, mật khẩu mới đã được gửi về email của bạn!!");
+          history.replace("login");
+        }
+      } catch (error) {
+        console.log(error);
+        alert(error.response.data.message);
+      }
+    };
+  };
 
 export const themNguoiDungAction = (newUser) => {
     return async (dispatch) => {

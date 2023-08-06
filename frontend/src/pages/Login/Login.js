@@ -21,7 +21,7 @@ export default function Login(props) {
   };
 
 
-  
+
   return (
 
     <div className="py-8 px-8 bg-white rounded-2xl shadow-xl z-20">
@@ -38,6 +38,7 @@ export default function Login(props) {
         style={{
           maxWidth: 350,
           width: 350,
+          minWidth: '100%',
         }}
         initialValues={{
           remember: false,
@@ -53,6 +54,7 @@ export default function Login(props) {
         <Form.Item
           label=""
           name="email"
+          style={{minWidth: '100%'}}
           rules={[
             {
               type: 'email',
@@ -82,19 +84,23 @@ export default function Login(props) {
 
         <Form.Item
           name="remember"
-          style={{ textAlign: 'left' }}
+          style={{ textAlign: 'left'}}
           valuePropName="checked"
           wrapperCol={{
             offset: 0,
-            span: 16,
+            // span: 16,
           }}
         >
-          <Checkbox >Ghi nhớ</Checkbox>
+          <div className='d-flex justify-between'>
+            <Checkbox >Ghi nhớ</Checkbox>
+            <a className="block cursor-pointer" href="/forgetPassword">Quên mật khẩu</a>
+          </div>
         </Form.Item>
 
         <div className="text-center mt-6">
           <button type="submit" className="py-2 w-64 text-xl text-white bg-purple-400 rounded-xl">Đăng nhập</button>
           <p className="mt-4 text-sm">Bạn chưa có tài khoản? <a href='register' className="underline  cursor-pointer"> Đăng ký</a></p>
+
         </div>
       </Form>
     </div>
