@@ -32,7 +32,7 @@ export default function MovieMng() {
     setSearchedColumn(dataIndex);
   };
 
-  const data = arrMovieDefault;
+  const data = arrMovieDefault.slice().reverse();
   
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
@@ -110,7 +110,7 @@ export default function MovieMng() {
       dataIndex: 'maPhim',
       key: 'maPhim',
       width: '10%',
-      sorter: (a, b) => a.maPhim.length - b.maPhim.length,
+      sorter: (a, b) => a.maPhim - b.maPhim,
       sortDirections: ['descend', 'ascend'],
     },
     {
@@ -133,7 +133,7 @@ export default function MovieMng() {
       dataIndex: 'ngayKhoiChieu',
       key: 'ngayKhoiChieu',
       ...getColumnSearchProps('ngayKhoiChieu'),
-      sorter: (a, b) => a.ngayKhoiChieu.length - b.ngayKhoiChieu.length,
+      sorter: (a, b) => moment(a.ngayKhoiChieu).unix() - moment(b.ngayKhoiChieu).unix(),
       sortDirections: ['descend', 'ascend'],
       render: (text, movie, index) => {
         return <Fragment key={index}>

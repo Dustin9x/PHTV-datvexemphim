@@ -260,7 +260,7 @@ export default function Detail(props) {
                                 <Form.Item label="" className='mb-2 w-full' >
                                     <TextArea name='comment' allowClear rows={4} placeholder='nhập bình luận' onChange={formik.handleChange} value={formik.values.comment} />
                                 </Form.Item>
-                                <button type="submit" className="bg-blue-700 rounded-full text-white p-2 px-5">Gửi</button>
+                                <button disabled={!formik.values.comment?.trim()} type="submit" className="bg-blue-700 disabled:opacity-25 rounded-full text-white p-2 px-5">Gửi</button>
                             </Form> : <Button href="/login" className='w-full'>Vui lòng đăng nhập để bình luận</Button>}
 
                         </div>

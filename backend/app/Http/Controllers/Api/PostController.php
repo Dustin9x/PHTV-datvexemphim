@@ -139,9 +139,7 @@ class PostController extends Controller
     public function content( Request $request)
     {
         $search = $request->input('search');
-        $news = TinTuc::where('noiDung', 'LIKE', "%" . $search . "%")
-        ->orWhere('tieuDe', 'LIKE', "%" . $search . "%")
-        ->get();
+        $news = TinTuc::where('tieuDe', 'LIKE', "%" . $search . "%")->get();
 
         $movie = Movie::where('tenPhim', 'LIKE', "%" . $search . "%")->get();
 

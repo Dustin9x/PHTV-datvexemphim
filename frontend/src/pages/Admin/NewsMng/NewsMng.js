@@ -31,7 +31,7 @@ export default function NewsMng() {
     setSearchedColumn(dataIndex);
   };
 
-  const data = arrTinTuc;
+  const data = arrTinTuc.slice().reverse();
 
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
@@ -112,7 +112,7 @@ export default function NewsMng() {
       dataIndex: 'maBaiViet',
       key: 'maBaiViet',
       width:'10%',
-      sorter: (a, b) => a.maBaiViet.length - b.maBaiViet.length,
+      sorter: (a, b) => a.maBaiViet - b.maBaiViet,
       sortDirections: ['descend', 'ascend'],
     },
     {
@@ -147,6 +147,7 @@ export default function NewsMng() {
     },
     {
       title: 'Quản Lý',
+      width:'8%',
       render: (text, movie) => {
         return <Fragment>
           <Button key={1} href={`/admin/newsmng/edit/${movie.maBaiViet}`} type="link" icon={<EditOutlined />}></Button>
