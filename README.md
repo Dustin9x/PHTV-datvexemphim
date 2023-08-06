@@ -68,16 +68,19 @@ If you found this project useful, then please consider giving it a ⭐ on Github
        -   NodeJS - A JavaScript runtime built on Chrome's V8 JavaScript engine
        
 ## Screenshots:
--   Home Page ()
+<h2>Home Page:</h2>
 <img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/56f970e5-8131-4f49-b7f6-fde6db922f04" width="100%" alt="Homepage">
 
--   Admin Page ()
+
+<h2>Admin Page:</h2>
 <img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/1751e471-92f1-49f9-8add-f1135cbacaa7" width="100%" alt="Adminpage">
 
--   Movie Detail Page ()
+
+<h2>Movie Detail Page:</h2>
 <img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/86337f50-6656-4b25-9b5f-f8d94d5a97ee" width="100%" alt="Moviedetailpage">
 
--   Seats Selecting Page ()
+
+<h2>Seats Selecting Page:</h2>
 <img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/0c394db0-eb7c-45ea-9f66-77e496a88088" width="100%" alt="Seatsselect">
 
 
