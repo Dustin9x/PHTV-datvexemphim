@@ -69,10 +69,10 @@ If you found this project useful, then please consider giving it a ⭐ on Github
        
 ## Screenshots:
 -   Home Page ()
-<img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/a5dd44ec-6247-418e-8205-08c4f5035f8e" width="100%" alt="Homepage">
+<img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/56f970e5-8131-4f49-b7f6-fde6db922f04" width="100%" alt="Homepage">
 
 -   Admin Page ()
-<img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/7908d641-0d19-4cb8-a637-96085d7ad99b" width="100%" alt="Adminpage">
+<img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/1751e471-92f1-49f9-8add-f1135cbacaa7" width="100%" alt="Adminpage">
 
 -   Movie Detail Page ()
 <img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/86337f50-6656-4b25-9b5f-f8d94d5a97ee" width="100%" alt="Moviedetailpage">
