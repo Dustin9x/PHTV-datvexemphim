@@ -35,7 +35,7 @@ If you found this project useful, then please consider giving it a ⭐ on Github
             ```bash
             $ Create a .env file in your server and backend folder
             $ See the .env sample
-            create a myphpadmin database and add your connection string into .env file
+            $ create a myphpadmin database and add your connection string into .env file
             ```
        -   Installation dependencies
             ```bash
@@ -68,3 +68,13 @@ If you found this project useful, then please consider giving it a ⭐ on Github
        -   NodeJS - A JavaScript runtime built on Chrome's V8 JavaScript engine
        
 ## Screenshots:
+-   Home Page ()
+![image](https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/a5dd44ec-6247-418e-8205-08c4f5035f8e)
+-   Admin Page ()
+-   ![image](https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/7908d641-0d19-4cb8-a637-96085d7ad99b)
+-   Movie Detail Page ()
+![image](https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/86337f50-6656-4b25-9b5f-f8d94d5a97ee)
+-   Seats Selecting Page ()
+![image](https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/0c394db0-eb7c-45ea-9f66-77e496a88088)
+
+
