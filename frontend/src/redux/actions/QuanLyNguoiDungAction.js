@@ -15,11 +15,15 @@ export const dangNhapAction = (thongTinDangNhap) => {
                     thongTinDangNhap: result.data.content
                 })
                 history.push('home');
+            } else {
+                history.replace('login');
+                await dispatch(hideLoadingAction)
             }
             await dispatch(hideLoadingAction)
         } catch (error) {
             console.log(error)
             alert(error.response.data.message)
+            dispatch(hideLoadingAction)
         }
     }
 }

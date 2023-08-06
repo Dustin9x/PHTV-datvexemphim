@@ -113,32 +113,31 @@ class AuthController extends Controller
             'email' => 'required|string|email|unique:users',
         ]);
 
-        if (!$validator->valid()) {
-            //lay email user nhap
-            $tkEmail = $request->email;
-            //tao mat khau moi ngau nhien
-            $newPwd = Str::random(6);
-            //update mat khau vo database
-            $user = User::where('email', $tkEmail)->update(['password' => bcrypt($newPwd)]);
+        $tkEmail = $request->email;
+        //tao mat khau moi ngau nhien
+        $newPwd = Str::random(6);
+        //update mat khau vo database
+        $user = User::where('email', $tkEmail)->update(['password' => bcrypt($newPwd)]);
+
+        //gui mail
+
+        if ($user) {
             User::updated([
                 'password' => bcrypt($request->password),
             ]);
-            //gui mail
             Mail::send('mail.sendPassword',  array('pass' => $newPwd), function ($message) use ($tkEmail) {
                 $message->to($tkEmail, '$request->name')->subject('PHTV - Mật Khẩu Mới');
                 // $message->attach();
             });
-            if ($user) {
-                return response()->json([
-                    'status' => 200,
-                    'content' => $user
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => 404,
-                    'message' => 'no user found'
-                ], 404);
-            }
+            return response()->json([
+                'status' => 200,
+                'content' => $user
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Email này chưa đăng ký'
+            ], 404);
         }
     }
 }
