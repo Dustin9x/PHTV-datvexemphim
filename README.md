@@ -61,7 +61,7 @@ If you found this project useful, then please consider giving it a ⭐ on Github
        -   Logout
        
 ## Techs:
-       -   phpMyAdmin - A document-oriented, No-SQL database used to store the application data.
+       -   phpMyAdmin - A free software tool written in PHP, intended to handle the administration of MySQL over the Web.
        -   Laravel - A web application framework with expressive, elegant syntax.
        -   ReactJS - A JavaScript library for building user interfaces.
        -   Redux - A predictable state container for JavaScript apps.
