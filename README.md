@@ -35,7 +35,7 @@ If you found this project useful, then please consider giving it a ⭐ on Github
             ```bash
             $ Create a .env file in your server and backend folder
             $ See the .env sample
-            create a myphpadmin database and add your connection string into .env file
+            $ create a myphpadmin database and add your connection string into .env file
             ```
        -   Installation dependencies
             ```bash
@@ -61,10 +61,34 @@ If you found this project useful, then please consider giving it a ⭐ on Github
        -   Logout
        
 ## Techs:
-       -   phpMyAdmin - A document-oriented, No-SQL database used to store the application data.
+       -   phpMyAdmin - A free software tool written in PHP, intended to handle the administration of MySQL over the Web.
        -   Laravel - A web application framework with expressive, elegant syntax.
        -   ReactJS - A JavaScript library for building user interfaces.
        -   Redux - A predictable state container for JavaScript apps.
        -   NodeJS - A JavaScript runtime built on Chrome's V8 JavaScript engine
        
 ## Screenshots:
+<h3>Home Page:</h3>
+<img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/56f970e5-8131-4f49-b7f6-fde6db922f04" width="100%" alt="Homepage">
+
+
+<h3>Admin Page:</h3>
+<img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/1751e471-92f1-49f9-8add-f1135cbacaa7" width="100%" alt="Adminpage">
+
+
+<h3>Movie Detail Page:</h3>
+<img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/86337f50-6656-4b25-9b5f-f8d94d5a97ee" width="100%" alt="Moviedetailpage">
+
+
+<h3>Seats Selecting Page:</h3>
+<img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/0c394db0-eb7c-45ea-9f66-77e496a88088" width="100%" alt="Seatsselect">
+
+
+## Collaborators:
+       -   Phạm Huy Hoàng - Student1421362
+       -   Tran Gia Toan - Student1416122
+       -   Le Pham Tran Phu - Student1414240
+       -   Bui Quoc Viet - Student1420715
+
+## Instructor:
+We give our sincere thanks to: FPT APTECH MS. LE MONG THUY
