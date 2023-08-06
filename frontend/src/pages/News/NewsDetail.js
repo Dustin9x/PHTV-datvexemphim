@@ -89,7 +89,7 @@ export default function NewsDetail(props) {
                         <p className='my-auto m-3 text-danger'>{item.username}</p>
                         <p className='my-auto ml-3'>{dayjs(item.created_at).format('DD-MM-YYYY')}</p>
                     </div>
-                    {item.useremail === userLogin.email || userLogin.role === 'QuanTri' ? <Popover placement="bottomRight" content={content} trigger="hover">
+                    {item.useremail === userLogin.email || userLogin.role === 'QuanTri' || userLogin.role === 'Super' ? <Popover placement="bottomRight" content={content} trigger="hover">
                         <div className='btn cursor-pointer px-3 border-none drop-shadow-none hover:bg-gray-100'>...</div>
                     </Popover> : ''}
 
@@ -137,8 +137,7 @@ export default function NewsDetail(props) {
                             {(localStorage.getItem(TOKEN)) ? <Form form={form} onSubmitCapture={formik.handleSubmit} className='w-full d-flex flex-col items-end' >
                                 <Form.Item label="" className='mb-2 w-full' >
                                     <TextArea
-                                    
-                                     name='comment' allowClear rows={4} placeholder='nhập bình luận' onChange={formik.handleChange} value={formik.values.comment} />
+                                        name='comment' allowClear rows={4} placeholder='nhập bình luận' onChange={formik.handleChange} value={formik.values.comment} />
                                 </Form.Item>
                                 <button disabled={!formik.values.comment?.trim()} type="submit" className="bg-blue-700 disabled:opacity-25 rounded-full text-white p-2 px-5">Gửi</button>
                             </Form> : <Button href="/login" className='w-full'>Vui lòng đăng nhập để bình luận</Button>}

@@ -124,7 +124,7 @@ export default function Detail(props) {
                         <p className='my-auto m-3 text-danger'>{item.username}</p>
                         <p className='my-auto ml-3'>{dayjs(item.created_at).format('DD-MM-YYYY')}</p>
                     </div>
-                    {item.useremail === userLogin.email || userLogin.role === 'QuanTri' ? <Popover placement="bottomRight" content={content} trigger="hover">
+                    {item.useremail === userLogin.email || userLogin.role === 'QuanTri' || userLogin.role === 'Super' ? <Popover placement="bottomRight" content={content} trigger="hover">
                         <div className='btn cursor-pointer px-3 border-none drop-shadow-none hover:bg-gray-100'>...</div>
                     </Popover> : ''}
                 </div>

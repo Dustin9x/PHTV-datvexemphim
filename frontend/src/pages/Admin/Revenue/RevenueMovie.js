@@ -59,11 +59,11 @@ if (userLogin.role !== 'Super') {
 
 
   const datachart = {
-    labels: arrChart.map(value => value.phim),
+    labels: arrChart.sort((a, b) => a.thang - b.thang).map(value => value.phim),
     datasets: [
       {
         label: "VND",
-        data: arrChart.map(value => value.tongTien),
+        data: arrChart.sort((a, b) => a.thang - b.thang).map(value => value.tongTien),
         options: {
           scales: {
             y: {
@@ -83,14 +83,14 @@ if (userLogin.role !== 'Super') {
       title: "Phim",
       dataIndex: "phim",
       key: "phim",
-      sorter: (a, b) => a.phim.length - b.phim.length,
+      sorter: (a, b) => a.phim - b.phim,
       sortDirections: ["descend", "ascend"],
     },
     {
       title: "Doanh Thu",
       dataIndex: "tongTien",
       key: "tongTien",
-      sorter: (a, b) => a.tongTien.length - b.tongTien.length,
+      sorter: (a, b) => a.tongTien - b.tongTien,
       sortDirections: ["descend", "ascend"],
       render: (text, order) => {
         return <div>{order.tongTien.toLocaleString()}</div>

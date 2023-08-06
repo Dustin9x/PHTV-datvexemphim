@@ -48,10 +48,11 @@ if (userLogin.role !== 'Super') {
     const [key, values] = entry;
 
     return {
-      thang: key,
+      thang: Number(key),
       tongTien: sumBy(values, 'tongTien'),
     };
   });
+
 
   const year = dayjs().year()
   useEffect(() => {
@@ -59,11 +60,11 @@ if (userLogin.role !== 'Super') {
   }, [dispatch, year]);
 
   const datachart = {
-    labels: months.map(value => value.thang),
+    labels: months.sort((a, b) => a.thang - b.thang).map(value => value.thang),
     datasets: [
       {
         label: "VND",
-        data: months.map(value => value.tongTien),
+        data: months.sort((a, b) => a.thang - b.thang).map(value => value.tongTien),
         options: {
           scales: {
             y: {
@@ -83,14 +84,14 @@ if (userLogin.role !== 'Super') {
       title: "Tháng",
       dataIndex: "thang",
       key: "thang",
-      sorter: (a, b) => a.thang.length - b.thang.length,
+      sorter: (a, b) => a.thang - b.thang,
       sortDirections: ["descend", "ascend"],
     },
     {
       title: "Doanh Thu",
       dataIndex: "tongTien",
       key: "tongTien",
-      sorter: (a, b) => a.tongTien.length - b.tongTien.length,
+      sorter: (a, b) => a.tongTien - b.tongTien,
       sortDirections: ["descend", "ascend"],
       render: (text, order) => {
         return <div>{order.tongTien.toLocaleString()}</div>

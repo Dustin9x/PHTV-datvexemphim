@@ -57,7 +57,7 @@ export default function MovieMultiRowSlick(props) {
         </button>} key="1">
 
           <Slider {...settings} >
-            {arrMovie.filter(item => item.dangChieu === 1).slice(0, 16).map((item, index) => {
+            {arrMovie.filter(item => item.dangChieu === 1).slice(-16).map((item, index) => {
               return <div key={index} >
                 <MovieHover phim={item} />
               </div>
@@ -68,7 +68,7 @@ export default function MovieMultiRowSlick(props) {
         >SẮP CHIẾU
         </button>} key="2">
           <Slider {...settings} >
-            {arrMovie.filter(item => item.sapChieu === 1).slice(0, 16).map((item, index) => {
+            {arrMovie.filter(item => item.sapChieu === 1).slice(-16).map((item, index) => {
               return <div key={index} >
                 <MovieHover phim={item} />
               </div>

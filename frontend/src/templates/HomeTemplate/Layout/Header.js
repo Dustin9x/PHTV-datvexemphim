@@ -76,7 +76,7 @@ export default function Header(props) {
 
                     <div className="items-center flex-shrink-0 hidden lg:flex">
                         <Input allowClear placeholder="Tìm kiếm" id='search' className='rounded-full mr-3' prefix={<SearchOutlined />} onPressEnter={(e) => {
-                            if (e.target.value !== '') {
+                            if (e.target.value.trim() !== '') {
                                 dispatch(layKetQuaTimKiem(e.target.value));
                                 history.push(`/search/?search=${e.target.value}`);
                                 var url = new URL("http://localhost:3000/search/?search=hihi");
