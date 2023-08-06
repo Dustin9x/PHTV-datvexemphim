@@ -15,35 +15,30 @@ import { layDoanhThuAction } from "../../../redux/actions/QuanLyDonHangAction";
 import dayjs from "dayjs";
 import { TOKEN, USER_LOGIN } from "../../../util/settings/config";
 import { history } from "../../../App";
-
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
-
-
-
 
 export default function OrderList() {
   let userLogin = {}
-if (localStorage.getItem(USER_LOGIN)) {
+  if (localStorage.getItem(USER_LOGIN)) {
     userLogin = JSON.parse(localStorage.getItem(USER_LOGIN))
-}
+  }
 
-if (!localStorage.getItem(TOKEN)) {
+  if (!localStorage.getItem(TOKEN)) {
     history.replace('/')
-}
+  }
 
-if (userLogin.role !== 'Super') {
+  if (userLogin.role !== 'Super') {
     alert('Bạn không có quyền truy cập trang này!');
     history.replace('/')
-}
+  }
   const dispatch = useDispatch()
   const { arrDoanhThu } = useSelector(state => state.OrderDetailReducer)
 
-  console.log('arrDoanhThu', arrDoanhThu)
 
   const year = dayjs().year()
   useEffect(() => {
     dispatch(layDoanhThuAction(year))
-  }, [dispatch, year]);
+  }, []);
 
 
   const columns = [
@@ -60,7 +55,7 @@ if (userLogin.role !== 'Super') {
       key: "created_at",
       sorter: (a, b) => a.created_at.localeCompare(b.created_at),
       sortDirections: ["descend", "ascend"],
-      render: (text,order)=> {
+      render: (text, order) => {
         return <div>{dayjs(order.created_at).format('DD-MM-YYYY')}</div>
       }
     },
@@ -82,7 +77,7 @@ if (userLogin.role !== 'Super') {
       title: "Ngày chiếu",
       dataIndex: "ngayChieu",
       key: "ngayChieu",
-      render: (text,order)=> {
+      render: (text, order) => {
         return <div>{dayjs(order.ngayChieu).format('DD-MM-YYYY')}</div>
       }
     },
@@ -90,8 +85,8 @@ if (userLogin.role !== 'Super') {
       title: "Giờ chiếu",
       dataIndex: "gioChieu",
       key: "gioChieu",
-      render: (text,order)=> {
-        return <div>{(order.gioChieu).substr(0,5)}</div>
+      render: (text, order) => {
+        return <div>{(order.gioChieu).substr(0, 5)}</div>
       }
     },
     {

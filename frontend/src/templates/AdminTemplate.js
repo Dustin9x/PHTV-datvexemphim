@@ -54,7 +54,6 @@ export const AdminTemplate = (props) => { //path, exact, Component
   }
 
   let usLogin = arrUser?.find(obj => obj.id === userLogin.id)
-  console.log('usLogin',usLogin)
 
   const items = (userLogin.role === 'Super') ? [
     getItem('Quản Lý Phim', 'sub1', <VideoCameraOutlined />, [

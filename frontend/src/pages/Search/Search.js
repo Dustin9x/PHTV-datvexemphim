@@ -9,7 +9,6 @@ import dayjs from 'dayjs';
 
 export default function Search(props) {
   const dispatch = useDispatch();
-  const { Meta } = Card;
 
   const { news, movie } = useSelector(state => state.NewsReducer.arrTimKiem);
   const [modal2Open, setModal2Open] = useState(false);
@@ -18,9 +17,8 @@ export default function Search(props) {
 
   useEffect(() => {
     dispatch(layKetQuaTimKiem(searchValue));
-  }, [dispatch, searchValue])
+  }, [])
 
-  // console.log('arrTimKiem', arrTimKiem)
   const renderNews = () => {
     return news?.map((item, index) => {
       return <div className='col-6'>
@@ -45,14 +43,13 @@ export default function Search(props) {
           </Card>
         </a>
       </div>
-    }).reverse()
+    })
   }
-
 
   const renderMovies = () => {
     return movie?.map((phim, index) => {
-      return <div className='col-3'>
-        <div className="container_foto" style={{ width: 250, height: 350 }}>
+      return <div className='col-3 d-flex justify-center mb-3'>
+        <div className="container_foto" style={{ width: 260, height: 360 }}>
           <div className="ver_mas text-center">
             <span id="click" className="lnr lnr-eye" />
             <a href={`/detail/${phim.maPhim}`} className='btn btn-danger text-white'>Đặt vé</a>
@@ -78,7 +75,7 @@ export default function Search(props) {
           <img src={phim.hinhAnh} alt={phim.tenPhim} className='w-full object-cover' />
         </div>
       </div>
-    }).reverse()
+    })
   }
 
   return (

@@ -8,16 +8,14 @@ import { layDanhSachPhimAction } from '../../../redux/actions/QuanLyPhimAction';
 import { layDanhSachTinTucAction, xoaTinTucAction } from '../../../redux/actions/QuanLyTinTucAction';
 
 
-
 export default function NewsMng() {
   let { arrTinTuc } = useSelector(state => state.NewsReducer);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(layDanhSachTinTucAction());
     dispatch(layDanhSachPhimAction());
-  }, [dispatch])
+  }, [])
 
-console.log('arrTinTuc',arrTinTuc)
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
@@ -26,7 +24,6 @@ console.log('arrTinTuc',arrTinTuc)
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
-
 
   const resetSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -39,9 +36,7 @@ console.log('arrTinTuc',arrTinTuc)
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
       <div
-        style={{
-          padding: 8,
-        }}
+        style={{padding: 8,}}
         onKeyDown={(e) => e.stopPropagation()}
       >
         <Input

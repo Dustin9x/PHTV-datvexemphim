@@ -17,7 +17,6 @@ export default function Header(props) {
     }
 
     let usLogin = arrUser?.find(obj => obj.id === userLogin.id)
-    console.log('usLogin',usLogin)
 
     const content = (
         <div style={{ width: 200 }}>

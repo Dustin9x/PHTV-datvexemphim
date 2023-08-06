@@ -68,9 +68,6 @@ export const xoaPhimAction = (maPhim) => {
 }
 
 
-
-
-
 //Review phim
 export const layDanhSachBinhLuanPhimAction = (id = '') => {
     return async (dispatch) => {
@@ -80,8 +77,6 @@ export const layDanhSachBinhLuanPhimAction = (id = '') => {
           type: GET_BINH_LUAN_PHIM,
           arrBinhLuanPhim: result.data.content,
         })
-  
-        console.log("resultBinhLuan", result);
       } catch (error) {
         console.log("error", error);
       }

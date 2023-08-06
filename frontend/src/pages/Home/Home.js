@@ -3,14 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import MovieMultiRowSlick from '../../components/Movie/MovieMultiRowSlick';
 import { layDanhSachPhimAction } from '../../redux/actions/QuanLyPhimAction';
 import HomeCarousel from '../../templates/HomeTemplate/Layout/HomeCarousel';
-import { layDanhSachNguoiDungAction } from '../../redux/actions/QuanLyNguoiDungAction';
 import { layDanhSachTinTucAction } from '../../redux/actions/QuanLyTinTucAction';
 import { Button, Card } from 'antd';
 import dayjs from 'dayjs';
+import { KetQuaDatVe } from './../Checkout/Checkout';
 
 export default function Home(props) {
   const dispatch = useDispatch();
-  const { Meta } = Card;
   const { arrMovie } = useSelector(state => state.MovieReducer);
   const { arrTinTuc } = useSelector(state => state.NewsReducer);
 
@@ -23,9 +22,8 @@ export default function Home(props) {
     return <div className='row d-flex'>
       <div className='col-6 flex-1'>
         {arrTinTuc.slice(-1).map((item, index) => {
-          return <a className='hover:no-underline' href={`/news/detail/${item.maBaiViet}`}>
+          return <a key={index} className='hover:no-underline' href={`/news/detail/${item.maBaiViet}`}>
             <Card
-              key={index}
               hoverable
               className='my-3 w-full no-underline'
               style={{ overflow: 'hidden' }}
@@ -47,9 +45,8 @@ export default function Home(props) {
       </div>
       <div className='col-6'>
         {arrTinTuc.slice(-5, -1).map((item, index) => {
-          return <a className='hover:no-underline' href={`/news/detail/${item.maBaiViet}`}>
+          return <a key={index} className='hover:no-underline' href={`/news/detail/${item.maBaiViet}`}>
             <Card
-              key={index}
               hoverable
               className='d-flex my-3 w-full no-underline'
               style={{ height: 155, overflow: 'hidden' }}

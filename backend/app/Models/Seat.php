@@ -18,6 +18,7 @@ class Seat extends Model
         'tenGhe',
         'loaiGhe',
         'nguoiDat',
+        'nguoiChon',
         'maLichChieu',
     ];
 }

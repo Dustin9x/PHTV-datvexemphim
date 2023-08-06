@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\OrderDetailController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProvinceController;
 use App\Http\Controllers\Api\ShowtimeController;
+use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -85,6 +86,7 @@ Route::delete('laydanhsachghe/{id}/delete', [SeatController::class, 'destroy']);
 //don hang
 Route::get('laydanhsachdonhang', [OrderDetailController::class, 'index']);
 Route::post('laydanhsachdonhang', [OrderDetailController::class, 'store']);
+Route::post('chonghe', [OrderDetailController::class, 'select']);
 Route::get('laychitietdonhang/{id}', [OrderDetailController::class, 'show']);
 Route::get('laydanhsachdonhang/{id}', [OrderDetailController::class, 'showByUser']);
 Route::get('doanhthu/{year}', [OrderDetailController::class, 'doanhthu']);
@@ -121,6 +123,9 @@ Route::delete('laydanhsachuser/{id}/delete', [UsersController::class, 'destroy']
 
 //tim kiem
 Route::get('timkiem/search/', [PostController::class, 'content']);
+
+//send mail
+Route::get('sendMail', [MailController::class, 'sendMail']);
 
 //Feedback
 Route::get('laydanhsachfeedback', [FeedBackController::class, 'index']);

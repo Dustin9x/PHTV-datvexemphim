@@ -1,12 +1,7 @@
-import _ from 'lodash';
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function Footer() {
-
-  const { heThongRapChieu } = useSelector(state => state.RapReducer);
-  const arrHeThongRap = _.map(heThongRapChieu, (heThongRap) => _.pick(heThongRap, ['maHeThongRap', 'tenHeThongRap', 'logo']))
   return (
     <footer className="px-4 divide-y bg-gray-800 text-gray-100">
       <div className="container flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">

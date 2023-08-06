@@ -71,8 +71,6 @@ export const layDanhSachTinhThanhAction = () => {
                     tinhThanh:result.data.content,
                 })
             }
-            
-            console.log('tinhThanh',result.data.content)
         } catch (error) {
             console.log(error.response?.data)
         }
@@ -89,8 +87,6 @@ export const layDanhSachCumRapAction = (id = '') => {
                     cumRap:result.data.content,
                 })
             }
-            
-            console.log('cumRap',result)
         } catch (error) {
             console.log(error.response?.data)
         }
@@ -135,20 +131,3 @@ export const xoaRapChieuAction = (rap) => {
         }
     }
 }
-
-// export const layChiTietPhimAction = (id) => {
-//     return async dispatch => {
-//         try {
-//             const result = await quanLyRapService.layThongTinLichChieuPhim(id);
-//             if(result.status === 200) {
-//                 dispatch({
-//                     type: SET_CHI_TIET_PHIM,
-//                     movieDetail:result.data.content,
-//                 })
-//             }
-            
-//         } catch (error) {
-//             console.log(error.response?.data)
-//         }
-//     }
-// }

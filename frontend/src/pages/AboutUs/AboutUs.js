@@ -2,11 +2,11 @@ import React from 'react'
 
 export default function AboutUs() {
     return (
-        <div class="">
-            <div class="header__img-text">
+        <div className="">
+            <div className="header__img-text">
                 <div className="bg-white dark:bg-gray-900 absolute rounded-xl" style={{ width: '70%', left: '50%', top: '30%', transform: 'translate(-50%)' }}>
                     <div className="py-8 px-12 mx-auto text-left">
-                        <div class="body">
+                        <div className="body">
                             <h1 className='text-4xl'>Về PHTV</h1>
                             <p className='text-md leading-8'>
                                 <b>PHTV CINEMA</b> là một trong top 5 cụm rạp chiếu phim lớn nhất toàn cầu và là nhà phát hành, cụm rạp chiếu phim lớn nhất Việt Nam.
@@ -28,14 +28,14 @@ export default function AboutUs() {
                                 PHTV là website đặt vé xem phim. PHTV kết hợp tốt nhất trong giải trí điện ảnh với dịch vụ cộng đồng tích cực.
                                 Ngoài ra PHTV còn phân phối lại các sản phẩm và dịch vụ:
                             </p>
-                            <ol class="list-decimal ml-10 text-md leading-8">
+                            <ol className="list-decimal ml-10 text-md leading-8">
                                 <li>Cho phép người dùng đăng ký tài khoản trên website</li>
                                 <li>Cho phép người dùng đăng ký tài khoản trên website</li>
                             </ol>
                             <p className='text-md leading-8'>
                                 Định nghĩa dịch vụ:
                             </p>
-                            <ul class="list-disc ml-10 text-md leading-8">
+                            <ul className="list-disc ml-10 text-md leading-8">
                                 <li>Dịch vụ được hiểu bao gồm: vé xem phim tại các rạp hợp tác; ngô - nước hoặc các loại thực phẩm khác do rạp hợp tác cung cấp; và các hạng mục liên quan đến quảng bá phim do các cụm rạp hợp tác cung cấp.</li>
                                 <li>Vé xem phim: là vé xem phim tại các cụm rạp mà <b>PHTV CINEMA</b> hợp tác. Khách hàng chỉ có thể mua vé trực tuyến tại các rạp mà <b>PHTV CINEMA</b> đã công bố hợp tác.</li>
                                 <li>Bắp - Nước: là bắp và nước có bán tại các rạp mà <b>PHTV CINEMA</b> cung cấp. Khách hàng chỉ có thể mua bắp - nước online đối với những rạp đã cho phép bán bắp - nước online.</li>
@@ -48,31 +48,31 @@ export default function AboutUs() {
                             <p className='text-md leading-8'>Với tư cách là thành viên của nhóm định hướng tác động của chúng tôi, mỗi đóng góp của bạn sẽ tạo ra sự khác biệt rõ ràng. Bạn sẽ cộng tác với những đồng đội tài năng trong một môi trường coi trọng cuộc sống của bạn bên ngoài công việc.
                             </p>
                         </div>
-                        <div class="teammember">
-                            <div class="team-memberimg">
-                                <div class="cardmember card__img-Hoang"></div>
-                                <h4 class="cardmember-text">Phạm Huy Hoàng</h4><h5>Team Leader</h5>
+                        <div className="teammember">
+                            <div className="team-memberimg">
+                                <div className="cardmember card__img-Hoang"></div>
+                                <h4 className="cardmember-text">Phạm Huy Hoàng</h4><h5>Team Leader</h5>
                             </div>
 
-                            <div class="team-memberimg">
-                                <div class="cardmember card__img-Toan"></div>
-                                <h4 class="cardmember-text">Trần Gia Toàn</h4><h5>Super DEV</h5>
+                            <div className="team-memberimg">
+                                <div className="cardmember card__img-Toan"></div>
+                                <h4 className="cardmember-text">Trần Gia Toàn</h4><h5>Super DEV</h5>
                             </div>
 
-                            <div class="team-memberimg">
-                                <div class="cardmember card__img-Viet"></div>
-                                <h4 class="cardmember-text">Bùi Quốc Việt</h4><h5>Super DEV</h5>
+                            <div className="team-memberimg">
+                                <div className="cardmember card__img-Viet"></div>
+                                <h4 className="cardmember-text">Bùi Quốc Việt</h4><h5>Super DEV</h5>
                             </div>
 
-                            <div class="team-memberimg">
-                                <div class="cardmember card__img-Phu"></div>
-                                <h4 class="cardmember-text">Lê Phú</h4><h5>Super DEV</h5>
+                            <div className="team-memberimg">
+                                <div className="cardmember card__img-Phu"></div>
+                                <h4 className="cardmember-text">Lê Phú</h4><h5>Super DEV</h5>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="header__bg-dark header__with-img" style={{ minHeight: '220vh' }}></div>
+            <div className="header__bg-dark header__with-img" style={{ minHeight: '220vh' }}></div>
         </div>
     )
 }

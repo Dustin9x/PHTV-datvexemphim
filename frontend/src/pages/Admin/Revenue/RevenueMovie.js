@@ -16,9 +16,7 @@ import { layDoanhThuAction } from "../../../redux/actions/QuanLyDonHangAction";
 import dayjs from "dayjs";
 import { TOKEN, USER_LOGIN } from "../../../util/settings/config";
 import { history } from "../../../App";
-
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
-
 
 
 export default function RevenueMovie() {
@@ -38,7 +36,6 @@ if (userLogin.role !== 'Super') {
   const dispatch = useDispatch()
   const { arrDoanhThu } = useSelector(state => state.OrderDetailReducer)
 
-  console.log('arrDoanhThu', arrDoanhThu)
   var resMap = new Map();
   var arrChart = [];
   arrDoanhThu?.map((item) => {

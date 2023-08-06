@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { capNhatBinhLuanAction, layChiTietBinhLuanAction, layDanhSachBinhLuanAction, layDanhSachTinTucAction, themBinhLuanAction, xoaBinhLuanAction } from '../../redux/actions/QuanLyTinTucAction';
-import { Card, Avatar, Form, Input, Popover, Button, List } from 'antd';
+import { Card, Avatar, Form, Input, Popover, Button, List, Pagination } from 'antd';
 import { useFormik } from 'formik';
 import dayjs from 'dayjs';
 import { GET_BINH_LUAN_DETAIL } from '../../redux/constants';
@@ -21,12 +21,10 @@ export default function NewsDetail(props) {
         dispatch(layDanhSachBinhLuanAction(id))
         dispatch(layDanhSachTinTucAction())
         dispatch(layDanhSachNguoiDungAction())
-    }, [dispatch, id])
+    }, [])
 
-    console.log('detailBinhLuan', detailBinhLuan)
 
     const [form] = Form.useForm();
-
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -55,8 +53,16 @@ export default function NewsDetail(props) {
         }
     })
 
+    //Phan trang
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(5);
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const reveseArrBinhLuan = arrBinhLuan.slice().reverse()
+    const currentArrBinhLuan = reveseArrBinhLuan.slice(indexOfFirstPost, indexOfLastPost);
+
     const renderBinhLuan = () => {
-        return arrBinhLuan.map((item, index) => {
+        return currentArrBinhLuan.map((item, index) => {
             const content = (
                 <div className='d-flex flex-col'>
                     <Button className='btn' type='link' onClick={() => {
@@ -67,16 +73,13 @@ export default function NewsDetail(props) {
                             dispatch(xoaBinhLuanAction(item.maComment))
                             dispatch(layDanhSachBinhLuanAction(id))
                         }
-                    }
-
-                    }>Xóa</Button>
+                    }}>Xóa</Button>
                 </div>
             );
             return <Card
                 className='d-flex my-3 w-full no-underline'
                 style={{ minHeight: 130, overflow: 'hidden' }}
                 bodyStyle={{ width: '100%' }}
-
             >
                 <div className='d-flex align-center'>
                     {arrUser.find(us => us.email == item.useremail)?.avatar !== null
@@ -94,8 +97,7 @@ export default function NewsDetail(props) {
 
                 <div className='text-slate-700 mt-3'> {item.comment} </div>
             </Card>
-        }).reverse()
-
+        })
     }
 
     return (
@@ -103,8 +105,8 @@ export default function NewsDetail(props) {
             <div className='container' >
                 <div className='d-flex items-center absolute z-10' style={{ top: '28%' }}>
                     <div className='container' >
-                        <h2 class=" text-white drop-shadow-md text-5xl">{detailTinTuc.tieuDe}</h2>
-                        <div class="text-white end__text drop-shadow-md">{detailTinTuc.noiDungPhu}</div>
+                        <h2 className=" text-white drop-shadow-md text-5xl">{detailTinTuc.tieuDe}</h2>
+                        <div className="text-white end__text drop-shadow-md">{detailTinTuc.noiDungPhu}</div>
                     </div>
 
                 </div>
@@ -141,6 +143,7 @@ export default function NewsDetail(props) {
 
                         </div>
                         {renderBinhLuan()}
+                        <Pagination className='d-flex justify-center line-clamp-3 mb-20' pageSize={postsPerPage} currentPage={currentPage} total={arrBinhLuan.length} onChange={(page) => { setCurrentPage(page) }} />
 
 
                     </div>

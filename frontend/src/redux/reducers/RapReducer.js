@@ -1,4 +1,4 @@
-import { GET_CUM_RAP_CHIEU, GET_DANH_SACH_TINH_THANH, GET_HE_THONG_RAP_CHIEU } from "../constants"
+import { GET_CUM_RAP_CHIEU, GET_DANH_SACH_TINH_THANH } from "../constants"
 
 const initialState = {
   cumRap: [],

@@ -31,8 +31,8 @@ export default function Contact() {
   })
 
   return (
-    <div class="">
-      <div class="header__img-text">
+    <div className="">
+      <div className="header__img-text">
         <Form className="bg-white dark:bg-gray-900 absolute rounded-xl" style={{ left: '50%', top: '30%', transform: 'translate(-50%)' }} onSubmitCapture={formik.handleSubmit}>
           <div className="py-8 px-12 mx-auto max-w-screen-md text-left">
             <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white ">Liên Hệ Với Chúng Tôi</h2>
@@ -92,7 +92,7 @@ export default function Contact() {
           </div>
         </Form>
       </div>
-      <div class="header__bg-dark header__with-img" style={{ height: '100vh' }}></div>
+      <div className="header__bg-dark header__with-img" style={{ height: '100vh' }}></div>
     </div>
   )
 }

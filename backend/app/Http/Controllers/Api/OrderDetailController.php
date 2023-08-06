@@ -7,6 +7,7 @@ use App\Models\OrderDetail;
 use App\Models\Seat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class OrderDetailController extends Controller
 {
@@ -26,46 +27,73 @@ class OrderDetailController extends Controller
         }
     }
 
+    public function select(Request $request)
+    {
+        $arrMaGhe = array_map('intval', explode(', ', $request->danhSachMaGhe));
+
+        Seat::whereIn("maGhe", $arrMaGhe)
+            ->update([
+                'nguoiChon' => $request->userId,
+            ]);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Order successfully created',
+            ], 200);
+    }
+
 
     public function store(Request $request)
     {
-       
-            $order = OrderDetail::create([
-                'maLichChieu' => $request->maLichChieu,
+
+        $order = OrderDetail::create([
+            'maLichChieu' => $request->maLichChieu,
+            'rapChieu' => $request->rapChieu,
+            'maPhim' => $request->maPhim,
+            'phim' => $request->phim,
+            'gioChieu' => $request->gioChieu,
+            'ngayChieu' => $request->ngayChieu,
+            'danhSachGhe' => $request->danhSachGhe,
+            'tongTien' => $request->tongTien,
+            'userId' => $request->userId,
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        $tkEmail = $request->email;
+        $arrMaGhe = array_map('intval', explode(', ', $request->danhSachMaGhe));
+
+        Seat::whereIn("maGhe", $arrMaGhe)
+            ->update([
+                'nguoiDat' => $request->userId,
+            ]);
+
+
+        if ($order) {
+            Mail::send('mail.sendEmail',  array(
+                // 'maLichChieu' => $request->maLichChieu,
                 'rapChieu' => $request->rapChieu,
-                'maPhim' => $request->maPhim,
                 'phim' => $request->phim,
                 'gioChieu' => $request->gioChieu,
                 'ngayChieu' => $request->ngayChieu,
                 'danhSachGhe' => $request->danhSachGhe,
                 'tongTien' => $request->tongTien,
-                'userId' => $request->userId,
                 'name' => $request->name,
                 'email' => $request->email,
-            ]);
-            
-            $arrMaGhe = array_map('intval', explode(', ', $request->danhSachMaGhe));
-
-            Seat::whereIn("maGhe", $arrMaGhe)
-                ->update([
-                    'nguoiDat' => $request->userId,
-                ]);
-    
-
-            if ($order){
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Order successfully created',
-                    'content' => $order
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => 500,
-                    'message' => 'Something went wrong'
-                ], 500);
-            };
-
-        
+            ), function ($message) use ($tkEmail) {
+                $message->to($tkEmail, '$request->name')->subject('PHTV - Thông tin đặt vé');
+                // $message->attach();
+            });
+            return response()->json([
+                'status' => 200,
+                'message' => 'Order successfully created',
+                'content' => $order
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Something went wrong'
+            ], 500);
+        };
     }
 
     public function show($id)

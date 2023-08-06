@@ -12,11 +12,10 @@ const NewsEdit = (props) => {
   const [imgSrc, setImgSrc] = useState('');
   const dispatch = useDispatch();
 
-  console.log('detailTinTuc', detailTinTuc)
   let { id } = props.match.params;
   useEffect(() => {
     dispatch(layDanhSachTinTucAction(id));
-  }, [dispatch, id])
+  }, [])
 
   const formik = useFormik({
     enableReinitialize: true,

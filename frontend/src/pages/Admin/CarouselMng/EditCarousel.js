@@ -23,7 +23,6 @@ const EditCarousel = (props) => {
       hinhAnh: carouselEditDetail?.hinhAnh,
     },
     onSubmit: (values) => {
-      // Tạo đối tượng formdata => Đưa giá trị values từ formik vào formdata
       values.maBanner = id;
       let formData = new FormData();
       for (let key in values) {
@@ -40,30 +39,19 @@ const EditCarousel = (props) => {
     }
   })
 
-  let carousel = {};
-  if (localStorage.getItem('filmParams')) {
-    carousel = JSON.parse(localStorage.getItem('carouselParams'));
-  }
-
-  console.log('carousel', carousel)
 
   const handleChangeFile = async (e) => {
-    //Lấy file ra từ e
     let file = e.target.files[0];
     if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/gif' || file.type === 'image/png') {
 
-      //Tạo đối tượng để đọc file
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (e) => {
-        setImgSrc(e.target.result);//Hình base 64
-        // setImgSrc(file); //Hình base 64
+        setImgSrc(e.target.result);
       }
-      //Đem dữ liệu file lưu vào formik
       await formik.setFieldValue('hinhAnh', file);
     }
   }
-
 
   return (
     <Form

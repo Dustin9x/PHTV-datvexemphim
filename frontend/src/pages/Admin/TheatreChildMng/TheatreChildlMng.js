@@ -1,12 +1,10 @@
 import React, { Fragment, useEffect } from 'react'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Button, Table } from 'antd';
-import Highlighter from 'react-highlight-words';
 import { useDispatch, useSelector } from 'react-redux';
 import { layDanhSachCarouselAction } from '../../../redux/actions/CarouselAction';
 import _ from 'lodash';
 import { layDanhSachCumRapAction, layDanhSachTinhThanhAction, xoaRapChieuAction } from '../../../redux/actions/QuanLyRapAction';
-
 
 
 export default function ThetreChildMng() {
@@ -19,11 +17,7 @@ export default function ThetreChildMng() {
     dispatch(layDanhSachTinhThanhAction())
   }, [])
 
-
   const data = cumRap;
-  console.log('data',data)
-  
-
   const columns = [
     {
       title: 'Mã Cụm Rạp',

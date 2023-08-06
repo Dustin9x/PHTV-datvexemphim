@@ -1,11 +1,13 @@
 import { quanLyNguoiDungService } from "../../services/QuanLyNguoiDungService"
 import { DANG_NHAP_ACTION, LAY_CHI_TIET_NGUOI_DUNG, LAY_DANH_SACH_NGUOI_DUNG, SET_THONG_TIN_DAT_VE, TIM_KIEM_NGUOI_DUNG } from "../constants";
 import { history } from './../../App';
+import { displayLoadingAction, hideLoadingAction } from "./LoadingAction";
 
 
 export const dangNhapAction = (thongTinDangNhap) => {
     return async (dispatch) => {
         try {
+            dispatch(displayLoadingAction)
             const result = await quanLyNguoiDungService.dangNhap(thongTinDangNhap);
             if (result.data.status === 200) {
                 dispatch({
@@ -14,6 +16,7 @@ export const dangNhapAction = (thongTinDangNhap) => {
                 })
                 history.push('home');
             }
+            await dispatch(hideLoadingAction)
         } catch (error) {
             console.log(error)
             alert(error.response.data.message)

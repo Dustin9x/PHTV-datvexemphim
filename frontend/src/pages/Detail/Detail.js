@@ -4,7 +4,6 @@ import { Tabs, Rate, Tag, Button, Form, Input, Card, Avatar, Popover, List, Pagi
 import moment from 'moment/moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { layDanhSachCumRapAction } from '../../redux/actions/QuanLyRapAction';
 import { NavLink } from 'react-router-dom';
 import { capNhatBinhLuanPhimAction, layChiTietBinhLuanPhimAction, layDanhSachBinhLuanPhimAction, layThongTinPhimAction, themBinhLuanPhimAction, xoaBinhLuanPhimAction } from '../../redux/actions/QuanLyPhimAction';
 import { layLichChieuTheoPhimAction } from '../../redux/actions/QuanLyDatVeAction';
@@ -24,19 +23,16 @@ export default function Detail(props) {
     const { arrUser } = useSelector(state => state.UserReducer)
     const { arrBinhLuanPhim } = useSelector(state => state.MovieReducer);
     const { detailBinhLuanPhim } = useSelector(state => state.MovieReducer);
-    const { cumRap } = useSelector(state => state.RapReducer);
     const dispatch = useDispatch();
     let { id } = props.match.params;
     useEffect(() => {
         dispatch(layThongTinPhimAction(id))
         dispatch(layLichChieuTheoPhimAction(id))
-        dispatch(layDanhSachCumRapAction())
         dispatch(layDanhSachBinhLuanPhimAction(id))
         dispatch(layDanhSachNguoiDungAction())
-    }, [dispatch, id])
+    }, [])
 
-
-
+    //Loc lich chieu theo rap
     const [lichChieuTheoRap, setLichChieuTheoRap] = useState(lichChieuTheoPhim.filter((item) => item.ngayChieu === ""));
     const handleClick = (event) => {
         let clickNgayChieu = event.target.name;
@@ -45,31 +41,29 @@ export default function Detail(props) {
     };
     let listNgayChieu = lichChieuTheoPhim.map(item => item.ngayChieu).filter((item, index, arr) => arr.indexOf(item) === index)
     let listTinhThanh = _.uniq(_.flattenDeep(lichChieuTheoRap.map((rapchieu, index) => {
-        return rapchieu.rapchieu.map((tinhthanh, index) => {
-            return tinhthanh.tinhthanh
-        })
+        return rapchieu.rapchieu.map((tinhthanh, index) => tinhthanh.tinhthanh)
     })))
-    let todayDate = new Date().toISOString().slice(0, 10);
-    let listNgayChieuActive = listNgayChieu.filter(e => e >= todayDate)
+    const today = dayjs().format('YYYY-MM-DD')
+    const now = dayjs(new Date().getTime()).format('HH:mm');
+    let listNgayChieuActive = listNgayChieu.filter(e => e >= today)
 
+    //Loc cum rap theo tinh
     let uniqueTinhThanh = [...new Map(listTinhThanh.map((item) => [item["maTinh"], item])).values(),];
     const noNullCumRap = _.uniqBy(_.flatten(lichChieuTheoRap.map(item => item.rapchieu)), 'maRap')
-    const [cumRaptheotinh, setCumRaptheotinh] = useState(cumRap.filter((item) => item.maTinh_id === ''));
+    const [cumRaptheotinh, setCumRaptheotinh] = useState(noNullCumRap);
     const handleClickRap = (event) => {
         let clickTinhThanh = Number(event.target.name);
-        let cumRaptheotinh = cumRap.filter(item => item.maTinh_id === clickTinhThanh)
+        let cumRaptheotinh = noNullCumRap.filter(item => item.maTinh_id === clickTinhThanh)
         setCumRaptheotinh(cumRaptheotinh);
     };
 
+    //Phan trang
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(5);
-
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     const reveseArrBinhLuanPhim = arrBinhLuanPhim.slice().reverse()
     const currentArrBinhLuan = reveseArrBinhLuanPhim.slice(indexOfFirstPost, indexOfLastPost);
-
- 
 
 
     const [form] = Form.useForm();
@@ -102,7 +96,6 @@ export default function Detail(props) {
     })
 
     const renderBinhLuanPhim = () => {
-
         return currentArrBinhLuan?.map((item, index) => {
             const content = (
                 <div className='d-flex flex-col'>
@@ -114,8 +107,7 @@ export default function Detail(props) {
                             dispatch(xoaBinhLuanPhimAction(item.maComment))
                             dispatch(layDanhSachBinhLuanPhimAction(id))
                         }
-                    }
-                    }>Xóa</Button>
+                    }}>Xóa</Button>
                 </div>
             );
             return <Card
@@ -124,14 +116,10 @@ export default function Detail(props) {
                 style={{ minHeight: 130, overflow: 'hidden' }}
                 bodyStyle={{ width: '100%' }}
             >
-
                 <div className='d-flex align-center'>
-
-
                     {arrUser.find(us => us.email == item.useremail)?.avatar !== null
                         ? <div style={{ width: 40, height: 40, minWidth: '40px', minHeight: 40, backgroundSize: 'cover', borderRadius: '50%', backgroundImage: `url(${arrUser.find(us => us.email == item.useremail)?.avatar})` }} />
                         : <Avatar size={40} style={{ fontSize: '28px', lineHeight: '32px' }} icon={item.username.substr(0, 1)} />}
-
                     <div className='w-full'>
                         <p className='my-auto m-3 text-danger'>{item.username}</p>
                         <p className='my-auto ml-3'>{dayjs(item.created_at).format('DD-MM-YYYY')}</p>
@@ -139,18 +127,12 @@ export default function Detail(props) {
                     {item.useremail === userLogin.email || userLogin.role === 'QuanTri' ? <Popover placement="bottomRight" content={content} trigger="hover">
                         <div className='btn cursor-pointer px-3 border-none drop-shadow-none hover:bg-gray-100'>...</div>
                     </Popover> : ''}
-
                 </div>
-
                 <div className='text-slate-700 mt-3'> {item.comment} </div>
             </Card>
         })
-
     };
-    const today = dayjs().format('YYYY-MM-DD')
-    const now = dayjs(new Date().getTime()).format('HH:mm');
-
-
+    
 
     return (
         <div style={{ position: 'absolute', height: 'auto', width: '100%' }}>
@@ -188,7 +170,6 @@ export default function Detail(props) {
             <div className='row h-full relative z-10 mt-60'>
                 <div className='col-4 d-flex justify-end items-center h-full' >
                     <img className='posterphim mr-3 object-cover' src={movieEditDetail.hinhAnh} alt={movieEditDetail.hinhAnh} />
-
                 </div>
                 <div className='col-4 d-flex justify-start items-center z-10'>
                     <div className='text-white'>
@@ -213,7 +194,7 @@ export default function Detail(props) {
                 <Tabs defaultActiveKey='1' centered className='text-white mt-20'>
                     <TabPane tab={<p className='text-lg bg-slate-800 px-5 py-2 rounded-full'>Lịch Chiếu</p>} key="1" >
                         {listNgayChieuActive.sort().map((item, index) => {
-                            return <button type="button" className="text-white mr-3 mt-3 bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2"
+                            return <button key={index} type="button" className="text-white mr-3 mt-3 bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2"
                                 onClick={handleClick}
                                 name={item}
                             >
@@ -223,7 +204,7 @@ export default function Detail(props) {
 
                         <div className='d-flex justify-center border-t-2 border-indigo-600 p-3 mt-5 '>
                             {uniqueTinhThanh.map((item, index) => {
-                                return <button className='text-white mr-3 mt-3 bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2' name={item.maTinh}
+                                return <button key={index} className='text-white mr-3 mt-3 bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2' name={item.maTinh}
                                     onClick={handleClickRap}
                                 >
                                     {item.tenTinh}
@@ -234,7 +215,7 @@ export default function Detail(props) {
                         <List
                             itemLayout="vertical"
                             size="large"
-                            dataSource={noNullCumRap}
+                            dataSource={cumRaptheotinh}
                             renderItem={(item) => (
 
                                 <List.Item
@@ -243,15 +224,15 @@ export default function Detail(props) {
 
                                         <div style={{ minWidth: '80%' }} >
                                             {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(rap => rap.maRap === item.maRap).filter(rap => rap.ngayChieu === today).filter(rap => now > rap.gioChieu).map((item, index) => {
-                                                return <Tag disabled className='text-lg mr-3 px-3 opacity-50 cursor-default select-none' color='gray'>{item.gioChieu.substr(0, 5)}</Tag>
+                                                return <Tag key={index} disabled className='text-lg mr-3 px-3 opacity-50 cursor-default select-none' color='gray'>{item.gioChieu.substr(0, 5)}</Tag>
                                             })}
                                             {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(rap => rap.maRap === item.maRap).filter(rap => rap.ngayChieu === today).filter(rap => now <= rap.gioChieu).map((item, index) => {
-                                                return <NavLink to={`/checkout/${item.maLichChieu}`}>
+                                                return <NavLink key={index} to={`/checkout/${item.maLichChieu}`}>
                                                     <Tag className='text-lg mr-3 px-3' color='green'>{item.gioChieu.substr(0, 5)}</Tag>
                                                 </NavLink>
                                             })}
                                             {_.orderBy(lichChieuTheoRap, ['gioChieu']).filter(rap => rap.maRap === item.maRap).filter(rap => rap.ngayChieu !== today).map((item, index) => {
-                                                return <NavLink to={`/checkout/${item.maLichChieu}`}>
+                                                return <NavLink key={index} to={`/checkout/${item.maLichChieu}`}>
                                                     <Tag className='text-lg mr-3 px-3' color='green'>{item.gioChieu.substr(0, 5)}</Tag>
                                                 </NavLink>
                                             })}
@@ -266,8 +247,6 @@ export default function Detail(props) {
                                 </List.Item>
                             )}
                         />
-
-
 
                     </TabPane>
                     <TabPane tab={<p className='text-lg bg-slate-800 px-5 py-2 rounded-full'>Thông Tin</p>} key="2">
@@ -288,7 +267,6 @@ export default function Detail(props) {
                         {renderBinhLuanPhim()}
                         <Pagination className='d-flex justify-center line-clamp-3 mb-20' pageSize={postsPerPage} currentPage={currentPage} total={arrBinhLuanPhim.length} onChange={(page) => { setCurrentPage(page) }} />
                     </TabPane>
-
                 </Tabs>
             </div>
         </div >

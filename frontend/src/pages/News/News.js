@@ -50,11 +50,11 @@ export default function News() {
 
   return (
     <div>
-      <div class="header__img-text">
-        <h2 class=" text-white heading__text drop-shadow-md">Tin Điện Ảnh</h2>
-        <div class="text-white end__text drop-shadow-md">Tin tức điện ảnh Việt Nam & thế giới</div>
+      <div className="header__img-text">
+        <h2 className=" text-white heading__text drop-shadow-md">Tin Điện Ảnh</h2>
+        <div className="text-white end__text drop-shadow-md">Tin tức điện ảnh Việt Nam & thế giới</div>
       </div>
-      <div class="header__bg-dark header__with-img"></div>
+      <div className="header__bg-dark header__with-img"></div>
       <div className='container'>
         <div className='row'>
           <div className='col-8'>
@@ -84,7 +84,6 @@ export default function News() {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   )

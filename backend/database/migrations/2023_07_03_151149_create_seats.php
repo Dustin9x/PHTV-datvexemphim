@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('tenGhe');
             $table->string('loaiGhe');
             $table->string('nguoiDat')->nullable();
+            $table->string('nguoiChon')->nullable();
             $table->unsignedBigInteger('maLichChieu');
             $table->foreign('maLichChieu')->references('maLichChieu')->on('showtime')->onDelete('CASCADE');
             $table->timestamps();

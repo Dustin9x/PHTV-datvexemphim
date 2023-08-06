@@ -1,19 +1,12 @@
 import React, { Fragment, useEffect } from 'react'
-import { SearchOutlined, EditOutlined, DeleteOutlined, CalendarOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table } from 'antd';
-import { useRef, useState } from 'react';
-import Highlighter from 'react-highlight-words';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { layDanhSachCarouselAction, themCarouselAction, xoaCarouselAction } from '../../../redux/actions/CarouselAction';
+import { layDanhSachCarouselAction, xoaCarouselAction } from '../../../redux/actions/CarouselAction';
 import { layDanhSachPhimAction } from '../../../redux/actions/QuanLyPhimAction';
-import _ from 'lodash';
-import { GET_CAROUSEL, UPDATE_CAROUSEL } from '../../../redux/constants';
-
-
 
 export default function CarouselMng() {
   let { arrCarousel } = useSelector(state => state.CarouselReducer);
-  let { arrMovie } = useSelector(state => state.MovieReducer);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(layDanhSachPhimAction())
@@ -21,20 +14,13 @@ export default function CarouselMng() {
     
   }, [])
 
-  // const status = Object.fromEntries(
-  //   arrMovie.map(({maPhim, tenPhim}) => [maPhim, tenPhim])
-  // );
-  
   const updateCarousel = arrCarousel.map(({maBanner, hinhAnh, duongDan}) => ({
     maBanner,
     hinhAnh,
     duongDan,
   }));
 
-  console.log('arrCarousel',arrCarousel)
-
   const data = updateCarousel;
-  
 
   const columns = [
     {

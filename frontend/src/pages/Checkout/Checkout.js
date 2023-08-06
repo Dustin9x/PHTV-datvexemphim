@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Avatar, Button, Card, Form, Input, Pagination, Popover, QRCode, Tabs } from 'antd';
 import { UserOutlined, HomeOutlined, CreditCardOutlined, KeyOutlined } from '@ant-design/icons';
 import './Checkout.css'
-import { layChiTietLichChieuAction, layDanhSachGheAction, xacNhanDatVeAction } from '../../redux/actions/QuanLyDatVeAction';
+import { chonGheAction, layChiTietLichChieuAction, layDanhSachGheAction, xacNhanDatVeAction } from '../../redux/actions/QuanLyDatVeAction';
 import { CHUYEN_TAB_ACTIVE, DAT_VE } from '../../redux/constants';
 import _ from 'lodash';
 import { ThongTinDatVe } from '../../_core/models/ThongTinDatVe';
@@ -12,6 +12,7 @@ import { datVeAction, layDonHangTheoUserAction } from '../../redux/actions/QuanL
 import { TOKEN, USER_LOGIN } from '../../util/settings/config';
 import dayjs from 'dayjs';
 import { history } from './../../App';
+import { DanhSachGheDangChon } from '../../_core/models/DanhSachGheDangChon';
 const { TabPane } = Tabs;
 
 
@@ -27,8 +28,6 @@ export default function ChonGhe(props) {
         userLogin = JSON.parse(localStorage.getItem(USER_LOGIN))
     }
     const dispatch = useDispatch()
-    console.log('userLogin', userLogin)
-    console.log('profile', profile)
 
     useEffect(() => {
         dispatch(layThongTinNguoiDungAction(userLogin.id))
@@ -36,7 +35,7 @@ export default function ChonGhe(props) {
             type: CHUYEN_TAB_ACTIVE,
             number: '1'
         })
-    }, [dispatch, userLogin.id])
+    }, [])
 
 
     const content = (
@@ -93,11 +92,9 @@ export default function ChonGhe(props) {
 
 
 function Checkout(props) {
-
     const [timer, setTimer] = useState(900);
     const minutes = Math.floor(timer / 60);
     const seconds = Math.floor(timer % 60);
-
     const [runTimer, setRunTimer] = useState('true');
     useEffect(() => {
         if (timer > 0) {
@@ -120,16 +117,16 @@ function Checkout(props) {
     useEffect(() => {
         dispatch(layDanhSachGheAction(id))
         dispatch(layChiTietLichChieuAction(id))
-    }, [dispatch, id])
+    }, [])
 
     const thongTinPhim = lichChieuChiTiet?.phim;
     const rapChieu = lichChieuChiTiet?.rapchieu;
-
 
     const renderGhe = () => {
         return danhSachGhe?.map((ghe, index) => {
             let classGheVip = ghe.loaiGhe === 'vip' ? 'seatVip' : '';
             let classGheDaDat = ghe.nguoiDat !== null ? 'seatOccupied' : '';
+            let classGheOtherDat = ghe.nguoiChon !== null ? 'seatOtherOccupied' : '';
 
             let classGheDangDat = '';
             let indexGheDD = danhSachGheDangChon?.findIndex(gheDD => gheDD.maGhe === ghe.maGhe);
@@ -142,14 +139,23 @@ function Checkout(props) {
                 classGheUserDat = 'seatUserOccupied'
             }
 
+
             return <Fragment key={index}>
-                <Button disabled={ghe.nguoiDat} type='link' className={`seat p-0 ${classGheVip} ${classGheDaDat} ${classGheDangDat} ${classGheUserDat}`}
+                <Button disabled={ghe.nguoiDat} type='link' className={`seat p-0 ${classGheVip} ${classGheDaDat} ${classGheDangDat} ${classGheUserDat} `}
                     onClick={() => {
                         dispatch({
                             type: DAT_VE,
                             gheDuocChon: ghe
                         })
-                    }}
+                        // const danhSachGheSelect = new DanhSachGheDangChon();
+                        // danhSachGheSelect.maLichChieu = props.match.params.id;
+                        // danhSachGheSelect.danhSachGhe = renderSoGhe();
+                        // danhSachGheSelect.danhSachMaGhe = renderMaGhe();
+                        // danhSachGheSelect.userId = userLogin.id;
+                        // console.log('danhSachGheSelect',danhSachGheSelect)
+                        // dispatch(chonGheAction(danhSachGheSelect))
+                    }
+                    }
                 >
                     {ghe.nguoiDat ? classGheUserDat != '' ? <UserOutlined /> : 'x' : ghe.tenGhe}
                 </Button>
@@ -175,7 +181,6 @@ function Checkout(props) {
 
     return (
         <div className='container min-h-screen mt-5'>
-
             <div className='grid grid-cols-12'>
                 <div className='col-span-8 mx-20'>
                     <ul className="showcase">
@@ -263,16 +268,6 @@ export function XacNhanThongTin(props) {
             dispatch(datVeAction(donHang))
         }
     };
-    const checkTiengViet = (e) => {
-        console.log(e.target.value)
-        // values
-        // .normalize("NFD")
-        // .replace(/[\u0300-\u036f]/g, "")
-        // .replace(/đ/g, "d")
-        // .replace(/Đ/g, "D");
-    }
-
-
 
     const dispatch = useDispatch();
     return (
@@ -334,14 +329,13 @@ export function XacNhanThongTin(props) {
                                         },
                                     ]}
                                 >
-                                    <Input size="large" placeholder='Tên Chủ Thẻ Không Dấu' onInput={e => 
-                                        {
-                                            e.target.value = e.target.value.toUpperCase()
-                                            e.target.value = e.target.value.normalize("NFD")
-                                            e.target.value = e.target.value.replace(/[\u0300-\u036f]/g, "")
-                                            e.target.value = e.target.value.replace(/đ/g, "d")
-                                            e.target.value = e.target.value.replace(/Đ/g, "D");
-                                        }} prefix={<UserOutlined />} />
+                                    <Input size="large" placeholder='Tên Chủ Thẻ Không Dấu' onInput={e => {
+                                        e.target.value = e.target.value.toUpperCase()
+                                        e.target.value = e.target.value.normalize("NFD")
+                                        e.target.value = e.target.value.replace(/[\u0300-\u036f]/g, "")
+                                        e.target.value = e.target.value.replace(/đ/g, "d")
+                                        e.target.value = e.target.value.replace(/Đ/g, "D");
+                                    }} prefix={<UserOutlined />} />
                                 </Form.Item>
                                 <button type="primary" className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full' htmlType="submit">Tiếp tục</button>
                             </Form>
@@ -357,7 +351,7 @@ export function XacNhanThongTin(props) {
                                             },
                                         ]}
                                     >
-                                        <Input size="large"  placeholder='Nhập OTP' prefix={<KeyOutlined />} />
+                                        <Input size="large" placeholder='Nhập OTP' prefix={<KeyOutlined />} />
                                     </Form.Item>
                                     <div className='mt-5 d-flex justify-center'>
                                         <button type="button" style={{ width: 350 }} className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900 w-full"
@@ -369,10 +363,7 @@ export function XacNhanThongTin(props) {
                                 </Form>
                             }
                         </div>
-
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -394,7 +385,6 @@ export function KetQuaDatVe(props) {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(5);
-
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     const reverseArrDonHang = arrDonHang.slice().reverse()
@@ -451,7 +441,6 @@ export function KetQuaDatVe(props) {
                                 </div>
                                 <div className='row'>
                                     {currentArrDonHang.slice(0, -1)?.map((item, index) => {
-
                                         return <div className='col-6 mt-3 '>
                                             <Card
                                                 hoverable
@@ -485,14 +474,11 @@ export function KetQuaDatVe(props) {
 
                                             </Card>
                                         </div>
-
                                     })}
-
                                 </div>
-                                    <Pagination className='d-flex justify-center line-clamp-3 my-20' pageSize={postsPerPage} currentPage={currentPage} total={arrDonHang.length} onChange={(page) => { setCurrentPage(page) }} />
+                                <Pagination className='d-flex justify-center line-clamp-3 my-20' pageSize={postsPerPage} currentPage={currentPage} total={arrDonHang.length} onChange={(page) => { setCurrentPage(page) }} />
                             </div>
                         }
-
                     </div>
                 </div>
             </section>

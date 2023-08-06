@@ -3,7 +3,6 @@ import { Route } from "react-router-dom";
 import Header from "./Layout/Header";
 import Footer from "./Layout/Footer";
 import { useDispatch } from "react-redux";
-import { layDanhSachPhimAction } from "../../redux/actions/QuanLyPhimAction";
 import { layDanhSachNguoiDungAction } from "../../redux/actions/QuanLyNguoiDungAction";
 
 

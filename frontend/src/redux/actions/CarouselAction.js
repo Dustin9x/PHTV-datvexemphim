@@ -50,7 +50,6 @@ export const layThongTinCarouselAction = (maBanner) => {
                 type: SET_THONG_TIN_CAROUSEL,
                 carouselEditDetail: result.data.content
             })
-            console.log('carouselEditDetailresult',result)
         } catch (error) {
             console.log('error', error);
         }
