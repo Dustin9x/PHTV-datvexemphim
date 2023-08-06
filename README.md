@@ -84,3 +84,11 @@ If you found this project useful, then please consider giving it a ⭐ on Github
 <img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/0c394db0-eb7c-45ea-9f66-77e496a88088" width="100%" alt="Seatsselect">
 
 
+## Collaborators:
+       -   Phạm Huy Hoàng - Student1421362
+       -   Tran Gia Toan - Student1416122
+       -   Le Pham Tran Phu - Student1414240
+       -   Bui Quoc Viet - Student1420715
+
+## Instructor:
+We give our sincere thanks to: FPT APTECH MS. LE MONG THUY
