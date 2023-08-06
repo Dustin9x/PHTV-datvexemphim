@@ -69,12 +69,15 @@ If you found this project useful, then please consider giving it a ⭐ on Github
        
 ## Screenshots:
 -   Home Page ()
-![image](https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/a5dd44ec-6247-418e-8205-08c4f5035f8e)
+<img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/a5dd44ec-6247-418e-8205-08c4f5035f8e" width="100%" alt="Homepage">
+
 -   Admin Page ()
--   ![image](https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/7908d641-0d19-4cb8-a637-96085d7ad99b)
+<img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/7908d641-0d19-4cb8-a637-96085d7ad99b" width="100%" alt="Adminpage">
+
 -   Movie Detail Page ()
-![image](https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/86337f50-6656-4b25-9b5f-f8d94d5a97ee)
+<img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/86337f50-6656-4b25-9b5f-f8d94d5a97ee" width="100%" alt="Moviedetailpage">
+
 -   Seats Selecting Page ()
-![image](https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/0c394db0-eb7c-45ea-9f66-77e496a88088)
+<img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/0c394db0-eb7c-45ea-9f66-77e496a88088" width="100%" alt="Seatsselect">
 
 
