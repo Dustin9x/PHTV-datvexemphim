@@ -33,8 +33,7 @@ export default function MovieMng() {
     setSearchedColumn(dataIndex);
   };
 
-console.log('arrMovieDefault',arrMovieDefault)
-const today = dayjs()
+  const today = dayjs()
 
   const data = arrMovieDefault.slice().reverse();
 
@@ -166,20 +165,19 @@ const today = dayjs()
           <Button key={3} href={`/admin/moviemng/showtime/${movie.maPhim}`} onClick={() => {
             localStorage.setItem('filmParams', JSON.stringify(movie))
           }}>Lịch Chiếu</Button>
-          
-          
         </Fragment>
       }
     },
     {
       title: 'Quản Lý',
       width: '10%',
-      // dayjs().isAfter(movie.ngayKhoiChieu) || 
       render: (text, movie) => {
+        console.log(movie.ngayKhoiChieu)
+        console.log(Math.abs(today.diff(movie.ngayKhoiChieu, 'day')))
         return <Fragment>
           <Tooltip title="Lưu ý: Không được chỉnh sửa phim trong vòng 7 ngày trước ngày khởi chiếu">
           <Button disabled={
-             (dayjs().diff(movie.ngayKhoiChieu,'day') < 5)
+             dayjs().isAfter(movie.ngayKhoiChieu) || (Math.abs(dayjs().diff(movie.ngayKhoiChieu, 'day')) < 7)
           } key={1} href={`/admin/moviemng/edit/${movie.maPhim}`} type="link" icon={<EditOutlined />} onClick={() => {
             localStorage.setItem('filmParams', JSON.stringify(movie))
           }}></Button>

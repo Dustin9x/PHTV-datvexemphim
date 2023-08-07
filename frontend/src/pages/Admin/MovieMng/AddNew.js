@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { themPhimUploadHinhAction } from '../../../redux/actions/QuanLyPhimAction';
 import dayjs from 'dayjs';
+import { isDate, isError, isNaN } from 'lodash';
 
 const AddNew = () => {
   const dispatch = useDispatch();
@@ -24,16 +25,21 @@ const AddNew = () => {
       hinhAnh: {},
     },
     onSubmit: (values) => {
-      let formData = new FormData();
-      for (let key in values) {
-        if (key !== 'hinhAnh') {
-          formData.append(key, values[key]);
-        } else {
-          formData.append('hinhAnh', values['hinhAnh']);
+      if (values.tenPhim == '' || values.trailer == '' || values.moTa == '' || values.ngayKhoiChieu == 'Invalid Date' || values.danhGia == '') {
+        alert('Vui lòng nhập đầy đủ thông tin')
+      } else {
+        let formData = new FormData();
+        for (let key in values) {
+          if (key !== 'hinhAnh') {
+            formData.append(key, values[key]);
+          } else {
+            formData.append('hinhAnh', values['hinhAnh']);
+          }
         }
+          console.table('formData123', [...formData])
+          dispatch(themPhimUploadHinhAction(formData));
       }
-        console.table('formData123', [...formData])
-        dispatch(themPhimUploadHinhAction(formData));
+      
     }
   })
 
@@ -83,13 +89,13 @@ const AddNew = () => {
       <div className='row'>
         <div className='col-8'>
           <Form.Item label="Tên phim">
-            <Input required name="tenPhim" onChange={formik.handleChange} />
+            <Input name="tenPhim" onChange={formik.handleChange} />
           </Form.Item>
           <Form.Item label="Trailer">
             <Input name="trailer" onChange={formik.handleChange} />
           </Form.Item>
           <Form.Item label="Mô tả">
-            <TextArea required name="moTa" allowClear rows={4} onChange={formik.handleChange} />
+            <TextArea name="moTa" allowClear rows={4} onChange={formik.handleChange} />
           </Form.Item>
           <Form.Item label="Ngày khởi chiếu">
             {/* format={"DD/MM/YYYY"} */}
@@ -106,7 +112,7 @@ const AddNew = () => {
           </Form.Item>
 
           <Form.Item label="Số sao">
-            <InputNumber required onChange={handleChangeInputNumber('danhGia')} min={1} max={10} />
+            <InputNumber onChange={handleChangeInputNumber('danhGia')} min={1} max={10} />
           </Form.Item>
           <Form.Item label="Tác vụ">
             <Button htmlType="submit" >Thêm phim</Button>
