@@ -43,12 +43,13 @@ export default function MovieMultiRowSlick(props) {
     centerPadding: "100px",
     slidesToShow: 2,
     speed: 500,
-    rows: 2,
+    rows: 1,
     slidesPerRow: 2,
     variableWidth: true,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />
   };
+  const arrMovieReverse = arrMovie.slice().reverse();
   return (
     <div>
       <Tabs defaultActiveKey='1' left className='' tabBarStyle={{ width: '100%', border: 0 }}>
@@ -57,7 +58,7 @@ export default function MovieMultiRowSlick(props) {
         </button>} key="1">
 
           <Slider {...settings} >
-            {arrMovie.filter(item => item.dangChieu === 1).slice(-16).map((item, index) => {
+            {arrMovieReverse.filter(item => item.dangChieu === 1).map((item, index) => {
               return <div key={index} >
                 <MovieHover phim={item} />
               </div>
@@ -68,7 +69,7 @@ export default function MovieMultiRowSlick(props) {
         >SẮP CHIẾU
         </button>} key="2">
           <Slider {...settings} >
-            {arrMovie.filter(item => item.sapChieu === 1).slice(-16).map((item, index) => {
+            {arrMovieReverse.filter(item => item.sapChieu === 1).map((item, index) => {
               return <div key={index} >
                 <MovieHover phim={item} />
               </div>

@@ -63,6 +63,7 @@ export default function Login(props) {
             {
               required: true,
               message: 'E-mail không được để trống!',
+              transform: (value) => value.trim(),
             },
           ]}
         >
@@ -76,6 +77,7 @@ export default function Login(props) {
             {
               required: true,
               message: 'Password không được để trống!',
+              transform: (value) => value.trim(),
             },
           ]}
         >
@@ -92,15 +94,14 @@ export default function Login(props) {
           }}
         >
           <div className='d-flex justify-between'>
-            <Checkbox >Ghi nhớ</Checkbox>
-            <a className="block cursor-pointer" href="/forgetPassword">Quên mật khẩu</a>
+            {/* <Checkbox >Ghi nhớ</Checkbox> */}
+            <a className="block cursor-pointer w-full text-right" href="/forgetPassword">Quên mật khẩu</a>
           </div>
         </Form.Item>
 
         <div className="text-center mt-6">
           <button type="submit" className="py-2 w-64 text-xl text-white bg-purple-400 rounded-xl">Đăng nhập</button>
           <p className="mt-4 text-sm">Bạn chưa có tài khoản? <a href='register' className="underline  cursor-pointer"> Đăng ký</a></p>
-
         </div>
       </Form>
     </div>

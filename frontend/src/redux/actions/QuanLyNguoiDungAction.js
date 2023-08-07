@@ -47,22 +47,25 @@ export const dangKyAction = (thongTinDangKy) => {
 
 export const layLaiMatKhauAction = (thongTinEmail) => {
     return async (dispatch) => {
-      try {
-        const result = await quanLyNguoiDungService.layLaiMatKhau(thongTinEmail);
-        if (result.data.status === 200) {
-          dispatch({
-            type: LAY_LAI_MAT_KHAU_ACTION,
-            thongTinEmail: result.data.content,
-          });
-          alert("Lấy lại mật khẩu thành công, mật khẩu mới đã được gửi về email của bạn!!");
-          history.replace("login");
+        try {
+            dispatch(displayLoadingAction)
+            const result = await quanLyNguoiDungService.layLaiMatKhau(thongTinEmail);
+            if (result.data.status === 200) {
+                dispatch({
+                    type: LAY_LAI_MAT_KHAU_ACTION,
+                    thongTinEmail: result.data.content,
+                });
+                await dispatch(hideLoadingAction)
+                alert("Lấy lại mật khẩu thành công, mật khẩu mới đã được gửi về email của bạn!!");
+                history.replace("login");
+            }
+        } catch (error) {
+            console.log(error);
+            await dispatch(hideLoadingAction)
+            alert(error.response.data.message);
         }
-      } catch (error) {
-        console.log(error);
-        alert(error.response.data.message);
-      }
     };
-  };
+};
 
 export const themNguoiDungAction = (newUser) => {
     return async (dispatch) => {
@@ -76,10 +79,10 @@ export const themNguoiDungAction = (newUser) => {
     }
 }
 
-export const capNhatNguoiDungAction = (id,newUser) => {
+export const capNhatNguoiDungAction = (id, newUser) => {
     return async (dispatch) => {
         try {
-            const result = await quanLyNguoiDungService.capNhatNguoiDung(id,newUser);
+            const result = await quanLyNguoiDungService.capNhatNguoiDung(id, newUser);
             dispatch(layDanhSachNguoiDungAction())
             dispatch(layThongTinNguoiDungAction(id))
             alert('Cập nhật người dùng thành công')

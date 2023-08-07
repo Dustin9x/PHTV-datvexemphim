@@ -19,7 +19,7 @@ export default function EditFeedback(props) {
             email: feedbackEditDetail?.email,
             tieuDe: feedbackEditDetail?.tieuDe,
             noiDung: feedbackEditDetail?.noiDung,
-            ngayXuLy: feedbackEditDetail?.ngayXuLy,
+            ngayXuLy: dayjs().format('YYYY-MM-DD'),
             noiDungXuLy: feedbackEditDetail?.noiDungXuLy
         },
         onSubmit: async (values) => {
@@ -53,13 +53,13 @@ export default function EditFeedback(props) {
                 <Typography>
                     <pre>Nội Dung: {formik.values.noiDung}</pre>
                 </Typography>
-                <Form.Item>
+                {/* <Form.Item>
                     Ngày Xử Lý: <br />
                     {feedbackEditDetail?.ngayXuLy
                         ? <DatePicker format={'DD-MM-YYYY'} value={dayjs(formik.values.ngayXuLy, 'YYYY-MM-DD')} onChange={handleChangeDatePicker} />
                         : <DatePicker format={'DD-MM-YYYY'} onChange={handleChangeDatePicker} />
                     }
-                </Form.Item>
+                </Form.Item> */}
                 <Form.Item>
                     Nội Dung Xử Lý: <br />
                     <TextArea rows={8} name="noiDungXuLy" value={formik.values.noiDungXuLy} onChange={formik.handleChange} />

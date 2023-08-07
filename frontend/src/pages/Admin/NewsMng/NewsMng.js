@@ -119,6 +119,7 @@ export default function NewsMng() {
       title: 'Tiêu Đề',
       dataIndex: 'tieuDe',
       key: 'tieuDe',
+      width: '20%',
       ...getColumnSearchProps('tieuDe'),
       sorter: (a, b) => a.tieuDe.length - b.tieuDe.length,
       sortDirections: ['descend', 'ascend'],
@@ -141,9 +142,11 @@ export default function NewsMng() {
       title: 'Nội Dung Phụ',
       dataIndex: 'noiDungPhu',
       key: 'noiDungPhu',
+      width: '40%',
       ...getColumnSearchProps('noiDungPhu'),
       sorter: (a, b) => a.noiDungPhu.length - b.noiDungPhu.length,
       sortDirections: ['descend', 'ascend'],
+      render: (text, movie, index) => { return <p key={index} className='text-ellipsis overflow-hidden line-clamp-2'>{text}</p>}
     },
     {
       title: 'Quản Lý',

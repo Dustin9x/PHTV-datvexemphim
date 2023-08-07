@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\FeedBack;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class FeedBackController extends Controller
 {
@@ -72,6 +73,18 @@ class FeedBackController extends Controller
             $feedback->noiDung = $request->noiDung;
             $feedback->ngayXuLy = $request->ngayXuLy;
             $feedback->noiDungXuLy = $request->noiDungXuLy;
+        }
+        $tkEmail = $request->email;
+        if ($feedback) {
+            Mail::send('mail.sendEmailFeedback',  array(
+                'tieuDe' => $request->tieuDe,
+                'noiDung' => $request->noiDung,
+                'ngayXuLy' => $request->ngayXuLy,
+                'noiDungXuLy' => $request->noiDungXuLy,
+            ), function ($message) use ($tkEmail) {
+                $message->to($tkEmail, 'name')->subject('PHTV - Thông tin feedback');
+                // $message->attach();
+            });
         }
         $feedback->save();
 

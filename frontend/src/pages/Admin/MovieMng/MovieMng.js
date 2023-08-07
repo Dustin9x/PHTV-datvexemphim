@@ -1,12 +1,13 @@
 import React, { Fragment, useEffect } from 'react'
 import { SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table } from 'antd';
+import { Button, Input, Space, Table, Tooltip } from 'antd';
 import { useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { useDispatch, useSelector } from 'react-redux';
 import { layDanhSachPhimAction, xoaPhimAction } from '../../../redux/actions/QuanLyPhimAction';
 import moment from 'moment';
 import { layDanhSachLichChieuAction } from '../../../redux/actions/QuanLyDatVeAction';
+import dayjs from 'dayjs';
 
 
 export default function MovieMng() {
@@ -32,8 +33,11 @@ export default function MovieMng() {
     setSearchedColumn(dataIndex);
   };
 
+console.log('arrMovieDefault',arrMovieDefault)
+const today = dayjs()
+
   const data = arrMovieDefault.slice().reverse();
-  
+
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
       <div style={{ padding: 8, }} onKeyDown={(e) => e.stopPropagation()} >
@@ -118,7 +122,7 @@ export default function MovieMng() {
       dataIndex: 'hinhAnh',
       key: 'hinhAnh',
       width: '15%',
-      render: (text, movie, index) => { return <img key={index} style={{width:120, height:170,objectFit: 'cover', borderRadius: '6px'}} src={movie.hinhAnh} alt={movie.hinhAnh} /> }
+      render: (text, movie, index) => { return <img key={index} style={{ width: 120, height: 170, objectFit: 'cover', borderRadius: '6px' }} src={movie.hinhAnh} alt={movie.hinhAnh} /> }
     },
     {
       title: 'Tên Phim',
@@ -162,17 +166,24 @@ export default function MovieMng() {
           <Button key={3} href={`/admin/moviemng/showtime/${movie.maPhim}`} onClick={() => {
             localStorage.setItem('filmParams', JSON.stringify(movie))
           }}>Lịch Chiếu</Button>
+          
+          
         </Fragment>
       }
     },
     {
       title: 'Quản Lý',
       width: '10%',
+      // dayjs().isAfter(movie.ngayKhoiChieu) || 
       render: (text, movie) => {
         return <Fragment>
-          <Button key={1} href={`/admin/moviemng/edit/${movie.maPhim}`} type="link" icon={<EditOutlined />} onClick={() => {
+          <Tooltip title="Lưu ý: Không được chỉnh sửa phim trong vòng 7 ngày trước ngày khởi chiếu">
+          <Button disabled={
+             (dayjs().diff(movie.ngayKhoiChieu,'day') < 5)
+          } key={1} href={`/admin/moviemng/edit/${movie.maPhim}`} type="link" icon={<EditOutlined />} onClick={() => {
             localStorage.setItem('filmParams', JSON.stringify(movie))
           }}></Button>
+          </Tooltip>
           <Button key={2} type="link" danger icon={<DeleteOutlined />} onClick={() => {
             if (window.confirm('Bạn có chắc chắn muốn xóa phim ' + movie.tenPhim + '?')) {
               dispatch(xoaPhimAction(movie.maPhim))

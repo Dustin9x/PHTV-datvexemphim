@@ -17,12 +17,17 @@ export default function AddTheatreChild(props) {
             maTinh_id: '',
         },
         onSubmit: async (values) => {
-            let formData = new FormData();
-            for (let key in values) {
-                formData.append(key, values[key]);
+            if (values.tenRap == '' || values.diaChi == '' || values.maTinh_id == '') {
+                alert('Vui lòng nhập đủ thông tin')
+            } else {
+                let formData = new FormData();
+                for (let key in values) {
+                    formData.append(key, values[key]);
+                }
+                console.table('formData', [...formData])
+                dispatch(themCumRapAction(formData));
             }
-            console.table('formData', [...formData])
-            dispatch(themCumRapAction(formData));
+            
         }
     })
 
@@ -41,14 +46,38 @@ export default function AddTheatreChild(props) {
                 onSubmitCapture={formik.handleSubmit}
             >
                 <h3 className="text-2xl">Thêm Rạp Chiếu</h3>
-                <Form.Item label="Chọn tỉnh - thành phố">
+                <Form.Item label="Chọn tỉnh - thành phố"
+                rules={[
+                    {
+                      required: true,
+                      message: 'Tỉnh/Thành phố không được để trống!',
+                      transform: (value) => value.trim(),
+                    },
+                  ]}
+                >
                     <Select name='maTinh_id' options={tinhThanh?.map((item, index) => ({ label: item.tenTinh, value: item.maTinh }))} onChange={handleChangeTheatre}  placeholder="Chọn tỉnh - thành" />
                 </Form.Item>
-                <Form.Item label="Tên rạp">
+                <Form.Item label="Tên rạp"
+                rules={[
+                    {
+                      required: true,
+                      message: 'Tên rạp không được để trống!',
+                      transform: (value) => value.trim(),
+                    },
+                  ]}
+                >
                     <Input name="tenRap" onChange={formik.handleChange} />
                 </Form.Item>
                 
-                <Form.Item label="Địa chỉ">
+                <Form.Item label="Địa chỉ"
+                rules={[
+                    {
+                      required: true,
+                      message: 'Địa chỉ không được để trống!',
+                      transform: (value) => value.trim(),
+                    },
+                  ]}
+                >
                     <Input name="diaChi" onChange={formik.handleChange} />
                 </Form.Item>
                 <Form.Item label="Chức năng">

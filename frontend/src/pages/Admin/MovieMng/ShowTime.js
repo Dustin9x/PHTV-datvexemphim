@@ -39,7 +39,7 @@ export default function ShowTime(props) {
             giaVeVip: lichEdit?.giaVeVip,
         },
         onSubmit: (values) => {
-            if (values.giaVeThuong <= values.giaVeVip) {
+            if (values.giaVeThuong < values.giaVeVip) {
                 let formData = new FormData();
                 for (let key in values) {
                     formData.append(key, values[key]);
@@ -191,8 +191,8 @@ export default function ShowTime(props) {
                         <Form.Item label="Ngày chiếu">
                             <Tooltip title="Lưu ý: Chỉ được chọn lịch chiếu trong vòng 40 ngày kể từ ngày khởi chiếu">
                             {localStorage.getItem('lichChieuEdit')
-                                ? <DatePicker disabledDate={d => !d || d.isBefore(dayjs(ngayKhoiChieu)) || d.isAfter(dayjs(ngayKhoiChieu).add(40,'day'))} value={dayjs(defaultDate, dateFormat)} format={dateFormat} onChange={onChangeDate} onOk={onOkHour} />
-                                : <DatePicker disabledDate={d => !d || d.isBefore(dayjs(ngayKhoiChieu)) || d.isAfter(dayjs(ngayKhoiChieu).add(40,'day'))} format={dateFormat} onChange={onChangeDate} onOk={onOk} />
+                                ? <DatePicker disabledDate={d => !d || d.isBefore(dayjs(ngayKhoiChieu)) || d.isAfter(dayjs(ngayKhoiChieu).add(40,'day')) || d.isBefore(dayjs().add(2,'day'))} value={dayjs(defaultDate, dateFormat)} format={dateFormat} onChange={onChangeDate} onOk={onOkHour} />
+                                : <DatePicker disabledDate={d => !d || d.isBefore(dayjs(ngayKhoiChieu)) || d.isAfter(dayjs(ngayKhoiChieu).add(40,'day')) || d.isBefore(dayjs().add(2,'day'))} format={dateFormat} onChange={onChangeDate} onOk={onOk} />
                             }
                             </Tooltip>
                         </Form.Item>

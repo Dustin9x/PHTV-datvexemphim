@@ -70,6 +70,7 @@ export default function Register(props) {
             {
               required: true,
               message: 'E-mail không được để trống!',
+              transform: (value) => value.trim(),
             },
           ]}
         >
@@ -83,6 +84,7 @@ export default function Register(props) {
             {
               required: true,
               message: 'Password không được để trống!',
+              transform: (value) => value.trim(),
             },
           ]}
         >
@@ -98,6 +100,7 @@ export default function Register(props) {
             {
               required: true,
               message: 'Vui lòng nhập lại mật khẩu!',
+              transform: (value) => value.trim(),
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
@@ -132,6 +135,7 @@ export default function Register(props) {
             {
               required: true,
               message: 'Họ và tên không được để trống!',
+              transform: (value) => value.trim(),
             },
           ]}
         >
@@ -148,7 +152,7 @@ export default function Register(props) {
             span: 16,
           }}
         >
-          <Checkbox >Ghi nhớ</Checkbox>
+          {/* <Checkbox >Ghi nhớ</Checkbox> */}
         </Form.Item>
 
         <div className="text-center mt-6">

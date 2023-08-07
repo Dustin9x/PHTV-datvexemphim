@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { themTinTucAction } from '../../../redux/actions/QuanLyTinTucAction';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { isAxiosError } from 'axios';
+import { isError, isNull, isUndefined } from 'lodash';
 
 const AddNews = () => {
   const [imgSrc, setImgSrc] = useState('');
@@ -21,17 +23,22 @@ const AddNews = () => {
       hinhAnh: {},
     },
     onSubmit: (values) => {
-      let formData = new FormData();
-      for (let key in values) {
-        if (key !== 'hinhAnh') {
-          formData.append(key, values[key]);
+      console.log(values)
+      if (values.tieuDe == '' || values.tacGia == '' || values.noiDungPhu == '' || values.noiDung == '' || values.theLoai == '') {
+        alert('Vui lòng nhập đầy đủ thông tin')
+      } else {
+        let formData = new FormData();
+        for (let key in values) {
+          if (key !== 'hinhAnh') {
+            formData.append(key, values[key]);
+          }
+          else {
+            formData.append('hinhAnh', values['hinhAnh']);
+          }
         }
-        else {
-          formData.append('hinhAnh', values['hinhAnh']);
-        }
+        console.table('formData123', [...formData])
+        dispatch(themTinTucAction(formData));
       }
-      console.table('formData123', [...formData])
-      dispatch(themTinTucAction(formData));
     }
   })
 
@@ -103,7 +110,7 @@ const AddNews = () => {
         <div className='col-4'>
           <h3>Hình minh họa </h3>
           <Form.Item label="">
-            <input type="file" onChange={handleChangeFile} accept="image/png, image/jpeg,image/gif,image/png" />
+            <input required type="file" onChange={handleChangeFile} accept="image/png, image/jpeg,image/gif,image/png" />
             <br />
             {/* <img style={{ width: 150, height: 150 }} src={imgSrc} alt="..." /> */}
             {imgSrc ? <img style={{ width: 200, height: 150, objectFit: 'cover', borderRadius: '6px' }} src={imgSrc} alt="..." /> : <img style={{ width: 200, border: '0.1px solid #ccc', borderRadius: '6px' }} src='/img/placeholder-image.jpg' alt="..." />}

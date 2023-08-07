@@ -16,6 +16,8 @@ export default function FeedbackMng() {
 
   const data = arrFeedback;
 
+  console.log('arrFeedback',arrFeedback)
+
   const columns = [
     {
       title: 'Mã',
@@ -28,7 +30,7 @@ export default function FeedbackMng() {
       title: 'Ngày feedback',
       dataIndex: 'created_at',
       key: 'created_at',
-      sorter: (a, b) => a.created_at.length - b.created_at.length,
+      sorter: (a, b) => dayjs(a.created_at).unix() - dayjs(b.created_at).unix(),
       sortDirections: ['descend', 'ascend'],
       render: (text,feedback)=>{
         return <div>{dayjs(feedback.created_at).format('DD-MM-YYYY')}</div>
@@ -60,7 +62,7 @@ export default function FeedbackMng() {
       title: 'Ngày Xử Lý',
       dataIndex: 'ngayXuLy',
       key: 'ngayXuLy',
-      sorter: (a, b) => a.ngayXuLy.length - b.ngayXuLy.length,
+      sorter: (a, b) => dayjs(a.ngayXuLy).unix() - dayjs(b.ngayXuLy).unix(),
       sortDirections: ['descend', 'ascend'],
       render: (text,feedback)=>{
         return feedback.ngayXuLy ? <div>{dayjs(feedback.ngayXuLy).format('DD-MM-YYYY')}</div> : ''
@@ -93,6 +95,12 @@ export default function FeedbackMng() {
     <div className='d-flex mb-3'>
       <h3 className='text-lg'>Quản Lý Feedback</h3>
     </div>
-    <Table columns={columns} dataSource={data} rowKey={'maFeedback'} />;
+    <h1 className='text-md text-center'>Feedback Chưa Xử Lý</h1>
+    <Table columns={columns} dataSource={data.filter(item => item.noiDungXuLy == null)} rowKey={'maFeedback'} />
+
+    <h1 className='text-md text-center'>Feedback Đã Xử Lý</h1>
+    <Table columns={columns} dataSource={data.filter(item => item.noiDungXuLy != null)} rowKey={'maFeedback'} />
+
+    
   </div>
 }

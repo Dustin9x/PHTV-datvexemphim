@@ -97,7 +97,7 @@ const Edit = (props) => {
       <div className='row'>
         <div className='col-8'>
           <Form.Item label="Tên phim">
-            <Input name="tenPhim" onChange={formik.handleChange} value={formik.values.tenPhim} />
+            <Input name="tenPhim" className='text-dark' disabled onChange={formik.handleChange} value={formik.values.tenPhim} />
           </Form.Item>
           <Form.Item label="Trailer">
             <Input name="trailer" onChange={formik.handleChange} value={formik.values.trailer} />
