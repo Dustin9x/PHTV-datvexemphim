@@ -59,7 +59,7 @@ if (userLogin.role !== 'Super') {
 
 
   const datachart = {
-    labels: arrChart.sort((a, b) => a.thang - b.thang).map(value => value.phim),
+    labels: arrChart.sort((a, b) => a.thang - b.thang).map(value => value.phim.substr(0,15)+'...'),
     datasets: [
       {
         label: "VND",
