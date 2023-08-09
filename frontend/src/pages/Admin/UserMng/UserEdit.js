@@ -101,7 +101,7 @@ const UserEdit = (props) => {
                         },
                     ]}
                 >
-                    <Input name='email' onChange={formik.handleChange} placeholder="Email" />
+                    <Input disabled className='text-dark' name='email' onChange={formik.handleChange} placeholder="Email" />
                 </Form.Item>
 
                 <Form.Item

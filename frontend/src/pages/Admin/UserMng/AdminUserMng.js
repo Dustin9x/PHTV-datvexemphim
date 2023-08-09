@@ -51,6 +51,8 @@ if (userLogin.role !== 'Super') {
 
   const data = arrUser.filter(item => item.role === 'QuanTri');
 
+  console.log(data)
+
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
       <div
@@ -138,7 +140,7 @@ if (userLogin.role !== 'Super') {
       dataIndex: 'avatar',
       key: 'avatar',
       render: (text, movie, index) => {
-        return movie.avatar
+        return movie.avatar != "null" && movie.avatar != null
           ? <img key={index} style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: '50%' }} src={movie.avatar} alt={movie.avatar} />
           : <Avatar size={40} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} icon={movie.name.substr(0, 1)} />
       }
