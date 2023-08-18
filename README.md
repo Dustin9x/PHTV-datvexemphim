@@ -83,6 +83,8 @@ If you found this project useful, then please consider giving it a ⭐ on Github
 <h3>Seats Selecting Page:</h3>
 <img src="https://github.com/Dustin9x/PHTV-datvexemphim/assets/116355841/0c394db0-eb7c-45ea-9f66-77e496a88088" width="100%" alt="Seatsselect">
 
+## Introduction video:
+https://www.youtube.com/watch?v=ELIDaQ4nwx0
 
 ## Collaborators:
        -   Phạm Huy Hoàng - Student1421362
