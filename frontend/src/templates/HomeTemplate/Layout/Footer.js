@@ -3,14 +3,14 @@ import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function Footer() {
   return (
-    <footer className="px-4 divide-y bg-gray-800 text-gray-100">
+    <footer className="px-4 divide-y text-gray-100" style={{backgroundColor: '#22577a'}}>
       <div className="container flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
         <div className="lg:w-1/3">
           <a rel="noopener noreferrer" href="/home" style={{ textDecoration: 'none' }} className="flex justify-center space-x-3 lg:justify-start">
-            <div className="flex items-center justify-center w-12 h-12 rounded-full dark:bg-violet-400">
-              <img src='/img/logo.png' alt='logo' className='w-2/3' />
+            <div className="flex items-center justify-center h-12 rounded-full dark:bg-red-400">
+              <img src='/img/logonotext.png' alt='logo' style={{width: '50px'}} />
             </div>
-            <span className="self-center text-2xl font-semibold">PHTV CINEMA</span>
+            <span className="self-center text-2xl font-semibold">PHTV BUS</span>
           </a>
         </div>
         <div className="grid grid-cols-2 text-sm gap-x-3 gap-y-8 lg:w-2/3 sm:grid-cols-4">
