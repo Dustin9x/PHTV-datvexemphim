@@ -41,8 +41,23 @@ export default function Register(props) {
         autoComplete="off"
       >
         <div>
-          <h1 className="text-3xl font-bold text-center mb-4 cursor-pointer">Sign Up</h1>
+          <h1 className="text-3xl font-bold text-center mb-4 cursor-pointer">Đăng ký</h1>
+          <p className="text-center text-sm mb-8 font-semibold text-gray-700 tracking-wide">Đăng ký để trải nghiệm những tính năng hấp dẫn</p>
          </div>
+        {/*<Form.Item
+          label=""
+          name="taiKhoan"
+          rules={[
+            {
+              required: true,
+              message: 'Username không được để trống!',
+            },
+          ]}
+        >
+          <Input className="block text-sm py-3 px-4 rounded-lg w-full border outline-none" placeholder="Username" />
+        </Form.Item> */}
+
+
 
         <Form.Item
           name="email"
@@ -50,16 +65,16 @@ export default function Register(props) {
           rules={[
             {
               type: 'email',
-              message: 'E-mail is invalid!',
+              message: 'E-mail chưa đúng định dạng!',
             },
             {
               required: true,
-              message: 'E-mail is required!',
+              message: 'E-mail không được để trống!',
               transform: (value) => value.trim(),
             },
           ]}
         >
-          <Input className="d-flex block text-sm py-2.5 px-4 mt-2 rounded-lg w-full border outline-none" placeholder="Email" />
+          <Input className="d-flex block text-sm py-3 px-4 mt-2 rounded-lg w-full border outline-none" placeholder="Email" />
         </Form.Item>
 
         <Form.Item
@@ -68,12 +83,12 @@ export default function Register(props) {
           rules={[
             {
               required: true,
-              message: 'Password is required!',
+              message: 'Password không được để trống!',
               transform: (value) => value.trim(),
             },
           ]}
         >
-          <Input.Password className="d-flex block text-sm py-2.5 px-4 mt-2 rounded-lg w-full border outline-none" placeholder="Password" />
+          <Input.Password className="d-flex block text-sm py-3 px-4 mt-2 rounded-lg w-full border outline-none" placeholder="Mật khẩu" />
         </Form.Item>
 
         <Form.Item
@@ -84,7 +99,7 @@ export default function Register(props) {
           rules={[
             {
               required: true,
-              message: 'Please re-enter your password!',
+              message: 'Vui lòng nhập lại mật khẩu!',
               transform: (value) => value.trim(),
             },
             ({ getFieldValue }) => ({
@@ -92,13 +107,26 @@ export default function Register(props) {
                 if (!value || getFieldValue('password') === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error('Password do not match, please try again!'));
+                return Promise.reject(new Error('Mật khẩu không khớp!'));
               },
             }),
           ]}
         >
-          <Input.Password className="d-flex block text-sm py-2.5 px-4 mt-2 rounded-lg w-full border outline-none" placeholder="Password confirm" />
+          <Input.Password className="d-flex block text-sm py-3 px-4 mt-2 rounded-lg w-full border outline-none" placeholder="Xác nhận mật khẩu" />
         </Form.Item>
+
+        {/* <Form.Item
+          label=""
+          name="soDt"
+          rules={[
+            {
+              required: true,
+              message: 'Số điện thoại không được để trống!',
+            },
+          ]}
+        >
+          <Input className="d-flex block text-sm py-3 px-4 mt-2 rounded-lg w-full border outline-none" placeholder="Số điện thoại" />
+        </Form.Item> */}
 
         <Form.Item
           label=""
@@ -106,12 +134,12 @@ export default function Register(props) {
           rules={[
             {
               required: true,
-              message: 'Name is required!',
+              message: 'Họ và tên không được để trống!',
               transform: (value) => value.trim(),
             },
           ]}
         >
-          <Input className="d-flex block text-sm py-2.5 px-4 mt-2 rounded-lg w-full border outline-none" placeholder="Fullname" />
+          <Input className="d-flex block text-sm py-3 px-4 mt-2 rounded-lg w-full border outline-none" placeholder="Họ và tên" />
           
         </Form.Item>
 
@@ -124,12 +152,12 @@ export default function Register(props) {
             span: 16,
           }}
         >
-          <Checkbox >Remember</Checkbox>
+          {/* <Checkbox >Ghi nhớ</Checkbox> */}
         </Form.Item>
 
-        <div className="text-center">
-          <button type="submit" className="py-2 w-64 text-base text-white bg-red-400 rounded-full">Sign Up</button>
-          <div className="mt-2 text-sm">Already registered? <a href='login' className="underline  cursor-pointer"> Sign In</a></div>
+        <div className="text-center mt-6">
+          <button type="submit" className="py-2 w-64 text-xl text-white bg-purple-400 rounded-xl">Đăng ký</button>
+          <p className="mt-4 text-sm">Bạn đã có tài khoản? <a href='login' className="underline  cursor-pointer"> Đăng nhập</a></p>
         </div>
       </Form>
     </div>

@@ -7,7 +7,6 @@ import { layDanhSachTinTucAction } from '../../redux/actions/QuanLyTinTucAction'
 import { Button, Card } from 'antd';
 import dayjs from 'dayjs';
 import { KetQuaDatVe } from './../Checkout/Checkout';
-import SelectBus from '../../components/SelectBus/SelectBus';
 
 export default function Home(props) {
   const dispatch = useDispatch();
@@ -74,11 +73,10 @@ export default function Home(props) {
 
 
   return (
-    <div >
+    <div>
       <HomeCarousel />
-      <div className='container mx-auto my-8' style={{marginTop:'100px'}}>
+      <div className='container mx-auto my-8'>
         <MovieMultiRowSlick arrMovie={arrMovie} />
-        <SelectBus />
         <div className='grid grid-cols-3 gap-32'>
         </div>
         <div className='my-12'>

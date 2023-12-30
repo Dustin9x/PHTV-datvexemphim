@@ -16,5 +16,6 @@
 }
 
 :where(.css-dev-only-do-not-override-k7429z).ant-btn-primary:not(:disabled){
-    background-color: #ef4444 !important;
+    background-color: #4096ff !important;
+    color:#212529 !important;
 }

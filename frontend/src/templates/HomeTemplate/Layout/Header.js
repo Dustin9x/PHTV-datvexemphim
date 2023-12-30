@@ -21,21 +21,21 @@ export default function Header(props) {
     const content = (
         <div style={{ width: 200 }}>
             {(userLogin.role === 'Super') ? <Button type="text" className='w-full text-left' href="/admin/moviemng">Super Admin</Button> : ''}
-            {(userLogin.role === 'QuanTri') ? <Button type="text" className='w-full text-left' href="/admin/moviemng">Admin Page</Button> : ''}
-            <Button type="text" href="/users/profile" className='w-full text-left'>Profile</Button>
+            {(userLogin.role === 'QuanTri') ? <Button type="text" className='w-full text-left' href="/admin/moviemng">Trang Quản Trị</Button> : ''}
+            <Button type="text" href="/users/profile" className='w-full text-left'>Trang Cá Nhân</Button>
             <Button type="text" href="/home" className='w-full text-left' onClick={() => {
                 localStorage.removeItem(USER_LOGIN)
                 localStorage.removeItem(TOKEN)
                 window.location.reload()
-            }}>Logout</Button>
+            }}>Đăng Xuất</Button>
         </div>
     );
 
     const renderLogin = () => {
         if (_.isEmpty(userLogin)) {
             return <Fragment>
-                <Button type="link" href="/register" className="text-white">Sign Up</Button>
-                <Button type="primary" href="/login" className="font-semibold rounded-full bg-red-400">Sign In</Button>
+                <Button type="text" href="/register" className="text-white">Đăng Ký</Button>
+                <Button type="primary" href="/login" className="font-semibold rounded-full bg-violet-500">Đăng Nhập</Button>
             </Fragment>
         } else {
             return <Popover placement="bottomRight" title={userLogin.name} content={content} trigger="click">
@@ -53,28 +53,29 @@ export default function Header(props) {
 
     return (
         <div>
-            <header className="p-4  text-gray-100 fixed w-full z-20" style={{backgroundColor: '#22577a'}}>
+            <header className="p-4 bg-gray-800 text-gray-100 fixed w-full bg-opacity-60 z-20">
                 <div className="container flex justify-between h-16 mx-auto">
                     <NavLink rel="noopener noreferrer" to="/" aria-label="Back to homepage" className="flex items-center p-2">
                         <div className='d-flex' >
-                            <img src='/img/logo.png' alt='logo' style={{ width: '170px', height: '100%' }} />
+                            <img src='/img/logo.png' alt='logo' style={{ width: '50px', height: '100%' }} />
+                            <img src='/img/name.png' alt='logo' style={{ width: '100px', height: '100%' }} />
                         </div>
                     </NavLink>
                     <ul className="items-stretch hidden space-x-3 lg:flex ml-20">
                         <li className="flex">
-                            <NavLink to="/home" style={{ textDecoration: 'none' }} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-red-400" activeClassName="border-b-2 text-red-400">Home</NavLink>
+                            <NavLink to="/home" style={{ textDecoration: 'none' }} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-violet-400" activeClassName="border-b-2 text-violet-400 border-violet-600">Trang Chủ</NavLink>
                         </li>
                         <li className="flex">
-                            <NavLink to="/news" style={{ textDecoration: 'none' }} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-red-400" activeClassName="border-b-2 text-red-400">News</NavLink>
+                            <NavLink to="/news" style={{ textDecoration: 'none' }} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-violet-400" activeClassName="border-b-2 text-violet-400 border-violet-600">Tin Tức</NavLink>
                         </li>
                         <li className="flex">
-                            <NavLink to="/contact" style={{ textDecoration: 'none' }} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-red-400" activeClassName="border-b-2 text-red-400">Contact Us</NavLink>
+                            <NavLink to="/contact" style={{ textDecoration: 'none' }} className="flex items-center font-medium -mb-0.5 border-b-2 px-4 border-transparent hover:text-violet-400" activeClassName="border-b-2 text-violet-400 border-violet-600">Liên Hệ</NavLink>
                         </li>
 
                     </ul>
 
                     <div className="items-center flex-shrink-0 hidden lg:flex">
-                        <Input allowClear placeholder="Search" id='search' className='rounded-full mr-3' prefix={<SearchOutlined />} onPressEnter={(e) => {
+                        <Input allowClear placeholder="Tìm kiếm" id='search' className='rounded-full mr-3' prefix={<SearchOutlined />} onPressEnter={(e) => {
                             if (e.target.value.trim() !== '') {
                                 dispatch(layKetQuaTimKiem(e.target.value));
                                 history.push(`/search/?search=${e.target.value}`);

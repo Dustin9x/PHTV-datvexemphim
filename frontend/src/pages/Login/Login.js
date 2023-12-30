@@ -48,8 +48,8 @@ export default function Login(props) {
         autoComplete="off"
       >
         <div>
-          <h1 className="text-3xl font-bold text-center mb-4 cursor-pointer">Sign In</h1>
-          <p className="text-center text-sm mb-8 font-semibold text-gray-700 tracking-wide">Sign in to continue to PHTV Bus</p>
+          <h1 className="text-3xl font-bold text-center mb-4 cursor-pointer">Đăng Nhập</h1>
+          <p className="text-center text-sm mb-8 font-semibold text-gray-700 tracking-wide">Đăng nhập để truy cập vào tài khoản của bạn</p>
         </div>
         <Form.Item
           label=""
@@ -58,16 +58,16 @@ export default function Login(props) {
           rules={[
             {
               type: 'email',
-              message: 'E-mail is invalid!',
+              message: 'E-mail chưa đúng định dạng!',
             },
             {
               required: true,
-              message: 'E-mail is required!',
+              message: 'E-mail không được để trống!',
               transform: (value) => value.trim(),
             },
           ]}
         >
-          <Input className="block text-sm py-2.5 px-4 rounded-lg w-full border outline-none" placeholder="Email" />
+          <Input className="block text-sm py-3 px-4 rounded-lg w-full border outline-none" placeholder="Email" />
         </Form.Item>
 
         <Form.Item
@@ -76,12 +76,12 @@ export default function Login(props) {
           rules={[
             {
               required: true,
-              message: 'Password is required!',
+              message: 'Password không được để trống!',
               transform: (value) => value.trim(),
             },
           ]}
         >
-          <Input.Password className="d-flex block text-sm py-2.5 px-4 mt-3 rounded-lg w-full border outline-none" placeholder="Password" />
+          <Input.Password className="d-flex block text-sm py-3 px-4 mt-3 rounded-lg w-full border outline-none" placeholder="Mật khẩu" />
         </Form.Item>
 
         <Form.Item
@@ -95,13 +95,13 @@ export default function Login(props) {
         >
           <div className='d-flex justify-between'>
             {/* <Checkbox >Ghi nhớ</Checkbox> */}
-            <a className="block cursor-pointer w-full text-right" href="/forgetPassword">Forgot Password</a>
+            <a className="block cursor-pointer w-full text-right" href="/forgetPassword">Quên mật khẩu</a>
           </div>
         </Form.Item>
 
-        <div className="text-center">
-          <button type="submit" className="py-2 w-64 text-base text-white bg-red-400 rounded-full">Sign In</button>
-          <div className="mt-2 text-sm">Don't have account yet? <a href='register' className="underline  cursor-pointer"> Sing Up</a></div>
+        <div className="text-center mt-6">
+          <button type="submit" className="py-2 w-64 text-xl text-white bg-purple-400 rounded-xl">Đăng nhập</button>
+          <p className="mt-4 text-sm">Bạn chưa có tài khoản? <a href='register' className="underline  cursor-pointer"> Đăng ký</a></p>
         </div>
       </Form>
     </div>
