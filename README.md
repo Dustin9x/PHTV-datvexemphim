@@ -86,7 +86,7 @@ If you found this project useful, then please consider giving it a ⭐ on Github
 <<<<<<< HEAD
 =======
 ## Introduction video:
-https://www.youtube.com/watch?v=ELIDaQ4nwx0
+[https://www.youtube.com/watch?v=ELIDaQ4nwx0](https://www.youtube.com/watch?v=eAeMKUPtbkk)
 >>>>>>> parent of 1feff5b (Update README.md)
 
 ## Collaborators:
